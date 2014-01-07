@@ -1,0 +1,94 @@
+% THIS IS SIGPROC-SP.TEX - VERSION 3.1
+% WORKS WITH V3.2SP OF ACM_PROC_ARTICLE-SP.CLS
+% APRIL 2009
+%
+% It is an example file showing how to use the 'acm_proc_article-sp.cls' V3.2SP
+% LaTeX2e document class file for Conference Proceedings submissions.
+% ----------------------------------------------------------------------------------------------------------------
+% This .tex file (and associated .cls V3.2SP) *DOES NOT* produce:
+%       1) The Permission Statement
+%       2) The Conference (location) Info information
+%       3) The Copyright Line with ACM data
+%       4) Page numbering
+% ---------------------------------------------------------------------------------------------------------------
+% It is an example which *does* use the .bib file (from which the .bbl file
+% is produced).
+% REMEMBER HOWEVER: After having produced the .bbl file,
+% and prior to final submission,
+% you need to 'insert'  your .bbl file into your source .tex file so as to provide
+% ONE 'self-contained' source file.
+%
+% Questions regarding SIGS should be sent to
+% Adrienne Griscti ---> griscti@acm.org
+%
+% Questions/suggestions regarding the guidelines, .tex and .cls files, etc. to
+% Gerald Murray ---> murray@hq.acm.org
+%
+% For tracking purposes - this is V3.1SP - APRIL 2009
+
+\documentclass{acm_proc_article-sp}
+%\documentclass{article}
+\usepackage{multicol}
+\onecolumn
+\begin{document}
+\title{Exploration of Makeflow Limitations during Local Execution}
+
+\numberofauthors{1}
+\author{
+% 1st. author
+\alignauthor
+Haiyan Meng\titlenote{}\\
+       \affaddr{University of Notre Dame}\\
+       \affaddr{Dept. of Computer Science and Engineering}\\
+       \affaddr{Notre Dame, Indiana}\\
+       \email{hmeng@nd.edu}
+}
+\date{26 Nov 2013}
+
+\maketitle
+\begin{abstract}
+As the size of data and need for computation increase, large scale computing using distributed systems becomes more important. Makeflow provides a lightweight, flexible workflow execution engine that gives ready access to distributed systems. Currently, Makeflow successfully scales to applications with hundreds of thousands of tasks, but in the range of millions and up Makeflow falters. Using a set of variable size makeflow, we were able to isolate key areas which become overloaded while processing exceedingly large makeflows. With this information we created small tests to find the impact of the system call, fork. These small tests were followed up with tests that examined fork alternatives, finally ending with our ability to increase the failure threshold by replacing the fork system call in local execution.
+\end{abstract}
+\keywords{Workflow Execution, Distributed Computing, Makeflow}
+
+\section{Introduction}
+Applications in the fields of biology, physics, and many others involve a large amount of data and computation, and the size is continuing to grow. Ways of handling the execution of such applications has become a hot topic both in industry and academia\cite{}. One answer is the use of distributed computing, which integrates the computational resources of many computers into one system. Distributed computing has been widely adopted to implement execution engines for large scale applications, examples of these engines include Condor\cite{condor-experience} and Hadoop\cite{Hadoop}.\\
+
+
+\indent Makeflow\cite{makeflow-sweet12} is a workflow execution engine that provides a syntax for static workflow description. Makeflow emulates the concept of makefiles, where all required file are listed and a task can not execute until all requirements are met. This allows unrelated tasks to be run concurrently on a given distributed system. Makeflow operates by first parsing the workflow description into a DAG. The DAG is then verified to confirm that all vertices are reachable, have no cycles, and have an appropriate starting location as illustrated by Figure~\ref{fig:makeflow}. This jobs are then dispatched out to the specified execution environment, such as Condor, SGE\cite{923173}, WorkQueue and the local machine.\\
+
+\begin{figure}
+\centering
+\epsfig{file=simple_makeflow.eps, height=3in, width=3in}
+\caption{Short DAG created from Makeflow}
+\label{fig:makeflow}
+\end{figure}
+
+
+
+
+\begin{table}
+  \centering
+  \begin{tabular}{|l||r|r|r|}
+    \hline
+    Input Size & Runtime(s) & DAG Run(\%) & Preparation(\%) \\ \hline
+    $2^{10}$ & 2.68 & 97.0 & 3.0 \\ \hline
+    $2^{11}$ & 6.83 & 97.4 & 2.6 \\ \hline
+    $2^{12}$ & 18.90 & 98.4 & 1.6 \\ \hline
+    $2^{13}$ & 59.29 & 99.0 & 1.0 \\ \hline
+    $2^{14}$ & 196.49 & 99.4 & 0.6 \\ \hline
+    $2^{15}$ & 685.47 & 99.7 & 0.3 \\ \hline
+    $2^{16}$ & 2470.77 & 99.8 & 0.2 \\ \hline
+    $2^{17}$ & 9138.98 & 99.9 & 0.1 \\ \hline
+    $2^{19}$ & 48789.55 & 99.96 & 0.04 \\ \hline
+  \end{tabular}
+  \caption{Examination of Runtime while using Fork to create processes}
+  \label{table:forkdag}
+\end{table}
+
+The Total Runtime of each makeflow was calculated in Figure~\ref{fig:time_growth} to explore the scalability of Makeflow. Contrary to what was expected, there was no gradual degradation of performance as the size of the test grew. By looking at Figure~\ref{fig:time_growth}, we can see that as the size grows logarithmically, the time does as well. The total runtime was split into two parts, the DAG Run and Preparation, where preparation represents the remaining portions of Makeflow. Table~\ref{table:forkdag} closely relates why it is hard to differentiate DAG Run and the Total Runtime.\\
+
+\bibliographystyle{abbrv}
+\bibliography{cclpapers,everything,this}
+
+\end{document}

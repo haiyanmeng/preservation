@@ -1,0 +1,44 @@
+% THIS IS SIGPROC-SP.TEX - VERSION 3.1
+% WORKS WITH V3.2SP OF ACM_PROC_ARTICLE-SP.CLS
+% APRIL 2009
+%
+% It is an example file showing how to use the 'acm_proc_article-sp.cls' V3.2SP
+% LaTeX2e document class file for Conference Proceedings submissions.
+% ----------------------------------------------------------------------------------------------------------------
+% This .tex file (and associated .cls V3.2SP) *DOES NOT* produce:
+%       1) The Permission Statement
+%       2) The Conference (location) Info information
+%       3) The Copyright Line with ACM data
+%       4) Page numbering
+% ---------------------------------------------------------------------------------------------------------------
+% It is an example which *does* use the .bib file (from which the .bbl file
+% is produced).
+% REMEMBER HOWEVER: After having produced the .bbl file,
+% and prior to final submission,
+% you need to 'insert'  your .bbl file into your source .tex file so as to provide
+% ONE 'self-contained' source file.
+%
+% Questions regarding SIGS should be sent to
+% Adrienne Griscti ---> griscti@acm.org
+%
+% Questions/suggestions regarding the guidelines, .tex and .cls files, etc. to
+% Gerald Murray ---> murray@hq.acm.org
+%
+% For tracking purposes - this is V3.1SP - APRIL 2009
+
+\documentclass{article}
+\usepackage{multicol}
+\onecolumn
+\begin{document}
+\title{A Case Study in Preserving a High Energy Physics Application}
+\author{Haiyan Meng\\ Department of Computer Science and Engineering\\ University of Notre Dame}
+\date{January 2014}
+\maketitle
+
+dfdk\cite{Laboratories79make}lications in the fields of biology, physics, and many others involve a large amount of data and computation, and the size is continuing to grow. Ways of handling the execution of such applications has become a hot topic both in industry and academia. One answer is the use of distributed computing, which integrates the computational resources of many computers into one system. Distributed computing has been widely adopted to implement execution engines for large scale applications, examples of these engines include Condor
+
+
+\bibliographystyle{abbrv}
+\bibliography{cclpapers,this}
+
+\end{document}
