@@ -54,69 +54,91 @@ The remaining parts of the paper is organized as follows.
 
 \indent Matthias, one guy from physics department, finished one interesting tau analysis. We want to understand how the tau analysis works and repeat it. 
 
-\section{This workflow of the example}
+\section{Introduction of the exmaple}
+\subsection{This workflow of the example}
 \indent declare environment variables\\
 
-create a CMS release\\
+Obtain software from CMSSW\\
 
-set up CMSSW environment\\
+Obtain software from Git\\
 
-install the Boson Exploration Analysis Ntuple (BEAN) packages\\
+Obtain software from some public HTTP web links\\
+
+Obtain software from one private home page\\
+
+Build software enviroment using SCRAM and Python\\
 
 install grid control, obtain CMS data from grid and store the data into HDFS mounted as one local file system.\\
 
-install the TauAnalysis package\\
-
-perform the instruction steps on a ttH-TT Ntuple analyzing package.\\
-
 actual data analysis.
 
+\subsection{the source and size of experiment data and software}
+We notice that the software sources are rich, including cmssw, hadoop, grid, git, http and one personal main page. The size of experiment data and software is large.\\
+
+*****hmeng: wget -r http://nd.edu/~abrinke1/electroneffectivearea.h -o electroneffectivearea.h\\ 
+
+As for the experiment data, Matthias copies the subset of T3 data from grid and stores the data into HDFS mounted as one local file system. The total size of data stored in HDFS is 33TB.\\
+
+The source and size of software are shown in Table~\ref{table:software-source-size}.\\
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l|r|}
+        \hline
+        Source of Software & Size of Software \\ \hline
+        cmssw\_5\_3\_11\_patch3 & 1.16TB \\ \hline
+        Git & 51MB \\ \hline
+        Public HTTP & 52MB \\ \hline
+        Private home page & 41KB \\ \hline
+    \end{tabular}
+    \caption{Source and size of software}
+    \label{table:software-source-size}
+\end{table}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        First version & Second version \\ \hline
+        1. Create a CMS release, e.g. cmsrel CMSSW\_5\_3\_11\_patch3 \\
+        2. Install the BEAN packages follow the instructions on github:\\
+            https://github.com/cms-ttH/BEAN/blob/master/README.md\\
+        3. Install git-control: svn co https://ekptrack ... grid-control\\
+        4. INstall the TauAnalysis package: \\
+            git clone https://github.com/matz-e/.../TauAnalysis\\
+            scram b -j32 \\
+        5. Perform actual analysis & second88 \\ \hline
+        Third version & Fourth version \\ \hline
+    \end{tabular}
+    \caption{Scripts of each Solution}
+    \label{table:scripts}
+\end{table}
 \section{First solution to repeat the program}
-\indent First, Matthias introduced the general workflow of his tau analysis through one long email including notes, linux shell commands, web links.\\
+\indent In order to repeat Matthais's example, the new user consulted the original author by email about the necessary work for the experiment. In response, Matthias introduced the general workflow of his tau analysis through one long email including notes, linux shell commands, web links. The First version of Table~\ref{table:scripts} illstrates Matthias's example.\\
 
-The drawbacks of this solution: The experience of repeating one tau analysis through emails is chaotic. You need constant jumps around multiple web links. There are overlap between the content of the email and the content of web links, which needs the new user to merge them. Multiple communication through emails is necessary to ensure the successful repeat of the whole analysis. For example, the original email refers to one environment variable called CMSSW\_base without clear declaration, the new user needs to send one email to the original writer to obtain its accurate value.\\
+However, this solution to repeat one experiment has three potential drawbacks. Firstly, the experience of repeating one tau analysis through emails is chaotic. You need constant jumps around multiple web links. There are overlap between the content of the email and the content of web links, which needs the new user to merge them. Multiple communication through emails is necessary to ensure the successful repeat of the whole analysis. For example, the original email refers to one environment variable called CMSSW\_base without clear declaration, the new user needs to send one email to the original writer to obtain its accurate value. Secondly, the necessary procedure to repeat the experiment, including softwares from different sources, is complex for the new user. In Matthias's example, the sources of software includes CMSSW, GIT, HTTP. The access of CMSSW requires the new user be an authorized user of CMSSW. What’s more, some parts of the workflow is unrepeatible. The third step of this experiment requires the new user owning the access authority for grid. \\
 
-What’s more, step 3 of this tau analysis requires the new user owning the access authority for grid, however, granting  everyone who wants to repeat the analysis the access authority for grid (grid certificate) is too wasteful and unsafe. \\
-
-*****lack: the email content
+Implication:  Directly repeating the experiment using the published workflow and results by the original author is complex and even difficulty. Some extra work must be done to make the repeating process easier.
 
 \section{second solution to repeat the program}
-\indent To make the repeat of one analysis convenient and feasible, we integrate the content of all the notes, commands and web links involved in the emails into one neat, complete shell script, which begins with the definition of environment variables, then data obtainance from grid, software obtainance from cmssw, git and other web resources, and software installation, ends with the execution of the actual analysis program.\\
+\indent One possible solution for the access authority problem of grid data is to grant the new user the authority to access gird data directly. Another possible solution is let the new user directly operate on the machine the original author used. As for the complexity of jumping between multiple web links, people may suggest that letting the original author generate one clear script including all the contents from different web links.\\
 
-*****lack: the script of 2nd solution \\
+To test out these possible solutions, we integrate the content of all the notes, commands and web links involved in the emails into one neat, complete shell script, which begins with the definition of environment variables, then data obtainance from grid, software obtainance from cmssw, git and other web resources, and software installation, ends with the execution of the actual analysis program. The Second version of Table~\ref{table:scripts} illstrates the merged script. As for the data obtainance from grid, we directly use the local copy in hdfs to avoid the new user to obtain the grid certification.\\
 
-as for the data obtainance from grid, we directly use the local copy in hdfs to avoid the new user to obtain the grid certification.\\
+*****hmeng: add the time and data analysis of the second solution.\\
 
-during the integration process of all the data and software dependencies, we notice that the data and software sources are rich, including cmssw, hadoop, grid, git, http and one personal main page. \\
-\indent wget -r http://nd.edu/~abrinke1/electroneffectivearea.h -o electroneffectivearea.h\\ 
+Because the script includes all the necessary procedures for the repeat of one analysis program, the readability and friendliness of this solution is higher than that of the email format. However, each execution of the script will involve the obtainance of software from different sources and the building of software environment. As for the access problem of grid data, using the data copy stored in the machine where mathias executed the experiment requires the new user have the authority to access the machine, which complicates the management of the original machine, even is impossible if the original machine executes rigid user access control. Granting everyone who wants to repeat the analysis the access authority for grid (grid certificate) is wasteful and unsafe. \\
 
-the source and size of data and software involved in the program is as follows:\\
-\indent data source: mathias makes use of grid to copy the subset of t3 to hadoop file system, which is mounted as one local file system.\\
-\indent data size: the size of mathias’s sub-directory under hdfs.\\
-\indent \indent the total size of data stored in hdfs is 33tb\\
-\indent software source: git http cmssw\\
-\indent software size: the size of data from different software sources.\\
-\indent \indent cmssw\_5\_3\_11\_patch3          1.16 tb\\
-\indent \indent git https://github.com/cms-tth (7 public repos)   only use 3 repos: 16mb + 39mb + 6mb\\
-\indent \indent http (wget command)\\
-\indent \indent (http://cmsdoc.cern.ch/cms/data/cmssw/recoegamma/electronidentification/data/*xml  12 xml files)  52mb\\
-\indent \indent http://pyyaml.org/download/pyyaml/pyyaml-3.10.tar.gz    236kb\\
-\indent \indent http://nd.edu/~abrinke1/electroneffectivearea.h      41kb\\
-
-the benefits of the solution: the script includes all the necessary procedures for the repeat of one analysis program. the readability and friendliness of the script is higher than that of the email format.\\
-
-the drawbacks of this solution: using the data copy stored in the machine where mathias executed the experiment requires the new user have the authority to access the machine, which complicates the management of the original machine, even is impossible if the original machine executes rigid user access control.
+Implication: All the data and software involved in the experiment should be provide to the new user in the format of one static package so that the multiple execution of the experiment from the same user only involve one time of data obtainance and software obtainance and compiling. In addition, the requirement of the underlying OS and hardware should also be provided to the new users.
 
 \section{third solution to repeat the program}
-\indent The difficulty of data access authority obtainance enforces us to find out one independent solution, in which the repeat of the original analysis can be done without any external dependency. that is, one independent and self-contained package containing all the data and software dependencies is necessary.\\
+\indent The difficulty of data access authority obtainance enforces us to find out one independent solution, in which the repeat of the original analysis can be done without any external dependency. that is, one independent and self-contained package containing all the data and software dependencies is necessary. Someone may suggest that it should be the responsibility of the original author to generate the required package. However, letting the original author to provide the package which can be used by other scholars to repeat the original experiment is unrealistic. One reason for this is that figuring out the underlying dependency of each software is complex and time-consumpting and even impossible for the original author. In this experiment, the machine used for the experiment is one public machine of physics department, and Matthias is one common user without root authority. All the underlying OS and supporting softwares are installed and maintained by the IT department of the university. On the other hand, the architecture design of the required package including all the data and software dependencies is not under the research range of physists.\\ 
 
 Parrot is a virtual filesystem access tool which attaching existing programs to a variety of remote I/O systems including http, ftp, gridftp, irods, hdfs, xrootd, grow and chirp. it traps all system calls of one program through ptrace debugging interface, and replaces them with remote I/O operations as desired. through executing one program under parrot, all the paths of files involved in this program can be recorded.\\
 
 With the help of parrot, one packaging utility which generates one independent package for one program to make the repeat of the program convenient can be deployed. the basis of the packaging utility is one successful execution sandbox (the data from grid has been preserved in hdfs and the software from cmssw, git and http has been on the local machine.). we re-execute the actual data analysis code (shown in “the script of the third solution”) under parrot and get the name list of all the files actually accessed during the execution process of the actual data analysis. then, according to the file name list, one package containing all the necessary data and software for one analysis program is generated. next time, when another scholar wants to repeat the program, he only needs to obtain the package and directly execute the actual analysis program inside the package.\\
 
-The shell script of the second solution is simplified into one new version, which only contains the necessary environment variables, access authority and the actual analysis command.\\
-
-*****lack:script of 3rd solution\\
+The shell script of the second solution is simplified into one new version, which only contains the necessary environment variables, access authority and the actual analysis command. The Third version of Table~\ref{table:scripts} illustrates the simplified script.\\
 
 the workflow of generating one package for one analysis program  is as follows: \\
 \indent (1) execute one analysis program under parrot and obtain filename list (L1) of it\\
@@ -139,7 +161,7 @@ The packaging process also runs within parrot environment to access data from di
 \indent the total number of symbolic link files is: 195\\
 \indent the mountlist path is: /tmp/mountlist\\
 
-*****lack: explain the dir structure of the package:  directory ; file content + metadata; only file metadata; different process solutions\\
+*****lack: file content + metadata; only file metadata; different process solutions\\
 
 the structure of the generated package is as follows. each file inside l1 is copied into the package, the final file path becomes the path of the package, followed by the original file path. in this program, the path of the package is /tmp/package1-4, so the final path of one file with the original path path1 is /tmp/package1-4/path1.\\
 
@@ -163,6 +185,8 @@ The map relationship between the file access path inside the actual analysis pro
 
 command:\\
 \indent parrot\_run –m /tmp/mountlist /bin/tcsh parrot\_cms.sh\\
+
+*****hmeng: add the evaluation of this solution\\
 
 benefits of this solution: the repeat of one analysis program becomes easier, which would be executed in one independent package containing all the data and software dependencies of one analysis program. \\
 
