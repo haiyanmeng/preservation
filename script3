@@ -1,0 +1,35 @@
+The script of the third solution
+#!/bin/tcsh
+
+#May take X minutes to install and run
+echo "<1>the start of python building:"
+date
+
+set CMSSW_BASE = (CMSSW_5_3_11_patch3)
+set finalOutput = (/afs/crc.nd.edu/user/p/pivie/roast.out) 
+set ntupleFolder = ("/hadoop/users/matze/ttH/v53/2012/ttl_{p}")
+
+set PARROT_HELPER = '/afs/crc.nd.edu/user/h/hmeng/cctools/lib/$LIB/libparrot_helper.so'
+setenv
+
+cmsenv
+
+cd ~/$CMSSW_BASE
+cd src
+wget -O - http://pyyaml.org/download/pyyaml/PyYAML-3.10.tar.gz|tar xzf -
+cd PyYAML-3.10/
+cmsenv
+python setup.py install --user
+cd -
+rm -rf PyYAML-3.10
+
+echo "<1>the end of python building:"
+date
+
+echo "<2>the start of analysis"
+date
+cd ttH
+cd TauRoast
+scripts/roaster -atfpvy data/generic_ttl.yaml
+echo "<2>the end of analysis"
+date

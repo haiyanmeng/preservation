@@ -1,0 +1,31 @@
+******start of Matthias’s email!
+Greetings All,
+Here's a short rundown on how the tau analysis works (starting from BEANs).  
+Potential caveat: you might need dbs access for this... and you should run on earth and the NDCMS condor pool.
+# Ntupling
+1. Create a CMS release, e.g.,
+    cmsrel CMSSW_5_3_11_patch3
+    cd CMSSW_5_3_11_patch3/src
+    cmsenv
+2. install the BEAN packages as per instructions on [github] (https://github.com/cms-ttH/BEAN/blob/master/README.md).
+3. install grid-control:
+        cd ~; svn co https://ekptrac.physik.uni-karlsruhe.de/public/grid-control/trunk/grid-control; cd -
+4. install the TauAnalysis package:
+        cd $CMSSW_BASE/src
+        mkdir -p ttH
+        git clone https://github.com/matz-e/TTHTauTau-Analysis.git ttH/TauAnalysis
+        scram b -j32
+5. fix paths (look for 'workdir' and 'se path' in ttH/TauAnalysis/test/grid_control.cfg and run the configuration:
+        cd ttH/TauAnalysis/test
+        vim grid_control.cfg
+        voms-proxy-init -voms cms -valid 192:00 # this might not be needed?
+        ~/grid-control/go.py -c grid_control.cfg
+  - wait until grid-control finishes
+6. Analysis
+Perform the installation steps on [github](https://github.com/cms-ttH/ttH-TauRoast), then fix the paths and run the analysis:
+    cd $LOCALRT/src/ttH/TauRoast/
+    vim data/generic_ttl.yaml
+    # look and fix items under paths to where ntuples are stored, and the 'root' under which output will be stored
+    roaster -atfpvy data/generic_ttl.yaml
+This will give you a yield table (how many events passed which cuts for each sample), and plots as specified in the configuration. 
+******end of Matthias’s email!
