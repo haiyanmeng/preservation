@@ -2,7 +2,7 @@ NAME = paper
 FIGURES =
 IMAGES = 
 GRAPHS =
-BIBLIOGRAPHIES = cclpapers.bib this.bib
+BIBLIOGRAPHIES = cclpapers.bib this.bib sigproc.bib
 
 all: $(NAME).pdf
 
@@ -30,4 +30,4 @@ $(NAME).dvi: $(NAME).tex ${FIGURES} ${GRAPHS} ${IMAGES} ${BIBLIOGRAPHIES}
 
 
 clean:
-	rm -f *~ $(NAME).aux $(NAME).bbl $(NAME).blg $(NAME).dvi $(NAME).ps $(NAME).pdf $(NAME).log *.eps *.bak 
+	rm -f *~ $(NAME).aux $(NAME).bbl $(NAME).blg $(NAME).dvi $(NAME).ps $(NAME).pdf $(NAME).log  $(NAME).eps *.bak 
