@@ -135,9 +135,9 @@ Douglas Thain\\
 ...
 \section{Introduction of the exmaple}
 \subsection{Background}
-Matthias, one guy from physics department, finished one interesting tau analysis. We want to understand how the tau analysis works and repeat it. 
+Matthias, one graduate student from Physics Department of University of Notre Dame, finished one interesting tau analysis. We want to understand how the tau analysis works and repeat it. 
 
-\subsection{This workflow of the example}
+\subsection{Workflow of Matthias's Example}
 Declare environment variables
 
 Obtain software from CMSSW
@@ -154,12 +154,10 @@ Install grid control, obtain CMS data from grid and store the data into HDFS mou
 
 Actual data analysis.
 
-\subsection{the source and size of experiment data and software}
-We notice that the software sources are rich, including cmssw, hadoop, grid, git, http and one personal main page. The size of experiment data and software is large.
+\subsection{Source and Size of Data and Software}
+We notice that the software sources are rich, including CMSSW, Git, HTTP and one personal main page. The size of software from each source is shown in Table~\ref{table:software-source-size}.
 
-As for the experiment data, Matthias copies the subset of T3 data from grid and stores the data into HDFS mounted as one local file system. The total size of data stored in HDFS is 33TB.
-
-The source and size of software are shown in Table~\ref{table:software-source-size}.
+As for the experiment data, Matthias copies the subset of T3 data from grid and stores the data into HDFS mounted as one local file system. The total size of data stored in HDFS is 33TB (*need to rethink).
 
 \begin{table}
     \centering
@@ -171,7 +169,7 @@ The source and size of software are shown in Table~\ref{table:software-source-si
         Public HTTP & 52MB \\ \hline
         Private home page & 41KB \\ \hline
     \end{tabular}
-    \caption{Source and size of software}
+    \caption{Source and Size of Software}
     \label{table:software-source-size}
 \end{table}
 
@@ -179,7 +177,7 @@ The source and size of software are shown in Table~\ref{table:software-source-si
     \centering
     \begin{tabular}{|l|}
         \hline
-        First version \\ \hline
+        Version 1\\ \hline
         \\
         1. Create CMS release,\\
             \hspace{9pt} e.g. cmsrel CMSSW\_5\_3... \\
@@ -193,7 +191,7 @@ The source and size of software are shown in Table~\ref{table:software-source-si
         5. fix grid\_control.cfg and run it. \\
         6. Perform actual analysis \\ 
         \\ \hline
-        Second version \\ \hline
+        Version 2\\ \hline
         \\
         set CMSSW\_BASE = (CMSSW\_5\_3...) \\
         module load git \\        
@@ -207,7 +205,7 @@ The source and size of software are shown in Table~\ref{table:software-source-si
         \#the experiment data is from HDFS \\
         roaster data/generic\_ttl.yaml \\ 
         \\ \hline
-        Third version \\ \hline
+        Version 3\\ \hline
         \\
         \#the description of OS version and hardware architecture \\
         set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\ 
@@ -216,7 +214,7 @@ The source and size of software are shown in Table~\ref{table:software-source-si
         python setup.py install... \\
         roaster data/generic\_ttl.yaml \\
         \\ \hline
-        Fourth version \\ \hline
+        Version 4\\ \hline
         \\
         \#the description of OS version and hardware architecture \\
         \#declaration of environment variables\\
@@ -230,19 +228,19 @@ The source and size of software are shown in Table~\ref{table:software-source-si
     \label{table:scripts}
 \end{table}
 
-\section{First solution to repeat the program}
-In order to repeat Matthais's example, the new user consulted the original author by email about the necessary work for the experiment. In response, Matthias introduced the general workflow of his tau analysis through one long email including notes, linux shell commands, web links. The First version of Table~\ref{table:scripts} illstrates Matthias's example.
+\section{Solution 1 to Repeat the Program}
+In order to repeat Matthais's example, the new user consulted the original author by email about the necessary work for the experiment. In response, Matthias introduced the general workflow of his tau analysis through one long email including notes, linux shell commands, web links. The First version of Table~\ref{table:scripts} illstrates his email.
 
-However, this solution to repeat one experiment has three potential drawbacks. Firstly, the experience of repeating one tau analysis through emails is chaotic. You need constant jumps around multiple web links. There are overlap between the content of the email and the content of web links, which needs the new user to merge them. Multiple communication through emails is necessary to ensure the successful repeat of the whole analysis. For example, the original email refers to one environment variable called CMSSW\_base without clear declaration, the new user needs to send one email to the original writer to obtain its accurate value. Secondly, the necessary procedure to repeat the experiment, including softwares from different sources, is complex for the new user. In Matthias's example, the sources of software includes CMSSW, GIT, HTTP. The access of CMSSW requires the new user be an authorized user of CMSSW. What's more, some parts of the workflow is unrepeatible. The third step of this experiment requires the new user owning the access authority for grid. 
+However, this solution to repeat one experiment has three potential drawbacks. Firstly, the experience of repeating one tau analysis through emails is chaotic. You need constant jumps around multiple web links. There are overlap between the content of the email and the content of web links, which needs the new user to merge them. Multiple communication through emails is necessary to ensure the successful repeat of the whole analysis. For example, the original email refers to one environment variable called CMSSW\_base without clear declaration, the new user needs to send one email to the original writer to obtain its accurate value. Secondly, the necessary procedure to repeat the experiment, including software acquisition from different sources, is complex for the new user. In Matthias's example, the sources of software includes CMSSW, Git, HTTP. The access of CMSSW requires the new user be an authorized user of CMSSW. What's more, some parts of the workflow are unrepeatible. The third step of this experiment requires the new user owning the access authority to the Grid. 
 
-Implication: Directly repeating the experiment using the published workflow and results by the original author is complex and even difficulty. Some extra work must be done to make the repeating process easier.
+Implication: Directly repeating the experiment using the workflow and results by the original author is complex and difficult. Some extra work must be done to make the reproduction process easier.
 
-\section{second solution to repeat the program}
+\section{Solution 2 to Repeat the Program}
 One possible solution for the access authority problem of grid data is to grant the new user the authority to access gird data directly. Another possible solution is let the new user directly operate on the machine the original author used. As for the complexity of jumping between multiple web links, people may suggest that letting the original author generate one clear script including all the contents from different web links.
 
-To test out these possible solutions, we integrate the content of all the notes, commands and web links involved in the emails into one neat, complete shell script, which begins with the definition of environment variables, then data obtainance from grid, software obtainance from cmssw, git and other web resources, and software installation, ends with the execution of the actual analysis program. The Second version of Table~\ref{table:scripts} illstrates the merged script. As for the data obtainance from grid, we directly use the local copy in hdfs to avoid the new user to obtain the grid certification.
+To test out these possible solutions, we integrate the content of all the notes, commands and web links involved in the emails into one neat, complete shell script, which begins with the definition of environment variables, software acquisition from CMSSW, Git and other web resources, and software installation, ends with the execution of the actual analysis program. Version 2 of Table~\ref{table:scripts} illstrates the merged script. As for the data acquisition from the Grid, we directly use the local copy in HDFS to avoidrequiring the new user to obtain a grid certification.
 
-The breakdown of execution time of the second solution is shown in Table~\ref{table:time-2nd}. According to Table~\ref{table:time-2nd}, about half of the total execution time is consumed to prepare relevant data and software.
+The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-2nd}. According to Table~\ref{table:time-2nd}, about half of the total execution time is consumed to prepare relevant software environment.
 
 \begin{table}
     \centering
@@ -257,11 +255,11 @@ The breakdown of execution time of the second solution is shown in Table~\ref{ta
     Data analysis & 31min 44s & 51.74\% \\ \hline
     Total & 61min 20s & 100.00\% \\ \hline
     \end{tabular}
-    \caption{The breakdown of execution time of the 2nd solution}
+    \caption{Breakdown of Execution Time of Solution 2}
     \label{table:time-2nd}
 \end{table}
 
-According to the data and software resources involved in this example, the size of each category is shown in Table~\ref{table:datasize-2nd}.
+The size of data and software from each category is shown in table~\ref{table:datasize-2nd}.
 
 \begin{table}
     \centering
@@ -274,54 +272,52 @@ According to the data and software resources involved in this example, the size 
     Hadoop & 33TB \\ \hline
     Total & 33792.562GB \\ \hline
     \end{tabular}
-    \caption{The data size of the 2nd solution}
+    \caption{Data Size of Solution 2}
     \label{table:datasize-2nd}
 \end{table}
 
-*****hmeng-doult: the size of hadoop need to reconsidered. how to correctly illustrate the data size of this example?
+%*****hmeng-doult: the size of hadoop need to reconsidered. how to correctly illustrate the data size of this example?
+Because the script includes all the necessary procedures for the reproduction of one analysis program, the readability and friendliness of this solution is higher than that of the email format. However, each execution of the script will involve the acquisition of software from different sources and the building of software environment. As for accessing grid data, using the data copy stored in the machine where Matthias executed the experiment requires the new user to have the authority to access the machine, which complicates the management of the original machine, even is impossible if the original machine executes rigid user access control. Granting everyone who wants to repeat the analysis the access authority for grid is unacceptable to system administrator. 
 
-Because the script includes all the necessary procedures for the repeat of one analysis program, the readability and friendliness of this solution is higher than that of the email format. However, each execution of the script will involve the obtainance of software from different sources and the building of software environment. As for the access problem of grid data, using the data copy stored in the machine where mathias executed the experiment requires the new user have the authority to access the machine, which complicates the management of the original machine, even is impossible if the original machine executes rigid user access control. Granting everyone who wants to repeat the analysis the access authority for grid (grid certificate) is wasteful and unsafe. 
+Implication: All the data and software involved in the experiment should be provided to the new user in the format of one self-contained package so that the multiple execution of the experiment from the same user only involve one time of data and software acquisition and environment building process. In addition, the requirement of the underlying OS and hardware should also be provided to the new user.
 
-Implication: All the data and software involved in the experiment should be provide to the new user in the format of one static package so that the multiple execution of the experiment from the same user only involve one time of data obtainance and software obtainance and compiling. In addition, the requirement of the underlying OS and hardware should also be provided to the new users.
+\section{Solution 3 to Repeat the Program}
+\subsection{Working principle of Packaging Utility}
+The difficulty of data access authority acquisition enforces us to find out one solution, in which the reproduction of the original analysis can be done without any external dependency. That is, one independent and self-contained package containing all the data and software dependencies is necessary. Someone may suggest that it should be the responsibility of the original author to generate the required package. However, letting the original author to provide the package which can be used by others to repeat the original experiment is unrealistic. One reason is that figuring out the underlying dependency of each software is complex and time-consumpting and even impossible for the original author. In this experiment, the machine used for the experiment is one public machine of physics department, and Matthias is one common user without root authority. The underlying OS and supporting softwares are installed and maintained by the IT department of the university. On the other hand, the architecture design of the required package including all the data and software dependencies is not under the research field of physists.
 
-\section{third solution to repeat the program}
-\subsection{Working principle of packaging utility}
-The difficulty of data access authority obtainance enforces us to find out one independent solution, in which the repeat of the original analysis can be done without any external dependency. that is, one independent and self-contained package containing all the data and software dependencies is necessary. Someone may suggest that it should be the responsibility of the original author to generate the required package. However, letting the original author to provide the package which can be used by other scholars to repeat the original experiment is unrealistic. One reason for this is that figuring out the underlying dependency of each software is complex and time-consumpting and even impossible for the original author. In this experiment, the machine used for the experiment is one public machine of physics department, and Matthias is one common user without root authority. All the underlying OS and supporting softwares are installed and maintained by the IT department of the university. On the other hand, the architecture design of the required package including all the data and software dependencies is not under the research range of physists.
+Parrot is a virtual filesystem access tool which attaching existing programs to a variety of remote I/O systems including http, ftp, gridftp, irods, HDFS, xrootd, grow and chirp. it traps all system calls of one program through ptrace debugging interface, and replaces them with remote I/O operations as desired. through executing one program under parrot, all the paths of files involved in this program can be recorded.  
 
-Parrot is a virtual filesystem access tool which attaching existing programs to a variety of remote I/O systems including http, ftp, gridftp, irods, hdfs, xrootd, grow and chirp. it traps all system calls of one program through ptrace debugging interface, and replaces them with remote I/O operations as desired. through executing one program under parrot, all the paths of files involved in this program can be recorded.
+With the help of parrot, one packaging utility which generates one independent package for one program to make the reproduction of the program convenient can be deployed. The basis of the packaging utility is one successful execution sandbox (the data from grid has been preserved in HDFS and the software from CMSSW, Git and HTTP has been on the local machine.). We re-execute the actual data analysis code under Parrot and get the name list of all the files actually accessed during the execution process of the actual data analysis. Then, according to the file name list, one package containing all the necessary data and software for one analysis program is generated. Next time, when another scholar wants to repeat the program, he only needs to obtain the package and directly execute the actual analysis program inside the package.
 
-With the help of parrot, one packaging utility which generates one independent package for one program to make the repeat of the program convenient can be deployed. the basis of the packaging utility is one successful execution sandbox (the data from grid has been preserved in hdfs and the software from cmssw, git and http has been on the local machine.). we re-execute the actual data analysis code (shown in "the script of the third solution") under parrot and get the name list of all the files actually accessed during the execution process of the actual data analysis. then, according to the file name list, one package containing all the necessary data and software for one analysis program is generated. next time, when another scholar wants to repeat the program, he only needs to obtain the package and directly execute the actual analysis program inside the package.\\
+The shell script of the Solution 2 is simplified into one new version, which only contains the necessary environment variables, access authority and the actual analysis command. The Version 2 of Table~\ref{table:scripts} illustrates the simplified script.
 
-The shell script of the second solution is simplified into one new version, which only contains the necessary environment variables, access authority and the actual analysis command. The Third version of Table~\ref{table:scripts} illustrates the simplified script.
+\subsection{Workflow of Packaging Utility}
+The workflow of generating one package for one analysis program is as follows:
 
-\subsection{Workflow of packaging utility}
-The workflow of generating one package for one analysis program  is as follows:
+(1) execute one analysis program under Parrot and obtain filename list (L1) of it
 
-(1) execute one analysis program under parrot and obtain filename list (L1) of it
+Parrot is one virtual file system that can support user access to multiple underlying file systems. Parrot traps each system call involved in the process of data access, figures out the type of file system and redirects it into corresponding operations to the accessed file system. During this process, each accessed file is recorded into one file with the access type of it, such as open, stat, read and write.
 
-Parrot is one virtual file system that can support user access to multiple underlying file systems. parrot traps each system call involved in the process of data access, figures out the type of file system and redirects it into corresponding operations to the accessed file system. during this process, each accessed file is recorded into one file with the access type of it, such as open, stat, read and write.
-
-command:
+Command:
 
 parrot\_run -l namelist /bin/tcsh parrot\_cms.sh
 
-namelist size: 5.7mb     128711 lines
+Output:
+namelist size: 5.7MB     128711 lines
 
-de-duplicated namelist size: 2.2mb   42385 lines
+de-duplicated namelist size: 2.2MB   42385 lines
 
 (2) generate one package containing the files of L1 
 
-The packaging utility iterates each filename inside L1 and copies it into the target package. after completing the packaging process, the target package together with its information, and one mountlist, which redirects the access of data from different file systems into the target package, will be provided to users.
+The packaging utility iterates each filename inside L1 and copies it into the target package. After completing the packaging process, the target package together with its description information, and one mountlist, which redirects the access of data from different file systems into the target package, will be provided to users. The packaging process also runs within Parrot environment to access data from different file systems.
 
-The packaging process also runs within parrot environment to access data from different file systems.
+Command:
 
-command:
-
-/bin/bash package1-4.sh -l ~/namelist
+parrot\_run /bin/bash package1-4.sh -l ~/namelist
 
 the path of pacakge is: /tmp/package1-4
 
-the total size of package is: 21g
+the total size of package is: 21GB
 
 the total number of files is: 1204
 
@@ -331,13 +327,12 @@ the total number of symbolic link files is: 195
 
 the mountlist path is: /tmp/mountlist
 
-*****lack: file content + metadata; only file metadata; different process solutions
+%*****lack: file content + metadata; only file metadata; different process solutions
+Each file inside L1 is copied into the package, the final path of the file becomes the path of the package, followed by the original file path. In this program, the path of the package is /tmp/package1-4, so the final path of one file with the original path path1 is /tmp/package1-4/path1.
 
-The structure of the generated package is as follows. each file inside l1 is copied into the package, the final file path becomes the path of the package, followed by the original file path. in this program, the path of the package is /tmp/package1-4, so the final path of one file with the original path path1 is /tmp/package1-4/path1.
+To ensure the successful reproduction, the filesystem structure of the original execution environment should be preserved as completely as possible. However, attempting to copy the whole content of one directory or one file is space-consuming and time-consuming, because the original program may only access the metadata of one directory with the size of 200GB. our solution is to determine the copy degree of one directory or one common file according to the system call type for its path.
 
-To ensure the successful reproductivity, the filesystem structure of the original execution environment should be preserved as completely as possible. however, attempting to copy the whole content of one directory or one file is space-consuming and time-consuming, because the original program may only access the metadata of one directory with the size of 200gb. our solution is to determine the copy degree of one directory or one common file according to the system call type for each file.
-
-The map relationship between the file access path inside the actual analysis program and the actual file location is kept inside the mountlist file. the structure of the mountlist is as follows:
+The map relationship between the file access path used in the actual analysis program and the actual file location used during the reproduction process is kept inside the mountlist file. the structure of the mountlist is as follows:
 
 / /tmp/package1-4 
 
@@ -357,18 +352,17 @@ The map relationship between the file access path inside the actual analysis pro
 
 /selinux /selinux
 
-*****lack: re-execute process: re-execution process will redirect all the data access into the package except for data under proc sys dev selinux
-
+%*****lack: re-execute process: re-execution process will redirect all the data access into the package except for data under proc sys dev selinux
 (3) rerun the analysis program using the package
 
 When another scholar wants to repeat one analysis program, the accessed data field is limited into the target package with the help of the mountlist generated in step 2. 
 
-command:
+Command:
 
 parrot\_run -m /tmp/mountlist /bin/tcsh parrot\_cms.sh
 
-\subsection{Evaluation of the third solution}
-The breakdown of execution time of the third solution is illustrated in Table~\ref{table:time-3rd}. the time used to obtain file namelist and generate p1 is greatly longer than the execution time within the new package. however, the time consumption of file namelist obtainance and package generation is one-time. that is, once the package is generated, many users can directly obtain the package and re-execute it separately. 
+\subsection{Evaluation of Solution 3}
+The breakdown of execution time of the Solution 3 is illustrated in Table~\ref{table:time-3rd}. The time used to obtain file namelist and generate P1 is greatly longer than the execution time within the new package. however, the time consumption of file namelist acquisition and package generation is one-time. That is, once the package is generated, many users can directly obtain the package and repeat the experiment separately. 
 
 \begin{table}
     \centering
@@ -379,17 +373,17 @@ The breakdown of execution time of the third solution is illustrated in Table~\r
     Generate P1 & 13min 37s \\ \hline
     Re-run the program within P1 & 13min 5s \\ \hline
     \end{tabular}
-    \caption{The time breakdown of the 3rd solution}
+    \caption{Time Breakdown of Solution 3}
     \label{table:time-3rd}
 \end{table}
 
-The data size of the 3rd solution is shown in Table~\ref{table:datasize-3rd}. The data categories is more complex than our imagination. Except the experimental data stored in Hadoop and the software stored in CMSSW\_5\_3\_11\_patch3, files from /usr /lib /bin and other paths are also necessary for the execution of the program.
+The data size of Solution 3 is shown in Table~\ref{table:datasize-3rd}. The data categories is more complex than our imagination. Except the data stored in Hadoop and the necessary set of software, files from /sbin, /bin and other paths are also necessary for the reproduction of the program.
 
 \begin{table}
     \centering
     \begin{tabular}{|l|r|}
     \hline
-    Data Category & Data size \\ \hline
+    Data Category & Data Size \\ \hline
     Hadoop & 20GB \\ \hline
     CMSSW\_5\_3\_11\_patch3 & 5.2MB \\ \hline
     pscratch & 119MB \\ \hline
@@ -397,65 +391,64 @@ The data size of the 3rd solution is shown in Table~\ref{table:datasize-3rd}. Th
     Others (/sbin + ... + /lib) & 28.4MB \\ \hline
     Total & 20.213GB \\ \hline
     \end{tabular}
-    \caption{The data size of the 3rd solution}
+    \caption{Data Size of Solution 3}
     \label{table:datasize-3rd}
 \end{table}    
 
-\subsection{Discussion of the third solution}
-benefits of this solution: the repeat of one analysis program becomes easier, which would be executed in one independent package containing all the data and software dependencies of one analysis program. 
+\subsection{Discussion of Solution 3}
+Under Solution 3, the reproduction of one analysis program becomes easier.The namespace of repeating one experiment will be limited into one independent package containing all the data and software dependencies of one analysis program. 
 
-rethink mathias's example, under this solution, the repeat of it only needs the necessary environment variables, svn login,  the last command (actual analysis command) and the package. if different scholars want to repeat one analysis program, what they need to do is to obtain the package and rerun the actual analysis program. under the second solution, each scholar needs to get the necessary data and software, and then prepare software environment, which is time-consuming. 
-
-\section{the relationship of different solutions}
-The relationship of these four solutions to repeat one program is shown in Table~\ref{table:relationship}.
+Rethink Matthias's example, under Solution 3, the reproduction of it only needs the necessary environment variables, svn login,  the actual analysis command and the package. If different scholars want to repeat one analysis program, what they need to do is to obtain the package and rerun the actual analysis program. Under Solution 2, each scholar needs to get the necessary data and software, and then prepare software environment. 
 
 \begin{table*}
     \centering
     \begin{tabular}{|l|r|r|r|}
         \hline
         Solution ID & Data Resources & Software Resources & Operation Manual \\ \hline
-        1st Solution & grid & CMSSW Git HTTP & email \\ \hline
-        2nd Solution & local (HDFS) & CMSSW Git HTTP & shell script \\ \hline
-        3rd Solution & package & package & shell script + packaging utility \\ \hline
+        Solution 3& grid & CMSSW Git HTTP & email \\ \hline
+        Solution 3& local (HDFS) & CMSSW Git HTTP & shell script \\ \hline
+        Solution 3& package & package & shell script + packaging utility \\ \hline
     \end{tabular}
     \caption{The relationship of different solutions}
     \label{table:relationship}
 \end{table*}
 
-The fourth solution should be based on the third solution. during the packaging process, packaging utility first checks whether the file has been inside the target package, (if exists, whether it is the latest version). only if the file does not exist in the target package or the file in the target package is not the latest version, the packaging utility copies the file into the target package.
+%The fourth solution should be based on the third solution. during the packaging process, packaging utility first checks whether the file has been inside the target package, (if exists, whether it is the latest version). only if the file does not exist in the target package or the file in the target package is not the latest version, the packaging utility copies the file into the target package.
 
-*****hmeng-doubt: potential risk: different analysis programs share some common file names, but with different file contents. we should analyze the possibility of conflict: data.
+%*****hmeng-doubt: potential risk: different analysis programs share some common file names, but with different file contents. we should analyze the possibility of conflict: data.
 
-*****hmeng-doubt: in the fourth version, let user to mark whether they change the data and software. if changed, one new package is generated to avoid data overlap and pollution. otherwise, directly starts packaging process based on the current target package. 
+%*****hmeng-doubt: in the fourth version, let user to mark whether they change the data and software. if changed, one new package is generated to avoid data overlap and pollution. otherwise, directly starts packaging process based on the current target package. 
+\section{Comparison of different Solutions}
+\subsection{Relationship of Different Solutions}
+The relationship of these four solutions to repeat one program is shown in Table~\ref{table:relationship}.
 
-\section{comparison of the 2nd solution and the 3rd solution}
-\subsection{ Data size comparison of 2nd and 3rd solution}
-The packaging utility checks the system call of each file within the namelist, and maintains the minimum dataset, which makes the size of the final package is as small as possible. The total size of Hadoop under the second solution is astonished, while the size of Hadoop under the package is decreased to 20GB. The same trend applies to the size of CMSSW\_5\_3\_11\_patch3. Because the packaging utility tries to construct one independent and self-contained package, necessary files  from /usr, /bin, /lib are also copied into the package and denoted as "Data necessary for Package" in the Table~\ref{table:datasize-2nd3rd}.
+\subsection{ Data size Comparison of Solution 2 and 3}
+The packaging utility checks the system call of each file within the namelist, and maintains the minimum dataset, which makes the size of the final package is as small as possible. The total size of Hadoop under Solution 2 is astonishing, while the size of Hadoop under the package is decreased to 20GB. The same trend applies to the size of CMSSW\_5\_3\_11\_patch3. Because the packaging utility tries to construct one independent and self-contained package, necessary files  from /sbin, /lib and other directories are also copied into the package and denoted as "Other data for Package" in the Table~\ref{table:datasize-2nd3rd}.
 
 \begin{table}
     \centering
     \begin{tabular}{|l|r|r|}
     \hline
-     Data Category & Data size & Data size \\
-    & 2nd solution & 3nd solution \\ \hline
+     Data Category & Data Size & Data Size \\
+    & Solution 2 & Solution 3\\ \hline
     Hadoop & 33TB = 33792GB & 20GB \\ \hline
      CMSSW\_5\_3\_11\_patch3 & 562MB & 5.2MB \\ \hline
      Other data for Package & 207.4MB & N/A \\ \hline
      Total & 33792.562GB & 20.213GB \\ \hline
     \end{tabular}
-    \caption{Data size comparison beweeen second solution and third solution}
+    \caption{Data Size Comparison beweeen Solution 2 and 3}
     \label{table:datasize-2nd3rd}
 \end{table}
 
-\subsection{Execution time comparison of 2nd and 3rd solution}
-Table~\ref{table:time-2nd3rd} shows the execution time comparison between the 2nd solution and the 3rd solution. The time consumption of the repeat of one program from different scholars kept the same under the second solution, including software and data preparation. However, under the third solution, the data and software preparation is one-time. All the following repeat of the same program only need to obtain one copy of the package and execute the actual experimental analysis directly.
+\subsection{Execution Time Comparison of Solution 2 and 3}
+Table~\ref{table:time-2nd3rd} shows the execution time comparison between Solution 2 and 3. The time consumption of the reproduction of one program from different scholars kept the same under Solution 2, including software and data preparation. However, under Solution 3, the data and software preparation is one-time. The following reproduction of the same program only needs to obtain one copy of the package and execute the actual experimental analysis directly.
 
 \begin{table}
     \centering
     \begin{tabular}{|l|r|r|}
     \hline
-    Task Category & execution time & execution time \\
-    & 2nd solution & 3rd solution \\ \hline
+    Task Category & Execution Time & Execution Time \\
+    & Solution 2 & Solution 3\\ \hline
     Software Acquisition & 16min 15s & N/A \\ \hline
     Environment Building & 13min 21s  & 4s \\ \hline
     Obtain file namelist & N/A & 37min 51s \\ \hline
@@ -463,25 +456,24 @@ Table~\ref{table:time-2nd3rd} shows the execution time comparison between the 2n
     Actual Analysis & 31min 44s & 13min 1s \\ \hline
     Total & 61min 20s & N/A \\ \hline
     \end{tabular}
-    \caption{Execution time comparison between second and third solution}
+    \caption{Execution Time Comparison between Solution 2 and 3}
     \label{table:time-2nd3rd}
 \end{table}    
 
-*****hmeng-doubt:Another reason for the packaging utility is that not all the data and software generated by the second version script is used during the the actual data analysis. The packaging utility can help us find out the optimal subset of data and software involved in one actual data analysis. 
+%*****hmeng-doubt:Another reason for the packaging utility is that not all the data and software generated by the second version script is used during the the actual data analysis. The packaging utility can help us find out the optimal subset of data and software involved in one actual data analysis. 
+%*****hmeng-doubt: this point is not the motivation. but one achievement comes together. out of imagination.
+\section{Discussion of Data and Software Preservation}
+\subsection{Preservation Integration of Multiple Programs}
+The Solution 3 can work well for the preservation and reproduction of one single program. However, different experimenters may execute different analysis programs on the same dataset using the same or overlapping sets of software. Generating one new package for each analysis program from scratch is time-consuming and space-consuming, which makes one data and software preservation mechanism, that can integrate the preservation requirements of different analysis programs, become necessary. 
 
-*****hmeng-doubt: this point is not the motivation. but one achievement comes together. out of imagination.
 
-\section{Discussion of data and software preservation}
-\subsection{Preservation integration of multiple programs}
-The third solution can work well for the preservation and repeat of one single program. However, different experimenters may execute different analysis programs on the same dataset using the same or overlapping sets of software. Generating one new package for each analysis program from scratch is time-consuming and space-consuming, which makes one data and software preservation mechanism, that can integrate the preservation requirements of different analysis programs, become necessary. 
+To integrate the data and software from multiple analysis programs into one package, the concrete information of data and software, such as size, version, source and the number of files, need to be recorded. we also need to design one more instructive shell script format, in which the data dependencies and software dependencies can be clearly expressed and recognized. The packaging process needs to be re-organized. packaging utility needs to maintain one list of current software and data subset already stored in the package. When one user wants to generate one package, it will fork the packaging utility, the packaging utility will scan the script, get the data and software dependency part, judge whether each dependency has been inside the package, and only add the new data and software into the package, and update the package information and relavant retrieval information.
 
-To integrate the data and software from multiple analysis programs into one package, the concrete information of data and software, such as size, version, source and the number of files, need to be recorded. we also need to design one more instructive shell script format, in which the data dependencies and software dependencies can be clearly expressed and recognized. the packaging process needs to be re-organized. packaging utility needs to maintain one list of current software and data subset already stored in the package. when one user wants to generate one package, it will fork the packaging utility, the packaging utility will scan the script, get the data dependency part and software dependency part, judge whether each dependency has been inside the package, and only add the new data and software into the package, and update the package information and package retrieval information.
+\subsection{Preservation Granularity}
+Another important factor of data and software preservation is the choice of preservation granularity. In Solution 3, the preservation granularity is one file, because Parrot virtual filesystem traps each system call and redirects the access path to each file. As a result, during the packaging process, each time only one file can be copied into the target package, which is low-efficient. However, there are other options of preservation granularity. The software is generally preserved in the unit of package inside the remote repository, the packaging process of one experiment can adopt one package as the unit. In addition, if the size of one whole software repository is small and the access frequency of each package inside it is high, the granularity can be set to the whole repository.
 
-\subsection{Preservation granularity}
-Another important factor of data and software preservation is the choice of preservation of preservation granularity. In the third solution, the preservation granularity is one file ,because Parrot virtual filesystem traps each system call and redirects the access path to each file. As a result, during the packaging process, each time only one file can be copied into the target package, which is low-efficient. However, there are other options of preservation granularity. The software is generally preserved in the unit of package inside the remote repository, the packaging process of one experiment can adopt one package as the unit. In addition, if the size of one whole software repository is reasonable and the access frequency of each package of it is high, the granularity can be set to the whole repository.
-
-\subsection{The user access model of data and software}
-Through this case study, we notice that the user access module of remote data and software has a great impact of the preservation mechanism, especially when we try to integrate the preservation of multiple programs. If all the programs only refer the original data and software and refuse to modify it, the preservation is easy and can ignore the data version problem. However, if each program tries to modify the original data and software to accustom to its own requirement, the preservation mechanism must provide one way to differentiate the original data version and the special data version of one certain program. To have a clear understanding of the data access model, more examples need to be investigated.
+\subsection{User Access Model of Data and Software}
+Through this case study, we notice that the user access module of remote data and software has a great impact of the preservation mechanism, especially when we try to integrate the preservation of multiple programs. If all the programs only refer the original data and software and refuse to modify them, the preservation is easy and can ignore the data version problem. However, if each program tries to modify the original data and software to accustom to its own requirement, the preservation mechanism must provide one way to differentiate the original data version and the special data version used in one certain program. To have a clear understanding of the data access model, more examples need to be investigated.
 
 \section{Related Work }
 
