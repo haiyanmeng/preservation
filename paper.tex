@@ -3,70 +3,113 @@
 \begin{document}
 
 \title{A Case Study in Preserving a High Energy Physics Application}
-\numberofauthors{6}
 \author{
-% 1st. author
-\alignauthor
-Haiyan Meng\\
-    \affaddr{Department of Computer Science and Engineering}\\
-    \affaddr{University of Notre Dame}\\
-    \affaddr{Notre Dame, Indiana}\\
-    \email{hmeng@nd.edu}
-% 2nd. author
-\alignauthor
-Matthias Wolf\\
-    \affaddr{Department of Physics}\\
-    \affaddr{University of Notre Dame}\\
-    \affaddr{Notre Dame, Indiana}\\
-    \email{mwolf3@nd.edu}
-% 3rd. author
-\alignauthor
-Anna Woodard\\
-    \affaddr{Department of Physics}\\
-    \affaddr{University of Notre Dame}\\
-    \affaddr{Notre Dame, Indiana}\\
-    \email{awoodard@nd.edu}
-\and  % use '\and' if you need 'another row' of author names
-% 4th. author
-\alignauthor 
-Peter Ivie\\
-    \affaddr{Department of Computer Science and Engineering}\\
-    \affaddr{University of Notre Dame}\\
-    \affaddr{Notre Dame, Indiana}\\
-    \email{pivie@nd.edu}
-% 5th. author
-\alignauthor 
-Michael Hildreth\\
-    \affaddr{Department of Physics}\\
-    \affaddr{University of Notre Dame}\\
-    \affaddr{Notre Dame, Indiana}\\
-    \email{Michael.D.Hildreth.2@nd.edu}
-% 6th. author
-\alignauthor 
-Douglas Thain\\
-    \affaddr{Department of Computer Science and Engineering}\\
-    \affaddr{University of Notre Dame}\\
-    \affaddr{Notre Dame, Indiana}\\
-    \email{dthain@nd.edu}
+Haiyan Meng, Matthias Wolf, Peter Ivie, Anna Woodard, Michael Hildreth, and Douglas Thain\\
+\affaddr{Department of Physics and Department of Computer Science and Engineering}\\
+\affaddr{University of Notre Dame}\\
+\affaddr{\{hmeng|mwolf3|awoodard|pivie|mhildreth|dthain\}@nd.edu}
 }
 \date{15 January 2014}
 \maketitle
+
 \begin{abstract}
 ...
 \end{abstract}
 
 % A category with the (minimum) three required fields
-\category{H.4}{Information Systems Applications}{Miscellaneous}
+%\category{H.4}{Information Systems Applications}{Miscellaneous}
 %A category including the fourth, optional field follows...
-\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
+%\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
 
-\terms{Theory}
-
-\keywords{ACM proceedings, \LaTeX, text tagging} % NOT required for Proceedings
-
+%\terms{Theory}
 
 \section{Introduction}
-...
+
+Reproducibility is a cornerstone of the scientific process.
+In order to understand, verify, and build upon previous work,
+one must be able to first recreate previous results by applying
+the same methods. Historically, reproducibility this has been
+accomplished through painstaking detailed documentation recorded
+in lab notebooks, which are then summarized in peer-reviewed publications.
+But as science increasingly depends on computation,
+reproducibility must also encompass the environments, data, and software
+involved in each result. It is widely recognized that informal
+descriptions of software and systems -- although common -- are insufficient
+for reproducing a computational result accurately.
+A more automated and comprehensive approach is required.
+
+The overall reproduction of a computation has three broad components,
+each of which suggests somewhat different approaches:
+
+\begin{itemize}
+\item The {\bf computing environment}, consisting of the basic hardware and the operating system can be preserved as physical artifacts or as a combination of virtual machine monitor (hardware) and virtual machine image (operating system).
+\item The {\bf scientific data} to be analyzed has historically received the most attention for curation.  In a large, well-organized project, it may be stored in a  data repository or database management system, with associated documentation and a curation strategy.  In a small effort, it could simply be a handful of files.
+\item The {\bf software environment} includes the source code, binaries, scripts, configuration files, and everything else needed to execute the desired code.  As with data, the software could be drawn from a well-managed software repository, or it could be a handful custom scripts that exist in the user's home directory.
+\end{itemize}
+
+In a very abstract sense, reproducing a computation is trivial.
+Assuming a computation is deterministic, one must simply
+preserve all of the inputs to a computation, then re-run
+the same code in an equivalent environment, and the same result
+will be produced.  For a small custom application on a modest
+amount of data, this could be accomplished by capturing the environment,
+data, and software within a single virtual machine image,
+and then depositing the virtual
+it into a curated environment.  The publication could
+then simply refer to the identifier of the image, which the
+interested reader can obtain and re-use.  This approach has
+been used to some success with systems X, Y, and Z.
+\footnote{Of course, we are glossing over the problem that hardware
+architectures and virtual machines also change, so one must also
+preserve the VMM software necessary to run the image.  The VMM itself
+depends on a software environment which must also be preserved.
+A long-term preservation system might end up running a whole
+stack of nested virtual machines in order to provide the desired
+environment! }
+
+However, this simple approach is not sufficient for large applications
+that are run in complex social environments.
+
+\begin{itemize}
+\item There may be {\bf implicit dependencies} on items that are
+not apparent to the end user.  For example, they may understand that
+they rely on a particular data analysis package, but would have
+no reason to know that the package has further dependencies on
+other libraries and configuration files.  Or, they may know that
+the computation only runs correctly on a particular machine, but
+not know this is because it relies on data in a filesystem that
+is mounted only on that machine.
+
+\item The {\bf granularity} of the dependencies may not be well understood.
+For example, the user may understand that a computation depends upon
+a data collection that is 1TB in overall size, but not have detailed
+knowledge that it only requires three files totalling 300MB out of that
+whole collection
+
+\item There may be dependencies upon {\bf networked resources} that
+are inherently external to the system, such as a database, a code
+repository, or a scalable filesystem.  For such resources, it
+must be decided whether the dependency will simply be noted, or if it
+must be incorporated whole or in part.
+
+\item Where {\bf common dependencies} are widely used, it may be ineffecient or
+impossible to store one copy of each dependency for each archived object.
+Some form of sharing or de-duplication is necessary in order to keep
+the archive to a reasonable size.
+\end{itemize}
+
+In this paper, we demonstrate many of these difficulties by presenting
+a case study of a high energy physics application, considered from
+the perspective of preservation.  The application is presented to us
+first in the form of an email that describes in prose how to install
+the software and run the analysis.  We perform several successive
+refinements to convert it into an executable and preservable object.
+Then, we develop three techniques for observing and capturing the
+dependencies associated with the system, comparing the cost of capture,
+the size of the preserved object, and the flexibility of the resulting
+object.  We conclude with some reflections on the challenges of preservation
+and advice for future efforts.
+
 \section{Introduction of the exmaple}
 \subsection{Background}
 Matthias, one graduate student from Physics Department of University of Notre Dame, finished one interesting tau analysis. We want to understand how the tau analysis works and repeat it. 
