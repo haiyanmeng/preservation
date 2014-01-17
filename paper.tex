@@ -1,6 +1,5 @@
 \documentclass{acm_proc_article-sp}
 \usepackage{url}
-\usepackage{siunitx}
 \begin{document}
 
 \title{A Case Study in Preserving a High Energy Physics Application}
@@ -141,7 +140,7 @@ structural complexity and content.  For the analysis under
 investigation here, this is a two-step process.  First, the AOD data
 are processed at the Notre Dame working group cluster to BEAN events,
 containing only trivial data containers packed in vectors.  This step
-is time and CPU intensive and contains data of \SI{11.6}{TB} to be
+is time and CPU intensive and contains data of 11.6$\,$TB to be
 analyzed by the tau analysis.  The BEAN format and data is shared
 within the analysis group looking at Higgs production in association
 with top quarks, which is formed by groups from a few American and
@@ -150,14 +149,14 @@ European universities.
 In the second step, which is the beginning of the actual tau analysis,
 the data are reduced to variables relevant to the tau analysis, while
 only events matching basic quality criteria are kept.  This results in
-a dataset of \SI{43.3}{GB}.  Again, the Notre Dame CMS groups cluster
+a dataset of 43.3$\,$GB.  Again, the Notre Dame CMS groups cluster
 resources are used to perform this reduction and selection, with
 highly customized software.
 
 The final data analysis, investigated below, can be run as a single
 process, and contains a stringent event selection to keep only high
 quality candidate events for the underlying physical process (using
-\SI{122}{MiB} of space).  Quantities from the selected events can be
+122$\,$MiB of space).  Quantities from the selected events can be
 both plotted and used in multivariate analysis to determine the level
 of expected signal in real data.
 
