@@ -1,5 +1,6 @@
 \documentclass{acm_proc_article-sp}
 \usepackage{url}
+\usepackage{siunitx}
 \begin{document}
 
 \title{A Case Study in Preserving a High Energy Physics Application}
@@ -113,6 +114,49 @@ and advice for future efforts.
 \section{Introduction of the exmaple}
 \subsection{Background}
 Matthias, one graduate student from Physics Department of University of Notre Dame, finished one interesting tau analysis. We want to understand how the tau analysis works and repeat it. 
+
+Within the ongoing investigation of the Higgs boson at the CMS
+detector, part of the LHC at CERN, the Higgs production in association
+with two top quarks allows to measure the Higgs coupling strength to
+top quarks.  As the Higgs boson cannot be detected itself, it has to
+be reconstructed from its decay products.  The analysis discussed in
+this section focuses on the Higgs decaying to two tau leptons, which
+are reconstructed from particle showers.
+
+The CMS collaboration provides analysis end-users with a pre-processed
+and reduced data format, AOD, containing information for events, i.e.,
+proton-proton collisions with a signature of interest, in the form of
+reconstructed particles.  This format is based on the RAW output of
+the CMS detector readout electronics and reconstructed world-wide.
+Both real and simulated data are available for examination.
+
+As AOD data are too large to be iteratively processed repetitively in
+an physics analysis workflow, it is normally reduced further in
+structural complexity and content.  For the analysis under
+investigation here, this is a two-step process.  First, the AOD data
+are processed at the Notre Dame working group cluster to BEAN events,
+containing only trivial data containers packed in vectors.  This step
+is time and CPU intensive and contains data of \SI{11.6}{TB} to be
+analyzed by the tau analysis.  The BEAN format and data is shared
+within the analysis group looking at Higgs production in association
+with top quarks, which is formed by groups from a few American and
+European universities.
+
+In the second step, which is the beginning of the actual tau analysis,
+the data are reduced to variables relevant to the tau analysis, while
+only events matching basic quality criteria are kept.  This results in
+a dataset of \SI{43.3}{GB}.  Again, the Notre Dame CMS groups cluster
+resources are used to perform this reduction and selection, with
+highly customized software.
+
+The final data analysis, investigated below, can be run as a single
+process, and contains a stringent event selection to keep only high
+quality candidate events for the underlying physical process (using
+\SI{122}{MiB} of space).  Quantities from the selected events can be
+both plotted and used in multivariate analysis to determine the level
+of expected signal in real data.
+
+% FWIW, units are TB, GB, not TiB, GiB!
 
 \subsection{Workflow of Matthias's Example}
 Declare environment variables
