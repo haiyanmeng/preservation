@@ -1,6 +1,6 @@
 NAME = paper
 FIGURES =
-IMAGES = 
+IMAGES = overview-of-architecture.eps preservation-integration.eps 
 GRAPHS =
 BIBLIOGRAPHIES = cclpapers.bib this.bib sigproc.bib
 
@@ -27,7 +27,8 @@ $(NAME).dvi: $(NAME).tex ${FIGURES} ${GRAPHS} ${IMAGES} ${BIBLIOGRAPHIES}
 %.eps: %.gnuplot
 	gnuplot <$< >$@
 
-
+%.eps: %.svg
+	inkscape -z -E$@ $^
 
 clean:
 	rm -f *~ $(NAME).aux $(NAME).bbl $(NAME).blg $(NAME).dvi $(NAME).ps $(NAME).pdf $(NAME).log  $(NAME).eps *.bak 

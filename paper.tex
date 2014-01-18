@@ -198,6 +198,13 @@ As for the experiment data, Matthias copies the subset of T3 data from grid and 
     \label{table:software-source-size}
 \end{table}
 
+\begin{figure*}
+\centering
+\epsfig{file=overview-of-architecture.eps, height=6in, width=7in}
+\caption{Overview of Architecture}
+\label{fig:Overview of architecture}
+\end{figure*}
+
 \begin{table}
     \centering
     \begin{tabular}{|l|}
@@ -307,6 +314,8 @@ Because the script includes all the necessary procedures for the reproduction of
 Implication: All the data and software involved in the experiment should be provided to the new user in the format of one self-contained package so that the multiple execution of the experiment from the same user only involve one time of data and software acquisition and environment building process. In addition, the requirement of the underlying OS and hardware should also be provided to the new user.
 
 \section{Solution 3 to Repeat the Program}
+The overview of the architecture is shown in ~\ref{fig:Overview of architecture}.
+
 \subsection{Working principle of Packaging Utility}
 The difficulty of data access authority acquisition enforces us to find out one solution, in which the reproduction of the original analysis can be done without any external dependency. That is, one independent and self-contained package containing all the data and software dependencies is necessary. Someone may suggest that it should be the responsibility of the original author to generate the required package. However, letting the original author to provide the package which can be used by others to repeat the original experiment is unrealistic. One reason is that figuring out the underlying dependency of each software is complex and time-consumpting and even impossible for the original author. In this experiment, the machine used for the experiment is one public machine of physics department, and Matthias is one common user without root authority. The underlying OS and supporting softwares are installed and maintained by the IT department of the university. On the other hand, the architecture design of the required package including all the data and software dependencies is not under the research field of physists.
 
@@ -491,8 +500,16 @@ Table~\ref{table:time-2nd3rd} shows the execution time comparison between Soluti
 \subsection{Preservation Integration of Multiple Programs}
 The Solution 3 can work well for the preservation and reproduction of one single program. However, different experimenters may execute different analysis programs on the same dataset using the same or overlapping sets of software. Generating one new package for each analysis program from scratch is time-consuming and space-consuming, which makes one data and software preservation mechanism, that can integrate the preservation requirements of different analysis programs, become necessary. 
 
+\begin{figure*}
+\centering
+\epsfig{file=preservation-integration.eps, height=4in, width=6in}
+\caption{Preservation Integration of Multiple Programs}
+\label{fig:Preservation integration}
+\end{figure*}
 
 To integrate the data and software from multiple analysis programs into one package, the concrete information of data and software, such as size, version, source and the number of files, need to be recorded. we also need to design one more instructive shell script format, in which the data dependencies and software dependencies can be clearly expressed and recognized. The packaging process needs to be re-organized. packaging utility needs to maintain one list of current software and data subset already stored in the package. When one user wants to generate one package, it will fork the packaging utility, the packaging utility will scan the script, get the data and software dependency part, judge whether each dependency has been inside the package, and only add the new data and software into the package, and update the package information and relavant retrieval information.
+
+The architecture of preservation integration of multiple programs is shown in ~\ref{fig:Preservation intergration}.
 
 \subsection{Preservation Granularity}
 Another important factor of data and software preservation is the choice of preservation granularity. In Solution 3, the preservation granularity is one file, because Parrot virtual filesystem traps each system call and redirects the access path to each file. As a result, during the packaging process, each time only one file can be copied into the target package, which is low-efficient. However, there are other options of preservation granularity. The software is generally preserved in the unit of package inside the remote repository, the packaging process of one experiment can adopt one package as the unit. In addition, if the size of one whole software repository is small and the access frequency of each package inside it is high, the granularity can be set to the whole repository.
