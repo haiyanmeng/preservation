@@ -1,6 +1,6 @@
 NAME = paper
 FIGURES =
-IMAGES = overview-of-architecture.eps preservation-integration.eps 
+IMAGES = overview-of-architecture.eps preservation-integration.eps data-process.eps solution3.eps
 GRAPHS =
 BIBLIOGRAPHIES = cclpapers.bib this.bib sigproc.bib
 

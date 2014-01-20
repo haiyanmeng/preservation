@@ -1,0 +1,49 @@
+code-snippet-output & map relationship: use picture
+modify pic; and add notes to pic.
+
+Parrot's preservation depth: is it mine the dependency to the depth of os and hardware?
+       -a, --all
+       -s, --kernel-name
+       -n, --nodename
+       -r, --kernel-release
+              print the kernel release
+       -v, --kernel-version
+              print the kernel version
+       -m, --machine
+              print the machine hardware name
+       -p, --processor
+       -i, --hardware-platform
+              print the hardware platform or "unknown"
+       -o, --operating-system
+              print the operating system
+
+[hmeng@earth ~]$ uname -a
+Linux earth.crc.nd.edu 2.6.18-371.3.1.el5 #1 SMP Mon Nov 11 03:23:58 EST 2013 x86_64 x86_64 x86_64 GNU/Linux
+#the output of uname maintain the same sequence with the help info. 
+#<kernel-name; nodename; kernel-release; kernel version; machine-hardware; processor; hardware-platform; os>
+[hmeng@earth ~]$ uname -s
+Linux
+[hmeng@earth ~]$ uname -n
+earth.crc.nd.edu
+[hmeng@earth ~]$ uname -r
+2.6.18-371.3.1.el5
+[hmeng@earth ~]$ uname -v
+#1 SMP Mon Nov 11 03:23:58 EST 2013
+[hmeng@earth ~]$ uname -m
+x86_64
+[hmeng@earth ~]$ uname -p
+x86_64
+[hmeng@earth ~]$ uname -i
+x86_64
+[hmeng@earth ~]$ uname -o
+GNU/Linux
+
+The computing platform notion =? computing environment in paper?
+
+when app interacts with hardware?
+
+how to describe the platform dependency of software?
+
+how to trace the whole dependency of one software? the package management tool; like pacman; like rpm; like apt;
+
+

@@ -110,9 +110,13 @@ the size of the preserved object, and the flexibility of the resulting
 object.  We conclude with some reflections on the challenges of preservation
 and advice for future efforts.
 
-\section{Introduction of the exmaple}
+\section{Introduction of the exmaple} 
+
+Matthias, one graduate student from Physics Department of University of Notre
+Dame, finished one interesting tau analysis. Others want to understand how the tau
+analysis works and repeat it. 
+
 \subsection{Background}
-Matthias, one graduate student from Physics Department of University of Notre Dame, finished one interesting tau analysis. We want to understand how the tau analysis works and repeat it. 
 
 Within the ongoing investigation of the Higgs boson at the CMS
 detector, part of the LHC at CERN, the Higgs production in association
@@ -159,6 +163,15 @@ quality candidate events for the underlying physical process (using
 122$\,$MiB of space).  Quantities from the selected events can be
 both plotted and used in multivariate analysis to determine the level
 of expected signal in real data.
+
+\begin{figure}
+\centering
+\epsfig{file=data-process.eps, height=3in, width=3in}
+\caption{Data Process}
+\label{fig:data-process}
+\end{figure}
+
+The data process is shown in Figure~\ref{fig:data-process}.
 
 % FWIW, units are TB, GB, not TiB, GiB!
 
@@ -314,7 +327,11 @@ Because the script includes all the necessary procedures for the reproduction of
 Implication: All the data and software involved in the experiment should be provided to the new user in the format of one self-contained package so that the multiple execution of the experiment from the same user only involve one time of data and software acquisition and environment building process. In addition, the requirement of the underlying OS and hardware should also be provided to the new user.
 
 \section{Solution 3 to Repeat the Program}
-The overview of the architecture is shown in ~\ref{fig:Overview of architecture}.
+\subsection{Dependencies of the Program}
+
+Figure~\ref{fig:Overview of architecture} illustrates all the dependencies involved in the program, which can be divided into two categories: clear dependencies and implicit dependencies. Clear dependencies include data dependencies and direct software dependencies which can be extracted directly from the analysis program. Implicit dependencies include indirect software dependencies which is necessary for the successful execution of direct software dependencies and other implicit dependencies. For example, we know Git is one direct software dependency from the analysis program, which further depends on perl, python, rsync, openssh-clients and other packages. The analysis program accesses one file File1, which is one soft link file further referring to File2.
+
+Implication: One mechanism which can mine all the dependencies of the program is necessary.
 
 \subsection{Working principle of Packaging Utility}
 The difficulty of data access authority acquisition enforces us to find out one solution, in which the reproduction of the original analysis can be done without any external dependency. That is, one independent and self-contained package containing all the data and software dependencies is necessary. Someone may suggest that it should be the responsibility of the original author to generate the required package. However, letting the original author to provide the package which can be used by others to repeat the original experiment is unrealistic. One reason is that figuring out the underlying dependency of each software is complex and time-consumpting and even impossible for the original author. In this experiment, the machine used for the experiment is one public machine of physics department, and Matthias is one common user without root authority. The underlying OS and supporting softwares are installed and maintained by the IT department of the university. On the other hand, the architecture design of the required package including all the data and software dependencies is not under the research field of physists.
@@ -395,6 +412,43 @@ Command:
 
 parrot\_run -m /tmp/mountlist /bin/tcsh parrot\_cms.sh
 
+\begin{figure}
+\centering
+\epsfig{file=solution3.eps, height=3in, width=3in}
+\caption{Relationship of Roles}
+\label{fig:solution3}
+\end{figure}
+
+The relationship of different roles involved experiment preservation and reproduction is shown in Figure~\ref{fig:solution3}.
+The original author is responsible for generating one package based on the successful execution sandbox with the help of the packaging utility. Then the package, together with the map file and description file will be uploaded into the archive. When another scholar wants to repeat the experiment, one copy of the package and its corresponding map file will be downloaded into the new machine.
+
+\subsection{Structure of Map File} 
+
+The map file of one package supports pattern matching semantics,
+which greatly reduces the scale of the map file and improves the efficiency of file path redirection. 
+For example,
+one item inside the map file is "/dir1 /package-dir1" means that the access to each file and
+subdirectory under /dir1 will be redirected into /package-dir1.
+If the semantics of the map file do not support pattern matching, the size of the map file will become astonishing. 
+/dir1 may contain thousands of files, which will generates thousands of map items and will take more time to redirect file paths.
+
+In the map relationship shown above, During the packaging process, we noticed
+that it is impossible to copy the files under certain directories like /dev.
+For example, during namelist acquisition process, three special files under /dev directory were recorded into the namelist: tty, null and urandom, which are used for input and output.
+We tried to copy these files into the new package, but the packaging utility halted.
+We also noticed that copying the files under directories like /proc is
+meaningless. Because the process id of one program is random and depends on the
+current allocation of process ID. As for these two file categories, letting
+the program directly utilize the files on the machine, where the new user
+repeats the program, is a better choice. The semantics is implemented by
+setting the target path of one file equal to the origin file path inside the
+map file. For example, "/dev /dev" means that when the program needs to access
+files under /dev directory, it will directly use the file under /dev, which is
+independent from the namespace of the package. This semantics also makes the
+reference of files outside the package possible. If the new user wants to
+expand the analysis of one program to his own data with the path of /A, he can add the analysis
+code into the analysis script and add one item "/A /A" into the map file.
+
 \subsection{Evaluation of Solution 3}
 The breakdown of execution time of the Solution 3 is illustrated in Table~\ref{table:time-3rd}. The time used to obtain file namelist and generate P1 is greatly longer than the execution time within the new package. however, the time consumption of file namelist acquisition and package generation is one-time. That is, once the package is generated, many users can directly obtain the package and repeat the experiment separately. 
 
@@ -429,10 +483,30 @@ The data size of Solution 3 is shown in Table~\ref{table:datasize-3rd}. The data
     \label{table:datasize-3rd}
 \end{table}    
 
-\subsection{Discussion of Solution 3}
-Under Solution 3, the reproduction of one analysis program becomes easier.The namespace of repeating one experiment will be limited into one independent package containing all the data and software dependencies of one analysis program. 
+\subsection{Discussion of Solution 3} 
 
-Rethink Matthias's example, under Solution 3, the reproduction of it only needs the necessary environment variables, svn login,  the actual analysis command and the package. If different scholars want to repeat one analysis program, what they need to do is to obtain the package and rerun the actual analysis program. Under Solution 2, each scholar needs to get the necessary data and software, and then prepare software environment. 
+Under Solution 3, the reproduction of one analysis program becomes easier.
+Rethink Matthias's example, the reproduction of it only needs
+the necessary environment variables, svn login, the actual analysis command
+and the package. If different scholars want to repeat one analysis program,
+what they need to do is to obtain the package and rerun the actual analysis
+program. Under Solution 2, each scholar needs to get the necessary data and
+software, and then prepare software environment. 
+
+%here is the new content-hmeng
+The starting point of Solution 3 is one successful execution sandbox on the original machine. 
+Parrot traps all the system calls and copies each accessed file (except for common dependencies) into one new package.
+The necessary scientific data will be copied into the target package.
+The software dependencies can be divided into two categories: clear dependencies, which can be observed directly through reading the analysis script and implicit dependencies,
+which can not be obtained through reading the analysis script. 
+Parrot can obtain every dependency through trapping each system call.
+Strictly speaking, the software concept and the scientific data concept are lost in Solution 3, because
+the granularity of parrot is file.
+The same thing happens to network resources.
+Packaging utlity maintains one list of common dependencies and first judges whether the file belongs to this list before trying to copy one file into the package.
+As for the computing environment, Solution 3 notices the new user through the description information at the beginning of the script.
+%the following subsection belongs to the "discussion of data and software
+%preservation" section
 
 \begin{table*}
     \centering
@@ -509,10 +583,87 @@ The Solution 3 can work well for the preservation and reproduction of one single
 
 To integrate the data and software from multiple analysis programs into one package, the concrete information of data and software, such as size, version, source and the number of files, need to be recorded. we also need to design one more instructive shell script format, in which the data dependencies and software dependencies can be clearly expressed and recognized. The packaging process needs to be re-organized. packaging utility needs to maintain one list of current software and data subset already stored in the package. When one user wants to generate one package, it will fork the packaging utility, the packaging utility will scan the script, get the data and software dependency part, judge whether each dependency has been inside the package, and only add the new data and software into the package, and update the package information and relavant retrieval information.
 
-The architecture of preservation integration of multiple programs is shown in ~\ref{fig:Preservation intergration}.
+The architecture of preservation integration of multiple programs is shown in ~\ref{fig:Preservation integration}. Script 1 and Script 2, sharing one same dependency B, belongs two different programs. Without preservation integration, B will be preserved twice in the archive, which is space-consuming. To improve the utilization efficiency of storage resources, preservation integration of multiple programs is necessary. In the archive, only one copy of B is stored, which is referred by both scripts 1 and script 2.
 
 \subsection{Preservation Granularity}
 Another important factor of data and software preservation is the choice of preservation granularity. In Solution 3, the preservation granularity is one file, because Parrot virtual filesystem traps each system call and redirects the access path to each file. As a result, during the packaging process, each time only one file can be copied into the target package, which is low-efficient. However, there are other options of preservation granularity. The software is generally preserved in the unit of package inside the remote repository, the packaging process of one experiment can adopt one package as the unit. In addition, if the size of one whole software repository is small and the access frequency of each package inside it is high, the granularity can be set to the whole repository.
+
+\subsection{Preservation of Large Data}
+
+The preservation policy must concern about the size of data. If its size is
+small, copying it into one pacakge and transferring it between different
+machines is not a bad idea.Howerver, when the size becomes large, copying it
+into one package will make the size of the package uncontrollable.  In
+Figure~\ref{fig:Preservation integration}, the size of C is very large and
+easily to be obtained through Internet by different users. Directly referring C
+as network resources is more efficient than preserving it into one package.
+
+\subsection{Mining of Dependencies} 
+
+The mining degree of data and software dependencies greatly determines the
+repeatability of one experiment. Data dependencies is easy to figured out.
+However, the situation of software dependencies is complex. The software
+dependencies include OS, hardware platform, software directly forked inside the
+progam and software indirectly forked by directly forked software. The first
+three categories are easy to deal with. The description of indirect software
+dependencies needs more efforts. One solution is to utlize package management
+tools, like rpm, pacman, apt, to recursively trace each direct software
+dependency and generate one clear dependency graph. With the dependency graph,
+the new user can configure the software environment and repeat the experiment.
+Solution 3 odopts this solution, which is easy to implement, but leaves the
+complex environment configuration to the new users. 
+
+Another solution is to treat the computing environment, software environment
+and scientific data as one integral entirety and preserve the entirety
+completely. The reproduction of one experiment using this solution is easier.
+However, the original machine is not only for one special experiment and may
+concern a large amount of software and data unrelevant to the experiment. The
+time and space overhead of this solution must be considered.
+
+%\subsection{The preservation} When the authors and the programs becomes more
+%and more, the whole pool of one repo may be nearly to be preserved. why not
+%directly copy the whole repo and preserve it at the begining directly?  Answer:
+%we must concern the efficiency of repeating one small and simple program.
+\subsection{Preservation Degree of Directory Structure}
+
+Data and software preservation of physics experiments must concern the
+preservation degree of the original filesystem.  The three core components of
+one filesytem are file, directory and metadata.  The access of files can be
+divided into two categories: only access file metadata, like size, ownership,
+access authority list, and access both the file content and metadata.  If both
+the content and metadata need to be accessed, the whole file must be copies
+into the package.  However, if only the metadata of one file is accessed, how
+to preserve the file needs to be considered carefully. If the size of the file
+is 1KB or 1MB, preserving the content is acceptable. If the size of one file is
+1GB, preserving the whole file just for the access of its metadata is
+inefficient.  
+
+Directory is one list of files and subdirectories under it. At first, we only
+copied the accessed items under one directory and ignored the unaccessed items.
+However, some operations on one directory depends on each item under it. For
+example, `ls /dirA` is one linux command to list the name of each item under
+/dirA. Because the directory itself has the name list of items under it, only
+the path of the directory was recorded into the namelist in the first phrase of
+Solution 3. However, when we repeated the command `ls /dirA` using the
+preserved package, it returned NULL because none of items under it existed in
+the package. If one routine within the original program depends on the return
+value of `ls /dirA`, the behavior of the whole program will become incorrect
+and unpredictable. Lessons: all the items under one directory must be copied
+into the package to ensure the semantics of the original program. However, the
+time and space overhead appears again. Currently, Solution 3 creates one item
+with the same name but the size of zero for each item under /dirA. Another
+solution is to introduce one database to preserve the metadata of each file and
+directory and record the origial metadata into the database. 
+
+\subsection{Here is the Useful Package}
+
+At the beginnig of our case study, we generated one package for Matthias's
+example based on Solution 3. Several months later, the original machine meets
+some problems and the access model of CMSSW was also modified. In this case, if
+you want to repeat Matthias's example on the original machine, different 
+configurations, including CMSSW\_ARCH, environment variables and CVS access
+authority need to be modified. However, with the generated package and map file, we can repeat the experiment directly on the same machine.
+%here is the new content-hmeng
 
 \subsection{User Access Model of Data and Software}
 Through this case study, we notice that the user access module of remote data and software has a great impact of the preservation mechanism, especially when we try to integrate the preservation of multiple programs. If all the programs only refer the original data and software and refuse to modify them, the preservation is easy and can ignore the data version problem. However, if each program tries to modify the original data and software to accustom to its own requirement, the preservation mechanism must provide one way to differentiate the original data version and the special data version used in one certain program. To have a clear understanding of the data access model, more examples need to be investigated.
