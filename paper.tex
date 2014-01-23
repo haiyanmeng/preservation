@@ -104,11 +104,65 @@ the perspective of preservation.  The application is presented to us
 first in the form of an email that describes in prose how to install
 the software and run the analysis.  We perform several successive
 refinements to convert it into an executable and preservable object.
-Then, we develop three techniques for observing and capturing the
+Then, we develop two techniques for observing and capturing the
 dependencies associated with the system, comparing the cost of capture,
 the size of the preserved object, and the flexibility of the resulting
-object.  We conclude with some reflections on the challenges of preservation
-and advice for future efforts.
+object.  We describe how each of these techniques may interact with
+a future archive of preserved software artifacts, and conclude with
+some reflections on the challenges of preservation and advice for future efforts.
+
+\if 0
+Section 2: Overview of Application
+    CMS/LHC introduction.
+    Data sources and reduction of size.
+    Code sources and reduction of size.
+    Prose observations about the script.
+        Uses multiple repos that change over time, with varying level of stability.
+        Low selectivity from the larger repos
+        Significant initialization time to collect everything.
+        Incidental infrastructure tools versus essential objects.
+        Some dependencies were surprising.
+    Figure: Diagram of app with both code and data sources.
+    Table: Show all code and data sources and size within one table.
+
+Section 3: Preservation Strategies
+    Figure: Show app in four stages:
+        Single email.
+        Script with embedded references to dependencies.
+        Script with map file that refers to external dependencies.
+        Script with map file that refers to preserved dependencies.
+
+    Transform to more suitable format that expresses dependencies.
+
+    Incorporate into archive, saving deps and map file.
+
+    But, how to get the dependencies?
+
+    Three strategies:
+        Original - Unmodified application run in original environment.
+        Coarse-Grained - Capture deps at large granularity -- whole filesystems and repositories.
+        Fine-Grained - Capture deps at a fine granularity -- individual files actually used.
+
+    Coarse-Grained Method (Copy Repositories)
+        First, determine dependencies
+        Express app as script + map file
+        Packaging tool downloads deps, rewrites map file.
+        To run packaged application, obtain map, download
+
+    Fine-Trained Toolkit (Parrot)
+        Tool to detect dependencies (Parrot)
+        Express app as script + map file
+        Packaging tool downloads deps, rewrites map file.
+        To run package application, run again with Parrot.
+
+Section 4: Evaluation
+
+    Table: Time and size of preserving using each of the two techniques.
+
+    Explain why the techniques show different performance.
+
+    Is one technique more effective than the other?  Why?
+\fi
 
 \section{Introduction of the exmaple} 
 
