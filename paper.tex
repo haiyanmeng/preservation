@@ -13,7 +13,19 @@ Haiyan Meng, Matthias Wolf, Peter Ivie, Anna Woodard, Michael Hildreth, and Doug
 \maketitle
 
 \begin{abstract}
-...
+\it The reproducibility of scientific results increasingly
+depends upon the preservation of computational artifacts.
+Although preserving a computation to be used later sounds
+easy, it is surprisingly difficult due to the complexity
+of existing software and systems.  Implicit dependencies,
+networked resources, and shifting compatibility all conspire
+to break applications that appear to work well.  To investigate
+these issues, we present a case study of a complex high energy
+physics application.  We analyze the application and attempt
+several methods at extracting its dependencies for the purposes
+of preservation.  We report on the completeness, performance,
+and efficiency of each technique, and offer some guidance for
+future work in application preservation.
 \end{abstract}
 
 % A category with the (minimum) three required fields
@@ -98,9 +110,10 @@ Some form of sharing or de-duplication is necessary in order to keep
 the archive to a reasonable size.
 \end{itemize}
 
-In this paper, we demonstrate many of these difficulties by presenting
-a case study of a high energy physics application, considered from
-the perspective of preservation.  The application is presented to us
+We do not claim to have solved these problems in any comprehensive
+way.  Rather, our aim in this paper is to highlight the scope
+of the problems by presenting a case study of one complex application.
+The application is presented to us
 first in the form of an email that describes in prose how to install
 the software and run the analysis.  We perform several successive
 refinements to convert it into an executable and preservable object.
@@ -110,6 +123,9 @@ the size of the preserved object, and the flexibility of the resulting
 object.  We describe how each of these techniques may interact with
 a future archive of preserved software artifacts, and conclude with
 some reflections on the challenges of preservation and advice for future efforts.
+
+
+
 
 \if 0
 Section 2: Overview of Application
@@ -164,6 +180,13 @@ Section 4: Evaluation
     Is one technique more effective than the other?  Why?
 \fi
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=.8\columnwidth]{data-code-size.eps}
+\caption{Inputs to Tau Analysis}
+\label{fig:data-code-size}
+\end{figure}
+
 \section{Overview of Application}
 
 Matthias, one graduate student from Physics Department of University of Notre
@@ -191,6 +214,26 @@ proton-proton collisions with a signature of interest, in the form of
 reconstructed particles.  This format is based on the RAW output of
 the CMS detector readout electronics and reconstructed world-wide.
 Both real and simulated data are available for examination.
+
+\begin{table}[t]
+    \centering
+    \small
+    \begin{tabular}{|l|l|r|r|r|}
+        \hline
+        \bf Name & \bf Location & \bf Total & \bf Named & \bf Used \\ 
+        \hline
+        SBEAN data    & hdfs & 33TB & 43.3GB & 20GB \\ \hline
+        CMSSW binaries     & local & 1.16TB & 449MB & 5.2MB\\ \hline
+        Tau source       & git & 51MB & 51MB & 51MB \\ \hline
+        PyYAML binaries    & http & 52MB & 51MB & 51MB \\ \hline
+        .h file       & http & 41KB & 41KB & 41KB \\ \hline
+        Misc commands & hpc fs & 206TB & ??? & 119MB \\ \hline
+        Linux commands & local fs & ??? & ??? & 88.4MB \\ \hline     
+        Total          &          & ??? & ??? & ??? \\ \hline
+    \end{tabular}
+    \caption{Data and Code Used by Tau Analysis}
+    \label{table:size-original-real}
+\end{table}
 
 As AOD data are too large to be iteratively processed repetitively in
 an physics analysis workflow, it is normally reduced further in
@@ -220,6 +263,13 @@ of expected signal in real data.
 
 % FWIW, units are TB, GB, not TiB, GiB!
 
+\begin{figure*}
+\centering
+\includegraphics[width=1.6\columnwidth]{version-evolution.eps}
+\caption{Version Evolution}
+\label{fig:version-evolution}
+\end{figure*}
+
 \subsection{Workflow of Matthias's Example}
 
 The workflow of Matthias's exmaple can be divided into eight procedures.
@@ -244,13 +294,6 @@ The workflow of Matthias's exmaple can be divided into eight procedures.
 
 \subsubsection{Complexity of Data and Software Dependencies}
 
-\begin{figure}
-\centering
-\epsfig{file=dependencies.eps, height=3in, width=3.5in}
-\caption{Dependencies}
-\label{fig:dependencies}
-\end{figure}
-
 Figure~\ref{fig:dependencies} illustrates all the dependencies
 involved in the program, which can be divided into two categories: clear
 dependencies and implicit dependencies. Clear dependencies include data
@@ -274,20 +317,6 @@ The size of the BEAN is 11.6TB, which is too large to be analyzed directly by th
 
 The size of software from each source is shown in Table~\ref{table:software-source-size}.
 
-\begin{table}
-    \centering
-    \begin{tabular}{|l|r|}
-        \hline
-        Source of Software & Size of Software \\ \hline
-        cmssw\_5\_3\_11\_patch3 & 1.16TB \\ \hline
-        Git & 51MB \\ \hline
-        Public HTTP & 52MB \\ \hline
-        Private home page & 41KB \\ \hline
-    \end{tabular}
-    \caption{Source and Size of Software}
-    \label{table:software-source-size}
-\end{table}
-
 \subsubsection{Complexity of the Program}
 Complex data and software dependencies, complex environment building process, the large size of data and software involved in the Tau analysis, together with the access authority problem, determine the complexity of the program. 
 In order to obtain the experimental data from the Grid, the author needs to install and config grid-control software. 
@@ -307,32 +336,6 @@ packages checked out from CMSSW is 449MB, and the size of actually used CMSSW
 files is only 5.2MB. 
 The total size of PanFS mounted as /pscratch is 206TB, however, the really used data from /pscratch is only 119MB.
 We compared the original size and actually used size of data and software in Table~\ref{table:size-original-real}.
-
-
-\begin{table}
-    \centering
-    \begin{tabular}{|l|r|r|r|}
-        \hline
-        Source & Original & Referred & Really Used \\ 
-        & Size & Size & Size \\ \hline
-        CMSSW & 1.16TB & 449MB & 5.2MB\\ \hline
-        Git & 51MB & & \\ \hline
-        Public HTTP & 52MB & & \\ \hline
-        Private home page & 41KB & & \\ \hline
-        HDFS & 33TB & 43.3GB & 20GB \\ \hline
-        pscratch & 206TB & & 119MB \\ \hline
-        Local Disk & & & 88.4MB \\ \hline     
-    \end{tabular}
-    \caption{Really Used Data and Software Size}
-    \label{table:size-original-real}
-\end{table}
-
-\begin{figure}
-\centering
-\epsfig{file=data-code-size.eps, height=3in, width=3.5in}
-\caption{Workflow of Tau Analysis}
-\label{fig:data-code-size}
-\end{figure}
 
 
 \subsubsection{Stability of Dependencies}
@@ -415,12 +418,6 @@ been cancelled now.
 
 \section{Preservation Strategies}
 
-\begin{figure*}
-\centering
-\epsfig{file=version-evolution.eps, height=4in, width=6.5in}
-\caption{Version Evolution}
-\label{fig:version-evolution}
-\end{figure*}
 
 Figure~\ref{fig:version-evolution} illustrates the evolution history of different preservation strategies.
 
