@@ -463,6 +463,14 @@ OS and hardware should also be provided to the new user.
 \subsection{Solution 3: Coarse-Grained Method}
 %%
 
+Understanding all the remote and local dependencies of one program, one self-contained package can be built from scratch by copying all the dependencies directly using coarse-grained method,
+which means copying the whole local filesystem, HDFS, PanFS, together with each complete remote repository without selection, into the new package.
+However, the whole OS and local filesystem do not exist only for this special program, and contain a lot of files and software unrelevant to this special program. 
+The size of HDFS, PanFS, remote CMSSW repository all reaches TB level. 
+This solution is easy to implement, but time-consuming and space-consuming.
+Through observation, we noticed that the size of really used data and software is greatly less than the original total size. 
+Therefore, one fine-grained toolkit generating the target package is necessary.
+
 \subsection{Solution 4: Fine-Grained Toolkit}
 
 \subsubsection{Working principle of Packaging Utility} 
