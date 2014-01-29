@@ -241,18 +241,32 @@ structural complexity and content.  For the analysis under
 investigation here, this is a two-step process.  First, the AOD data
 are processed at the Notre Dame working group cluster to BEAN events,
 containing only trivial data containers packed in vectors.  This step
-is time and CPU intensive and contains data of 11.6$\,$TB to be
-analyzed by the tau analysis.  The BEAN format and data is shared
-within the analysis group looking at Higgs production in association
-with top quarks, which is formed by groups from a few American and
-European universities.
+is time and CPU intensive and its output contains data of 11.6$\,$TB to be
+analyzed by the tau analysis.
+It is performed by a small custom code framework,
+which is built on top of the CMS software stack, CMSSW,
+and uses packages provided by several other special interest groups within CMS.
+While the CMSSW framework is installed locally,
+the various packages used are checked out from CVS,
+and the BEAN framework is stored in git.
+This is scheduled to change,
+as the CMSSW distribution model switches to a virtual filesystem mounted via FUSE,
+and special interest groups move their code to git.
+The BEAN format, production code, and
+data are shared within the analysis group looking at Higgs production
+in association with top quarks, which is formed by groups from a few
+American and European universities,
+consisting of up to a few dozen contributors.
 
 In the second step, which is the beginning of the actual tau analysis,
 the data are reduced to variables relevant to the tau analysis, while
 only events matching basic quality criteria are kept.  This results in
 a dataset of 43.3$\,$GB.  Again, the Notre Dame CMS groups cluster
-resources are used to perform this reduction and selection, with
-highly customized software.
+resources are used to perform this reduction and selection,
+running highly customized software,
+built on CMSSW and the BEAN framework,
+but with output code written and maintained by a few people only.
+Again, the code is stored in a git repository.
 
 The final data analysis, investigated below, can be run as a single
 process, and contains a stringent event selection to keep only high
@@ -260,6 +274,12 @@ quality candidate events for the underlying physical process (using
 122$\,$MiB of space).  Quantities from the selected events can be
 both plotted and used in multivariate analysis to determine the level
 of expected signal in real data.
+This package is written using the CMSSW build framework,
+but only utilizes code from ROOT,
+a particle physics toolkit underlying CMSSW,
+and a few external python dependencies for convenience.
+The latter have to be manually fetched and installed,
+while the analysis program is built by CMSSW after being checked out of git.
 
 {\bf Code Sources.} Like many scientific codes, the central algorithm
 of \emph{TauAnalysis} is expressed in a relatively small amount of
@@ -331,41 +351,41 @@ The workflow of Matthias's exmaple can be divided into eight procedures.
 
 Figure~\ref{fig:dependencies} illustrates all the dependencies
 involved in the program, which can be divided into two categories: clear
-dependencies and implicit dependencies. Clear dependencies include data
+dependencies and implicit dependencies. Clear dependencies include scientific data
 dependencies and direct software dependencies which can be extracted directly
-from the analysis program. The scientific data of this example comes from Grid. Direct software dependencies includes CMSSW, Git, HTTP and one personal main page. 
+from the analysis program. The scientific data of this example comes from the Grid. Direct software dependencies include CMSSW, Git, HTTP and one personal home page. 
 
 Implicit dependencies include indirect software
 dependencies which is necessary for the successful execution of direct software
 dependencies and other implicit dependencies. For example, we know Git is one
 direct software dependency from the analysis program, which further depends on
 perl, python, rsync, openssh-clients and other packages. The analysis program
-accesses one file called File1, which is one soft link file further referring to
-another name named File2.
-The implicit dependencies also refers to some files under /pscratch, which is one local mount point of one PanFS clustered file system with the size of 206TB.
+accesses one file called File1, which is one symbolic link file further referring to
+another file named File2.
+The implicit dependencies also refers to some files under /pscratch, which is a local mount point of one PanFS with the size of 206TB.
 And more importantly, the successful execution of this program greatly depends on the underlying OS and hardware platform.
 
 
 \subsubsection{Size of Data and Software Dependencies}
 The size of data and software dependencies is astonishing.
-The size of the BEAN is 11.6TB, which is too large to be analyzed directly by the Tau Analysis program. However, after one preprocessing which only collects the events matching basic quality criteria, the data size is still very large, 43.3GB. 
+The size of BEAN is 11.6TB, which is too large to be analyzed directly by the tau analysis program. After one preprocessing which only collects the events matching basic quality criteria, the data size is still very large, 43.3GB. 
 
 The size of software from each source is shown in Table~\ref{table:software-source-size}.
 
 \subsubsection{Complexity of the Program}
-Complex data and software dependencies, complex environment building process, the large size of data and software involved in the Tau analysis, together with the access authority problem, determine the complexity of the program. 
+Complex data and software dependencies, complex environment building process, the large size of data and software involved in the tau analysis, together with the access authority problem, determine the complexity of the program. 
 In order to obtain the experimental data from the Grid, the author needs to install and config grid-control software. 
 The access authority of the Grid is also necessary for the data acquisition.
-The software acquisition from CMSSW, Git and HTTP and environment building process is time-consuming. The execution time of actual data analysis is about 30 minutes. However, the software acquisition and environment building time is about 30 minutes, which is very close to the execution time of actual data analysis. If the acquisition of experimental data is considered, the percentage of actual data analysis only occupies one small pertentage of the whole time consumption.
+The software acquisition from CMSSW, Git and HTTP and environment building process is time-consuming. The execution time of actual data analysis is about 30 minutes. However, the software acquisition and environment building time, excluding data acquisition time, is about 30 minutes, which is very close to the execution time of actual data analysis. If the acquisition of experimental data is considered, actual data analysis only occupies one small percentage of the whole time consumption.
 The size of data and software dependencies further complicate the program.
 
-\subsubsection{Real Used Data and Software Size} 
+\subsubsection{Really Used Data and Software Size} 
 
 Even if the orginal data size referred by the program is astonishing, the size
 of really used data and software is greatly smaller.
-Figure~\ref{fig:data-code-size} illustrates the procedures of the Tau analysis.
+Figure~\ref{fig:data-code-size} illustrates the procedures of the tau analysis.
 After SBEAN, the data size is 43.3GB, however, the atual size of really used
-data in the program is 20GB.  The same thend occurs to the size of software and
+data in the program is 20GB.  The same trend occurs to the size of software and
 other dependencies. The size of CMSSW repository is 1.16TB, the size of
 packages checked out from CMSSW is 449MB, and the size of actually used CMSSW
 files is only 5.2MB. 
@@ -376,13 +396,12 @@ We compared the original size and actually used size of data and software in Tab
 \subsubsection{Stability of Dependencies}
 
 The program involves obtaining software from the home page of another graduate
-student from University of Notre Dame. However, the access authority of this
-home page will termi nate after the graduation of the student. We need one
-mechanism to 
-evaluate the stability of each dependency must be evaluated to ensure the program can be 
+student from University of Notre Dame. However, the maintenance of this
+home page will terminate after the graduation of the student.
+The stability of each dependency must be evaluated to ensure the program can be 
 repeated by others.
 
-The stability of Grid is relatively higher. However, the
+The stability of the Grid is relatively higher. However, the
 public web resources and personal home page is not stable. Too many factors
 like the termination of one web site, the graduation of the home page's author,
 would result in the failure of resource access. CMSSW, which seems to be
@@ -390,7 +409,7 @@ stable, in fact, also involves stability problems. CMSSW provides different
 collections of accessible versions to different architectures. Transformation
 from one architecture to another may result in the failure of accessing one
 certain CMSSW version. At the beginning of our reseach, cvs supported
-anonymous access of CMSSW outside of Cern. However, this anonymous access has
+anonymous access of CMSSW outside of CERN. However, this anonymous access has
 been cancelled now.
 
 
@@ -494,6 +513,14 @@ OS and hardware should also be provided to the new user.
 
 \subsection{Solution 3: Coarse-Grained Method}
 %%
+
+Understanding all the remote and local dependencies of one program, one self-contained package can be built from scratch by copying all the dependencies directly using coarse-grained method,
+which means copying the whole local filesystem, HDFS, PanFS, together with each complete remote repository without selection, into the new package.
+However, the whole OS and local filesystem do not exist only for this special program, and contain a lot of files and software unrelevant to this special program. 
+The size of HDFS, PanFS, remote CMSSW repository all reaches TB level. 
+This solution is easy to implement, but time-consuming and space-consuming.
+Through observation, we noticed that the size of really used data and software is greatly less than the original total size. 
+Therefore, one fine-grained toolkit generating the target package is necessary.
 
 \subsection{Solution 4: Fine-Grained Toolkit}
 
@@ -642,10 +669,10 @@ parrot\_run -m /tmp/mountlist /bin/tcsh parrot\_cms.sh
 \label{fig:solution3}
 \end{figure}
 
-The relationship of different roles involved experiment preservation and
+The relationship of different roles involved in the experiment preservation and
 reproduction is shown in Figure~\ref{fig:solution3}.  The original author is
 responsible for generating one package based on the successful execution
-sandbox with the help of the packaging utility. Then the package, together with
+with the help of the packaging utility. Then the package, together with
 its map file and description file will be uploaded into the archive. When
 another scholar wants to repeat the experiment, one copy of the package and its
 corresponding map file will be downloaded into the new machine.
