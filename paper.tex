@@ -253,24 +253,24 @@ The workflow of Matthias's exmaple can be divided into eight procedures.
 
 Figure~\ref{fig:dependencies} illustrates all the dependencies
 involved in the program, which can be divided into two categories: clear
-dependencies and implicit dependencies. Clear dependencies include data
+dependencies and implicit dependencies. Clear dependencies include scientific data
 dependencies and direct software dependencies which can be extracted directly
-from the analysis program. The scientific data of this example comes from Grid. Direct software dependencies includes CMSSW, Git, HTTP and one personal main page. 
+from the analysis program. The scientific data of this example comes from the Grid. Direct software dependencies include CMSSW, Git, HTTP and one personal home page. 
 
 Implicit dependencies include indirect software
 dependencies which is necessary for the successful execution of direct software
 dependencies and other implicit dependencies. For example, we know Git is one
 direct software dependency from the analysis program, which further depends on
 perl, python, rsync, openssh-clients and other packages. The analysis program
-accesses one file called File1, which is one soft link file further referring to
-another name named File2.
-The implicit dependencies also refers to some files under /pscratch, which is one local mount point of one PanFS clustered file system with the size of 206TB.
+accesses one file called File1, which is one symbolic link file further referring to
+another file named File2.
+The implicit dependencies also refers to some files under /pscratch, which is a local mount point of one PanFS with the size of 206TB.
 And more importantly, the successful execution of this program greatly depends on the underlying OS and hardware platform.
 
 
 \subsubsection{Size of Data and Software Dependencies}
 The size of data and software dependencies is astonishing.
-The size of the BEAN is 11.6TB, which is too large to be analyzed directly by the Tau Analysis program. However, after one preprocessing which only collects the events matching basic quality criteria, the data size is still very large, 43.3GB. 
+The size of BEAN is 11.6TB, which is too large to be analyzed directly by the tau analysis program. After one preprocessing which only collects the events matching basic quality criteria, the data size is still very large, 43.3GB. 
 
 The size of software from each source is shown in Table~\ref{table:software-source-size}.
 
@@ -289,19 +289,19 @@ The size of software from each source is shown in Table~\ref{table:software-sour
 \end{table}
 
 \subsubsection{Complexity of the Program}
-Complex data and software dependencies, complex environment building process, the large size of data and software involved in the Tau analysis, together with the access authority problem, determine the complexity of the program. 
+Complex data and software dependencies, complex environment building process, the large size of data and software involved in the tau analysis, together with the access authority problem, determine the complexity of the program. 
 In order to obtain the experimental data from the Grid, the author needs to install and config grid-control software. 
 The access authority of the Grid is also necessary for the data acquisition.
-The software acquisition from CMSSW, Git and HTTP and environment building process is time-consuming. The execution time of actual data analysis is about 30 minutes. However, the software acquisition and environment building time is about 30 minutes, which is very close to the execution time of actual data analysis. If the acquisition of experimental data is considered, the percentage of actual data analysis only occupies one small pertentage of the whole time consumption.
+The software acquisition from CMSSW, Git and HTTP and environment building process is time-consuming. The execution time of actual data analysis is about 30 minutes. However, the software acquisition and environment building time, excluding data acquisition time, is about 30 minutes, which is very close to the execution time of actual data analysis. If the acquisition of experimental data is considered, actual data analysis only occupies one small percentage of the whole time consumption.
 The size of data and software dependencies further complicate the program.
 
-\subsubsection{Real Used Data and Software Size} 
+\subsubsection{Really Used Data and Software Size} 
 
 Even if the orginal data size referred by the program is astonishing, the size
 of really used data and software is greatly smaller.
-Figure~\ref{fig:data-code-size} illustrates the procedures of the Tau analysis.
+Figure~\ref{fig:data-code-size} illustrates the procedures of the tau analysis.
 After SBEAN, the data size is 43.3GB, however, the atual size of really used
-data in the program is 20GB.  The same thend occurs to the size of software and
+data in the program is 20GB.  The same trend occurs to the size of software and
 other dependencies. The size of CMSSW repository is 1.16TB, the size of
 packages checked out from CMSSW is 449MB, and the size of actually used CMSSW
 files is only 5.2MB. 
@@ -338,13 +338,12 @@ We compared the original size and actually used size of data and software in Tab
 \subsubsection{Stability of Dependencies}
 
 The program involves obtaining software from the home page of another graduate
-student from University of Notre Dame. However, the access authority of this
-home page will termi nate after the graduation of the student. We need one
-mechanism to 
-evaluate the stability of each dependency must be evaluated to ensure the program can be 
+student from University of Notre Dame. However, the maintenance of this
+home page will terminate after the graduation of the student.
+The stability of each dependency must be evaluated to ensure the program can be 
 repeated by others.
 
-The stability of Grid is relatively higher. However, the
+The stability of the Grid is relatively higher. However, the
 public web resources and personal home page is not stable. Too many factors
 like the termination of one web site, the graduation of the home page's author,
 would result in the failure of resource access. CMSSW, which seems to be
@@ -352,7 +351,7 @@ stable, in fact, also involves stability problems. CMSSW provides different
 collections of accessible versions to different architectures. Transformation
 from one architecture to another may result in the failure of accessing one
 certain CMSSW version. At the beginning of our reseach, cvs supported
-anonymous access of CMSSW outside of Cern. However, this anonymous access has
+anonymous access of CMSSW outside of CERN. However, this anonymous access has
 been cancelled now.
 
 
@@ -618,10 +617,10 @@ parrot\_run -m /tmp/mountlist /bin/tcsh parrot\_cms.sh
 \label{fig:solution3}
 \end{figure}
 
-The relationship of different roles involved experiment preservation and
+The relationship of different roles involved in the experiment preservation and
 reproduction is shown in Figure~\ref{fig:solution3}.  The original author is
 responsible for generating one package based on the successful execution
-sandbox with the help of the packaging utility. Then the package, together with
+with the help of the packaging utility. Then the package, together with
 its map file and description file will be uploaded into the archive. When
 another scholar wants to repeat the experiment, one copy of the package and its
 corresponding map file will be downloaded into the new machine.
