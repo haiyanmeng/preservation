@@ -187,34 +187,6 @@ Section 4: Evaluation
 \label{fig:data-code-size}
 \end{figure}
 
-\section{Overview of Application}
-
-Matthias, one graduate student from Physics Department of University of Notre
-Dame, finished one interesting tau analysis. Others want to understand how the tau
-analysis works and repeat it. 
-
-\subsection{Background}
-
-Within the ongoing investigation of the Higgs boson at the CMS
-detector, part of the LHC at CERN, the Higgs production in association
-with two top quarks allows to measure the Higgs coupling strength to
-top quarks.  As the Higgs boson is to short-lived to be detected
-itself, it has to be reconstructed from its decay products.  The
-analysis discussed in this section focuses on the Higgs decaying to
-two tau leptons, which are themselves reconstructed from particle
-showers.  Within the analysis, events are identified that show a
-signature of decay products compatible with both hadronic tau and top
-decays.  Properties of such events are used to distinguish signal-like
-(matching simulated Higgs decays) and background-like events and are
-also used in further statistical analysis.
-
-The CMS collaboration provides analysis end-users with a pre-processed
-and reduced data format, AOD, containing information for events, i.e.,
-proton-proton collisions with a signature of interest, in the form of
-reconstructed particles.  This format is based on the RAW output of
-the CMS detector readout electronics and reconstructed world-wide.
-Both real and simulated data are available for examination.
-
 \begin{table}[t]
     \centering
     \small
@@ -234,6 +206,34 @@ Both real and simulated data are available for examination.
     \caption{Data and Code Used by Tau Analysis}
     \label{table:size-original-real}
 \end{table}
+
+\section{Overview of Tau Analysis}
+
+Within the ongoing investigation of the Higgs boson at the CMS
+detector, part of the LHC at CERN, the Higgs production in association
+with two top quarks allows to measure the Higgs coupling strength to
+top quarks.  As the Higgs boson is to short-lived to be detected
+itself, it has to be reconstructed from its decay products.
+
+The application which is the study of this paper is called \emph{TauAnalysis}
+It searches for cases where the the Higgs boson decays to two tau leptons.
+The leptons are not observed directly, but by the particle showers
+that they generate.  So, the analysis must search for detector
+events that show a signature of decay products compatible with both hadronic tau and top decays.  Properties of such events are used to distinguish
+the events of interest (Higgs decays) from all other events and
+are also used in further statistical analysis.
+
+Figure~\ref{fig:data-code-size} shows that both the code and data
+that form \emph{TauAnalysis} are drawn from large repositories through
+multiple steps of reduction.
+
+{\bf Data Sources.}
+The CMS collaboration provides analysis end-users with a pre-processed
+and reduced data format, AOD, containing information for events, i.e.,
+proton-proton collisions with a signature of interest, in the form of
+reconstructed particles.  This format is based on the RAW output of
+the CMS detector readout electronics and reconstructed world-wide.
+Both real and simulated data are available for examination.
 
 As AOD data are too large to be iteratively processed repetitively in
 an physics analysis workflow, it is normally reduced further in
@@ -261,7 +261,26 @@ quality candidate events for the underlying physical process (using
 both plotted and used in multivariate analysis to determine the level
 of expected signal in real data.
 
-% FWIW, units are TB, GB, not TiB, GiB!
+{\bf Code Sources.} Like many scientific codes, the central algorithm
+of \emph{TauAnalysis} is expressed in a relatively small amount of
+custom code developed by the primary author.  But, the code cannot
+run at all without making use of an enormous collection of software
+dependencies.  Some of these dependencies are standard to operating
+systems worldwide, some are standardized across the entire high-energy
+physics field, some are particular to small collaborative groups,
+and a few are very specific to a single researcher.
+
+The largest of these repositories is the CMS Software Distribution (CMSSW),
+a carefully-curated selection of software packages which is distributed
+in binary form.  Historically, CMSSW was downloaded and installed on shared
+filesystems within HPC centers.  In recent years, distribution has moved to
+an on-demand delivery system known as CVMFS~\cite{cvmfs}.  The content
+of CMSSW is managed very carefully by a centralized team whose main goal
+is to ensure that the current version of the software operates correctly
+on the operating systems and architectures currently in use.  However,
+preservation per se is not an objective of the group, and so there is
+no guarantee that old versions of CMSSW operate in new environments,
+or vice versa. 
 
 \begin{figure*}
 \centering
@@ -269,6 +288,22 @@ of expected signal in real data.
 \caption{Version Evolution}
 \label{fig:version-evolution}
 \end{figure*}
+
+
+\emph{TauAnalysis} was provided to us in the form of an
+email which described, in prose, how to obtain the source,
+build the program, and run it correctly on one specific
+machine at Notre Dame, with no particularly guarantee that
+it will run anywhere else in the world.
+Although this starting point may seem extreme, it is
+perfectly natural for collaborators to share configurations
+with each other in this form, and to rely on the presence
+of a working environment with appropriate dependencies already
+installed.
+
+The authors played the role of curators, whose job it is to prepare the application for permanent archival by determining and packaging the dependencies.
+
+
 
 \subsection{Workflow of Matthias's Example}
 
