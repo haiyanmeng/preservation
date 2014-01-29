@@ -175,7 +175,7 @@ analysis works and repeat it.
 Within the ongoing investigation of the Higgs boson at the CMS
 detector, part of the LHC at CERN, the Higgs production in association
 with two top quarks allows to measure the Higgs coupling strength to
-top quarks.  As the Higgs boson is to short-lived to be detected
+top quarks.  As the Higgs boson is too short-lived to be detected
 itself, it has to be reconstructed from its decay products.  The
 analysis discussed in this section focuses on the Higgs decaying to
 two tau leptons, which are themselves reconstructed from particle
@@ -198,18 +198,32 @@ structural complexity and content.  For the analysis under
 investigation here, this is a two-step process.  First, the AOD data
 are processed at the Notre Dame working group cluster to BEAN events,
 containing only trivial data containers packed in vectors.  This step
-is time and CPU intensive and contains data of 11.6$\,$TB to be
-analyzed by the tau analysis.  The BEAN format and data is shared
-within the analysis group looking at Higgs production in association
-with top quarks, which is formed by groups from a few American and
-European universities.
+is time and CPU intensive and its output contains data of 11.6$\,$TB to be
+analyzed by the tau analysis.
+It is performed by a small custom code framework,
+which is built on top of the CMS software stack, CMSSW,
+and uses packages provided by several other special interest groups within CMS.
+While the CMSSW framework is installed locally,
+the various packages used are checked out from CVS,
+and the BEAN framework is stored in git.
+This is scheduled to change,
+as the CMSSW distribution model switches to a virtual filesystem mounted via FUSE,
+and special interest groups move their code to git.
+The BEAN format, production code, and
+data are shared within the analysis group looking at Higgs production
+in association with top quarks, which is formed by groups from a few
+American and European universities,
+consisting of up to a few dozen contributors.
 
 In the second step, which is the beginning of the actual tau analysis,
 the data are reduced to variables relevant to the tau analysis, while
 only events matching basic quality criteria are kept.  This results in
 a dataset of 43.3$\,$GB.  Again, the Notre Dame CMS groups cluster
-resources are used to perform this reduction and selection, with
-highly customized software.
+resources are used to perform this reduction and selection,
+running highly customized software,
+built on CMSSW and the BEAN framework,
+but with output code written and maintained by a few people only.
+Again, the code is stored in a git repository.
 
 The final data analysis, investigated below, can be run as a single
 process, and contains a stringent event selection to keep only high
@@ -217,6 +231,12 @@ quality candidate events for the underlying physical process (using
 122$\,$MiB of space).  Quantities from the selected events can be
 both plotted and used in multivariate analysis to determine the level
 of expected signal in real data.
+This package is written using the CMSSW build framework,
+but only utilizes code from ROOT,
+a particle physics toolkit underlying CMSSW,
+and a few external python dependencies for convenience.
+The latter have to be manually fetched and installed,
+while the analysis program is built by CMSSW after being checked out of git.
 
 % FWIW, units are TB, GB, not TiB, GiB!
 
