@@ -124,9 +124,6 @@ object.  We describe how each of these techniques may interact with
 a future archive of preserved software artifacts, and conclude with
 some reflections on the challenges of preservation and advice for future efforts.
 
-
-
-
 \if 0
 Section 2: Overview of Application
     CMS/LHC introduction.
@@ -302,14 +299,6 @@ preservation per se is not an objective of the group, and so there is
 no guarantee that old versions of CMSSW operate in new environments,
 or vice versa. 
 
-\begin{figure*}
-\centering
-\includegraphics[width=1.6\columnwidth]{version-evolution.eps}
-\caption{Version Evolution}
-\label{fig:version-evolution}
-\end{figure*}
-
-
 \emph{TauAnalysis} was provided to us in the form of an
 email which described, in prose, how to obtain the source,
 build the program, and run it correctly on one specific
@@ -322,8 +311,6 @@ of a working environment with appropriate dependencies already
 installed.
 
 The authors played the role of curators, whose job it is to prepare the application for permanent archival by determining and packaging the dependencies.
-
-
 
 \subsection{Workflow of Matthias's Example}
 
@@ -349,6 +336,13 @@ The workflow of Matthias's exmaple can be divided into eight procedures.
 
 \subsubsection{Complexity of Data and Software Dependencies}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=.8\columnwidth]{dependencies.eps}
+\caption{Dependencies}
+\label{fig:dependencies}
+\end{figure}
+
 Figure~\ref{fig:dependencies} illustrates all the dependencies
 involved in the program, which can be divided into two categories: clear
 dependencies and implicit dependencies. Clear dependencies include scientific data
@@ -364,7 +358,6 @@ accesses one file called File1, which is one symbolic link file further referrin
 another file named File2.
 The implicit dependencies also refers to some files under /pscratch, which is a local mount point of one PanFS with the size of 206TB.
 And more importantly, the successful execution of this program greatly depends on the underlying OS and hardware platform.
-
 
 \subsubsection{Size of Data and Software Dependencies}
 The size of data and software dependencies is astonishing.
@@ -392,7 +385,6 @@ files is only 5.2MB.
 The total size of PanFS mounted as /pscratch is 206TB, however, the really used data from /pscratch is only 119MB.
 We compared the original size and actually used size of data and software in Table~\ref{table:size-original-real}.
 
-
 \subsubsection{Stability of Dependencies}
 
 The program involves obtaining software from the home page of another graduate
@@ -411,8 +403,6 @@ from one architecture to another may result in the failure of accessing one
 certain CMSSW version. At the beginning of our reseach, cvs supported
 anonymous access of CMSSW outside of CERN. However, this anonymous access has
 been cancelled now.
-
-
 
 \begin{table}
     \centering
@@ -470,8 +460,14 @@ been cancelled now.
     \label{table:scripts}
 \end{table}
 
-\section{Preservation Strategies}
+\begin{figure*}
+\centering
+\includegraphics[width=1.6\columnwidth]{version-evolution.eps}
+\caption{Version Evolution}
+\label{fig:version-evolution}
+\end{figure*}
 
+\section{Preservation Strategies}
 
 Figure~\ref{fig:version-evolution} illustrates the evolution history of different preservation strategies.
 
