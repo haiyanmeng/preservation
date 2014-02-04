@@ -410,50 +410,64 @@ been cancelled now.
         \hline
         Version 1: Email\\ \hline
         \\
-        1. Create CMS release,\\
-            \hspace{9pt} e.g. cmsrel CMSSW\_5\_3... \\
-        2. Install BEAN packages: \\
-            \hspace{9pt} https://github.com/cms-ttH/...\\
+        1. Create a CMS release,\\
+            \hspace{9pt} e.g. cmsrel CMSSW\_5\_3\_11\_patch3 \\
+        2. Install the BEAN packages as the instructions: \\
+            \hspace{9pt} https://github.com/cms-ttH/BEAN/blob/...\\
         3. Install grid-control: \\ 
-            \hspace{9pt} svn co https://dwekptrack... \\
+            \hspace{9pt} svn co https://ekptrac.physik.uni-ka/... \\
         4. INstall the TauAnalysis package: \\
            \hspace{9pt} git clone https://github.com/matz-e/... \\
            \hspace{9pt} scram b -j32 \\
         5. Fix grid\_control.cfg and run it. \\
-        6. Perform actual tau roast program \\ 
+        6. Perform the actual tau roast program. \\ 
         \\ \hline
         Version 2: Script\\ \hline
         \\
-        set CMSSW\_BASE = (CMSSW\_5\_3...) \\
-        module load git \\        
-        cmsenv \\ 
-        cvs login \\
-        cvs co UserCode/Bicocca/... \\
-        git clone... \\
+        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
+        cmsrel \$HOME/\$CMSSW\_BASE \\
+        cvs co -r V03-09-23 PhysicsTools/PatUtils \\
+        git clone https://github.com/cms-ttH/BEAN.git \\
+        wget -r http://nd.edu/~abrinke1/ElectronEffectiveArea.h \\
         scram b -j32 \\
-        wget http://pyyaml.org/... \\
-        python setup.py install... \\
+        wget http://pyyaml.org/download/pyyaml/PyYAML...\\
         \#the experiment data is from HDFS \\
-        roaster data/generic\_ttl.yaml \\ 
-        \\ \hline
-        Version 3: Fine-Grained Toolkit\\ \hline
-        \\
-        \#the description of OS version and hardware architecture \\
-        \# list of indirect software dependencies \\
-        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\ 
+        cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\
         cmsenv \\
-        wget http://pyyaml.org/... \\
-        python setup.py install... \\
-        roaster data/generic\_ttl.yaml \\
+        python setup.py install --user \\
+        cd \$HOME/\$CMSSW\_BASE/src/ttH/TauRoast\\
+        scripts/roaster data/generic\_ttl.yaml \\ 
         \\ \hline
-        Version 4\\ \hline
+        version 3: Formulated Script \\ \hline
         \\
-        \#the description of OS version and hardware architecture \\
-        \#declaration of environment variables\\
-        \#data dependencies\\
-        \#direct and indirect software dependencies\\
-        \#software build and install commands\\
-        \#actual analysis program\\ 
+        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
+        set {\bf GIT} = (https://github.com) \\
+        set {\bf PYYAML} = (http://pyyaml.org) \\
+        set {\bf ND} = (http://nd.edu) \\
+        cmsrel \$HOME/\$CMSSW\_BASE \\
+        cvs co -r V03-09-23 PhysicsTools/PatUtils \\
+        git clone \${\bf GIT}/cms-ttH/BEAN.git \\
+        wget -r \${\bf ND}/~abrinke1/ElectronEffectiveArea.h \\
+        scram b -j32 \\
+        wget \${\bf PYYAML}/download/pyyaml/PyYAML...\\
+        \#the experiment data is from HDFS \\
+        cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\
+        cmsenv \\
+        python setup.py install --user \\
+        cd \$HOME/\$CMSSW\_BASE/src/ttH/TauRoast\\
+        scripts/roaster data/generic\_ttl.yaml \\ 
+        \\ \hline
+        Version 4: Fine-Grained Toolkit\\ \hline
+        \\
+        \#description of OS version and hardware architecture \\
+        \#list of indirect software dependencies \\
+        \# set all environment variables\\
+        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\ 
+        cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\
+        cmsenv \\
+        python setup.py install --user \\
+        cd \$HOME/\$CMSSW\_BASE/src/ttH/TauRoast\\
+        scripts/roaster data/generic\_ttl.yaml \\
         \\ \hline
     \end{tabular}
     \caption{Scripts of each Solution}
