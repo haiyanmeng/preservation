@@ -476,26 +476,6 @@ been cancelled now.
     \label{table:scripts}
 \end{table}
 
-\begin{table}
-    \centering
-    \begin{tabular}{|l|}
-        \hline
-        \\
-        \#description of OS version and hardware architecture \\
-        \#list of indirect software dependencies \\
-        \# set all environment variables\\
-        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
-        cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\
-        cmsenv \\
-        python setup.py install --user \\
-        cd \$HOME/\$CMSSW\_BASE/src/ttH/TauRoast\\
-        scripts/roaster data/generic\_ttl.yaml \\
-        \\ \hline
-    \end{tabular}
-    \caption{Script of Fine-Grained Toolkit using Parrot}
-    \label{table:parrot-script}
-\end{table}
-
 \begin{figure*}
 \centering
 \includegraphics[width=1.6\columnwidth]{version-evolution.eps}
@@ -540,7 +520,36 @@ To test out these possible solutions, we integrate the content of all the notes,
 
 
 %*****hmeng-doult: the size of hadoop need to reconsidered. how to correctly illustrate the data size of this example?
-Because the script includes all the necessary procedures for the reproduction of one analysis program, the readability and friendliness of this solution is higher than that of the email format. However, each execution of the script will involve the acquisition of software from different sources and the building of software environment. As for accessing grid data, using the data copy stored in the machine where Matthias executed the experiment requires the new user to have the authority to access the machine, which complicates the management of the original machine, even is impossible if the original machine executes rigid user access control. Granting everyone who wants to repeat the analysis the access authority for grid is unacceptable to system administrator. 
+
+Because the script includes all the necessary procedures for the reproduction
+of one analysis program, the readability and friendliness of this solution is
+higher than that of the email format. 
+
+
+\subsection{Solution 3: Formulated Script}
+%%
+
+The script can reduce the complexity of repeating one experiment through the integration of all the necessary procedures. However, the data and software dependencies are still randomly distributed across the whole script, which requires one complete scan of the script to obtain the  dependency list. 
+
+To further separate the data and software dependencies from the actual analysis
+script, we formulate the Version 2 of Table~\ref{table:scripts}  into one new version, as shown in
+the Version 3 of Table~\ref{table:scripts}. Each new environment variable at the beginning part of
+the script is corresponding to one dependency. All the following access to data
+or software dependency will refer to its corresponding environment variable.
+All the environment variables of dependencies form one map, which maintains the
+target address of each dependency.
+
+This script style may function as one new guideline to the original author of one experiment, which expresses the dependencies more clearly and expedites the preparation process to 
+repeat one experiment. The introduction of the map file also reduces the workload of changing one dependency. For example, if we want to utilize one new git package to analyze the same dataset, only the change of environment variable corresponding to the original git package is necessary. Without the map file, the whole script needs to be scanned to figure out and replace all the references of the original git package.
+
+However, each execution of the script
+will involve the acquisition of software from different sources and the
+building of software environment. As for accessing grid data, using the data
+copy stored in the machine where Matthias executed the experiment requires the
+new user to have the authority to access the machine, which complicates the
+management of the original machine, even is impossible if the original machine
+executes rigid user access control. Granting everyone who wants to repeat the
+analysis the access authority for grid is unacceptable to system administrator. 
 
 Implication: All the data and software involved in the experiment should be
 provided to the new user in the format of one self-contained package so that
@@ -548,22 +557,7 @@ the new user can avoid complex data and software acquisition and software
 environment building process. In addition, the requirements of the underlying
 OS and hardware should also be provided to the new user.
 
-\subsection{Solution 3: Coarse-Grained Method}
-%%
-
-Understanding all the remote and local dependencies of one program, one self-contained package can be built from scratch by copying all the dependencies directly using coarse-grained method,
-which means copying the whole local filesystem, HDFS, PanFS, together with each complete remote repository without selection, into the new package.
-However, the whole OS and local filesystem do not exist only for this special program, and contain a lot of files and software unrelevant to this special program. 
-The size of HDFS, PanFS, remote CMSSW repository all reaches TB level. 
-This solution is easy to implement, but time-consuming and space-consuming.
-Through observation, we noticed that the size of really used data and software is greatly less than the original total size. 
-Therefore, one fine-grained toolkit generating the target package is necessary.
-
-\subsection{Solution 4: Fine-Grained Toolkit}
-
-\section{One Implemention of Fine-Grained Toolkit Using Parrot}
-\subsection{Working principle of Packaging Utility} 
-
+\subsection{Solution 4: Package}
 The difficulty of data access authority acquisition enforces us to find out one
 solution, in which the reproduction of the original analysis can be done
 without any external dependency. That is, one independent and self-contained
@@ -580,6 +574,59 @@ root authority. The underlying OS and supporting softwares are installed and
 maintained by the IT department of the university. On the other hand, the
 architecture design of the required package including all the data and software
 dependencies is not under the research field of physists.
+
+To generate one self-contained and independent package for one experiment, all
+the clear and implicit dependencies must be figured out firstly. The map file
+of Solution 3 can provide clear data and software dependencies. As for the
+implicit dependencies, directly preserving the whole OS together with the data
+stored on the disk of the original machine or the data from other filesystems
+mounted as local filesystems, such as HDFS and PanFS,  is not feasible. One
+efficient mechanism which can figure out the really used parts of all these
+filesystems is necessary. The requirements of the underlying OS and hardware
+architecture can be easily found with system tools such as uname or
+lsb\_release.
+
+Then one new package including all the data and software dependencies can be generated and published. 
+One packaging utility is necessary for the original author to generate the package. 
+To multiplex the common data which is involved in different experiments, such as OS images and common software library, the data of different packages will be rearranged and categorized in the archive.
+One description file, which includes the experiment aim, dependency list,  package size and relevant information, will be generated for each package.
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        Archive Path & Service Description \\ \hline
+        /archive/OS/path & OS Image \\ \hline
+        /archive/software/path & Common Software Library \\ \hline
+        /archive/CMSSW/path & CMS Software Library \\ \hline
+        /archive/git/path & Git Software Library \\ \hline
+        /archive/http/path & http resources \\ \hline
+        /archive/experiment/path & experiment private files \\ \hline
+        /archive/grid-data/path & data from the Grid \\ \hline
+    \end{tabular}
+    \caption{Structure Organization of the Archive}
+    \label{table:archive-map}
+\end{table}
+
+One new version of the analysis script will be generated for the reproduction
+of the original experiment. The Version 4 of Table~\ref{table:scripts} illustrates the format of
+this new version. The environment variables of dependencies refer to the
+storage path inside the archive.  One utility, archive\_get,  is created to
+help the new user to obtain data from the remote archive.
+Table~\ref{table:archive-map} illustrates the structure of the remote archive.
+/archive/OS includes the images of different Operating Systems.
+/archive/software integrates all the commonly used software, such as git,
+python, perl. The archive also organizes the data from CMSSW, Git, HTTP and the
+Grid. /archive/experiment includes the all the experiments submitted into the
+archive. The private files and description files of each experiment will be
+organized together.
+
+The archive supports two different data preservation model: Internal and External. Internal method will preserve the data in the archive. External method refuses to preserve the content of data, but only preserve the reference to the actual storage place of data. For example, the size of experiment data from the Grid is extremely large, and storing the same data in the archive is time-consuming and space-consuming. Through External method, the archive only preserves one reference to the data inside the remote Grid.
+
+This solution tries to create one self-contained and independent package for each experiment and integrate different packages for different experiments into one archive to multiplex common data. One packaging utility  will be provided to help the original author to generate the package. The archive can maintain the experiment dependencies through Internal or External method. The archive itself will be responsible for the data maintenance and relevant authority access problem. All the new user can repeat one experiment through the interaction with the archive.
+
+\section{One Implemention of Fine-Grained Toolkit Using Parrot}
+\subsection{Working principle of Packaging Utility} 
 
 Parrot is a virtual filesystem access tool which attaching existing programs to
 a variety of remote I/O systems including http, ftp, gridftp, irods, HDFS,
@@ -599,6 +646,25 @@ according to the file name list, one package containing all the necessary data
 and software for one analysis program is generated. Next time, when another
 scholar wants to repeat the program, he only needs to obtain the package and
 directly execute the actual analysis program inside the package.
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l|}
+        \hline
+        \#description of OS version and hardware architecture \\
+        \#list of indirect software dependencies \\
+        \# set all environment variables\\
+        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
+        cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\
+        cmsenv \\
+        python setup.py install --user \\
+        cd \$HOME/\$CMSSW\_BASE/src/ttH/TauRoast\\
+        scripts/roaster data/generic\_ttl.yaml \\
+        \hline
+    \end{tabular}
+    \caption{Script of Fine-Grained Toolkit using Parrot}
+    \label{table:parrot-script}
+\end{table}
 
 The shell script of the Solution 2 is simplified into one new version, which
 only contains the necessary environment variables and the
