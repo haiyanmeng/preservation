@@ -408,8 +408,7 @@ been cancelled now.
     \centering
     \begin{tabular}{|l|}
         \hline
-        Version 1: Email\\ \hline
-        \\
+        {\bf Version 1: Email}\\ \hline
         1. Create a CMS release,\\
             \hspace{9pt} e.g. cmsrel CMSSW\_5\_3\_11\_patch3 \\
         2. Install the BEAN packages as the instructions: \\
@@ -421,9 +420,8 @@ been cancelled now.
            \hspace{9pt} scram b -j32 \\
         5. Fix grid\_control.cfg and run it. \\
         6. Perform the actual tau roast program. \\ 
-        \\ \hline
-        Version 2: Script\\ \hline
-        \\
+        \hline
+        {\bf Version 2: Script}\\ \hline
         set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
         cmsrel \$HOME/\$CMSSW\_BASE \\
         cvs co -r V03-09-23 PhysicsTools/PatUtils \\
@@ -433,13 +431,11 @@ been cancelled now.
         wget http://pyyaml.org/download/pyyaml/PyYAML...\\
         \#the experiment data is from HDFS \\
         cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\
-        cmsenv \\
+        cmsenv\\
         python setup.py install --user \\
-        cd \$HOME/\$CMSSW\_BASE/src/ttH/TauRoast\\
         scripts/roaster data/generic\_ttl.yaml \\ 
-        \\ \hline
-        version 3: Formulated Script \\ \hline
-        \\
+        \hline
+        {\bf version 3: Formulated Script} \\ \hline
         set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
         set {\bf GIT} = (https://github.com) \\
         set {\bf PYYAML} = (http://pyyaml.org) \\
@@ -452,17 +448,43 @@ been cancelled now.
         wget \${\bf PYYAML}/download/pyyaml/PyYAML...\\
         \#the experiment data is from HDFS \\
         cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\
-        cmsenv \\
+        cmsenv\\
         python setup.py install --user \\
-        cd \$HOME/\$CMSSW\_BASE/src/ttH/TauRoast\\
         scripts/roaster data/generic\_ttl.yaml \\ 
-        \\ \hline
-        Version 4: Fine-Grained Toolkit\\ \hline
+        \hline
+        {\bf Version 4: Fine-Grained Toolkit}\\ \hline
+        \#deploy software environment using /archive \\
+        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
+        set {\bf GIT} = /archive/git \\
+        set {\bf CMSSW} = /archive/CMSSW \\
+        set {\bf HTTP} = /archive/http \\
+        set {\bf EXP} = /archive/experiment\\
+        set {\bf GRID} = /archive/grid-data \\
+        cmsrel \$HOME/\$CMSSW\_BASE \\
+        archive\_get \${\bf CMSSW}/...\\
+        archive\_get \${\bf GIT}/cms-ttH/BEAN.git \\
+        archive\_get \${\bf EXP}/nd.edu/~abrinke1/... \\        
+        archive\_get \${\bf HTTP}/PyYAML/...\\
+        archive\_get \${\bf GRID}/...\\
+        scram b -j32 \\
+        cmsenv\\
+        python setup.py install --user \\
+        scripts/roaster data/generic\_ttl.yaml \\
+        \hline
+    \end{tabular}
+    \caption{Scripts of each Solution}
+    \label{table:scripts}
+\end{table}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l|}
+        \hline
         \\
         \#description of OS version and hardware architecture \\
         \#list of indirect software dependencies \\
         \# set all environment variables\\
-        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\ 
+        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
         cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\
         cmsenv \\
         python setup.py install --user \\
@@ -470,8 +492,8 @@ been cancelled now.
         scripts/roaster data/generic\_ttl.yaml \\
         \\ \hline
     \end{tabular}
-    \caption{Scripts of each Solution}
-    \label{table:scripts}
+    \caption{Script of Fine-Grained Toolkit using Parrot}
+    \label{table:parrot-script}
 \end{table}
 
 \begin{figure*}
@@ -539,7 +561,8 @@ Therefore, one fine-grained toolkit generating the target package is necessary.
 
 \subsection{Solution 4: Fine-Grained Toolkit}
 
-\subsubsection{Working principle of Packaging Utility} 
+\section{One Implemention of Fine-Grained Toolkit Using Parrot}
+\subsection{Working principle of Packaging Utility} 
 
 The difficulty of data access authority acquisition enforces us to find out one
 solution, in which the reproduction of the original analysis can be done
@@ -578,11 +601,11 @@ scholar wants to repeat the program, he only needs to obtain the package and
 directly execute the actual analysis program inside the package.
 
 The shell script of the Solution 2 is simplified into one new version, which
-only contains the necessary environment variables, access authority and the
-actual analysis command. The Version 3 of Table~\ref{table:scripts} illustrates
+only contains the necessary environment variables and the
+actual analysis command. Table~\ref{table:parrot-script} illustrates
 the simplified script.
 
-\subsubsection{Workflow of Packaging Utility}
+\subsection{Workflow of Packaging Utility}
 \begin{figure*}
 \centering
 \epsfig{file=workflow-parrot.eps, height=4in, width=6.5in}
@@ -692,7 +715,7 @@ its map file and description file will be uploaded into the archive. When
 another scholar wants to repeat the experiment, one copy of the package and its
 corresponding map file will be downloaded into the new machine.
 
-\subsubsection{Structure of Map File} 
+\subsection{Structure of Map File} 
 
 The map file of one package supports pattern matching semantics,
 which greatly reduces the scale of the map file and improves the efficiency of file path redirection. 
@@ -722,7 +745,7 @@ expand the analysis of one program to his own data with the path of /A, he can a
 code into the analysis script and add one item "/A /A" into the map file.
 
 
-\subsubsection{Discussion of Solution 4} 
+\subsection{Discussion of Solution 4} 
 
 Under Solution 4, the reproduction of one analysis program becomes easier.
 Rethink Matthias's example, the reproduction of it only needs
