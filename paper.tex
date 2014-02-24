@@ -191,14 +191,17 @@ Section 4: Evaluation
         \hline
         \bf Name & \bf Location & \bf Total & \bf Named & \bf Used \\ 
         \hline
-        Ntuples data    & hdfs & 33TB & 43.3GB & 20GB \\ \hline
-        CMSSW binaries     & local & 1.16TB & 449MB & 5.2MB\\ \hline
-        Tau source       & git & 51MB & 51MB & 51MB \\ \hline
+        Ntuples data    & hdfs & 24TB & 43.3GB & 20GB \\ \hline
+        CMSSW binaries     & local & 1.16TB & 448.3MB & 6.3MB\\ \hline
+        Tau source       & git & 73.7MB & 73.7MB & 73.7MB \\ \hline
         PyYAML binaries    & http & 52MB & 51MB & 51MB \\ \hline
         .h file       & http & 41KB & 41KB & 41KB \\ \hline
-        Misc commands & hpc fs & 206TB & ??? & 119MB \\ \hline
-        Linux commands & local fs & ??? & ??? & 88.4MB \\ \hline     
-        Total          &          & ??? & ??? & ??? \\ \hline
+        Misc commands & PanFS & 155TB & N/A  & 1.6MB \\ \hline
+        Linux commands & localFS & 110GB &  N/A & 68.3MB \\ \hline     
+        CVMFS & CVMFS & 7.4GB & N/A & 103MB \\ \hline
+        NDCMS & optFS & 862GB & N/A & 53KB \\ \hline
+        AFS & AFS &10.2GB & N/A & 34MB\\ \hline
+        Total      &    & 181.1TB            & N/A & 21GB \\ \hline
     \end{tabular}
     \caption{Data and Code Used by Tau Roast}
     \label{table:size-original-real}
@@ -709,7 +712,7 @@ access data from different file systems.
 
 \begin{figure}
 \centering
-\epsfig{file=package-info.eps, height=1.5in, width=2.5in}
+\epsfig{file=package-info.eps, height=1.2in, width=2.5in}
 \caption{Package Description Infomation}
 \label{fig:package-info}
 \end{figure}
@@ -741,8 +744,8 @@ kept inside the map file. The structure of the map file is shown in Table~\ref{t
     \begin{tabular}{|l|l|}
     \hline
     Path used in Program & Actual Location \\ \hline
-    / & /tmp/package1-4 \\ \hline
-    /tmp/package1-4 & /tmp/package1-4 \\ \hline
+    / & /tmp/package-hep \\ \hline
+    /tmp/package-hep & /tmp/package-hep \\ \hline
     /dev & /dev \\ \hline
     /misc & /misc\\ \hline
     /net & /net\\ \hline
@@ -842,7 +845,7 @@ As for the computing environment, Solution 4 notices the new user through the de
         \hline
         Solution ID & Data Resources & Software Resources & Operation Manual \\ \hline
         Solution 1& grid & CMSSW Git HTTP & email \\ \hline
-        Solution 2& local (HDFS) & CMSSW Git HTTP & shell script \\ \hline
+        Solution 2 and 3& local (HDFS) & CMSSW Git HTTP & shell script \\ \hline
         Solution 4& package & package & shell script + packaging utility \\ \hline
     \end{tabular}
     \caption{The relationship of different solutions}
@@ -866,13 +869,13 @@ The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-
     \begin{tabular}{|l|r|r|}
     \hline
     Sub-Task & Time & Percentage \\ \hline
-    Software acquisition from CMSSW & 15min 30s & 25.27\% \\ \hline
-    Software acquisition from Git & 9s & 0.24\% \\ \hline
-    Software acquisition from Wget & 36s & 0.98\% \\ \hline
-    Environment Build - SCRAM & 13min 20s & 21.74\% \\ \hline
-    Environment Build - Python & 1s & 0.03\% \\ \hline
-    Data analysis & 31min 44s & 51.74\% \\ \hline
-    Total & 61min 20s & 100.00\% \\ \hline
+    Software acquisition from CMSSW & 7min 24s & 21.44\% \\ \hline
+    Software acquisition from Git & 9s & 0.43\% \\ \hline
+    Software acquisition from Wget & 38s & 1.83\% \\ \hline
+    Environment Build - SCRAM & 5min 48s & 16.80\% \\ \hline
+    Environment Build - Python & 1s & 0.05\% \\ \hline
+    Data analysis & 20min 31s & 59.44\% \\ \hline
+    Total & 34min 31s & 100.00\% \\ \hline
     \end{tabular}
     \caption{Breakdown of Execution Time of Solution 2}
     \label{table:time-2nd}
@@ -885,11 +888,11 @@ The size of data and software from each category is shown in table~\ref{table:da
     \begin{tabular}{|l|r|}
     \hline
     Data Category & Data Size \\ \hline
-    Software from CMSSW & 449MB \\ \hline
-    Software from Git & 61MB \\ \hline
+    Software from CMSSW & 448.3MB \\ \hline
+    Software from Git & 73.7MB \\ \hline
     Software from Wget & 52MB \\ \hline
-    Hadoop & 33TB \\ \hline
-    Total & 33792.562GB \\ \hline
+    HDFS & 43.3GB \\ \hline
+    Total & 43.86GB \\ \hline
     \end{tabular}
     \caption{Data Size of Solution 2}
     \label{table:datasize-2nd}
@@ -903,9 +906,9 @@ The breakdown of execution time of the Solution 4 is illustrated in Table~\ref{t
     \begin{tabular}{|l|r|}
     \hline
     Sub-Task & Time \\ \hline
-    Obtain file namelist & 37min 51s \\ \hline
-    Generate P1 & 13min 37s \\ \hline
-    Re-run the program within P1 & 13min 5s \\ \hline
+    Obtain file namelist & 28min 23s \\ \hline
+    Generate P1 & 85min 51s \\ \hline
+    Re-run the program within P1 & 13min 4s \\ \hline
     \end{tabular}
     \caption{Time Breakdown of Solution 4}
     \label{table:time-3rd}
@@ -918,15 +921,16 @@ paths are also necessary for the reproduction of the program.
 
 \begin{table}
     \centering
-    \begin{tabular}{|l|r|}
+    \begin{tabular}{|l|l|r|}
     \hline
-    Data Category & Data Size \\ \hline
-    Hadoop & 20GB \\ \hline
-    CMSSW\_5\_3\_11\_patch3 & 5.2MB \\ \hline
-    pscratch & 119MB \\ \hline
-    usr & 60MB \\ \hline
-    Others (/sbin + ... + /lib) & 28.4MB \\ \hline
-    Total & 20.213GB \\ \hline
+    Data Category &Location & Data Size \\ \hline
+    HDFS & hadoop &20GB \\ \hline
+    PanFS & opt & 1.6MB \\ \hline
+    CVMFS & cvmfs &103MB \\ \hline 
+    NDCMS & opt &53KB \\ \hline
+    AFS & afs &34MB \\ \hline
+    Local FS& bin etc lib lib64 sbin tmp usr&68.3MB \\ \hline
+    Total & &21GB \\ \hline
     \end{tabular}
     \caption{Data Size of Solution 4}
     \label{table:datasize-3rd}
@@ -949,10 +953,13 @@ denoted as "Other data for Package" in Table~\ref{table:datasize-2nd3rd}.
     \hline
      Data Category & Data Size & Data Size \\
     & Solution 2 & Solution 4\\ \hline
-    Hadoop & 33TB = 33792GB & 20GB \\ \hline
-     CMSSW\_5\_3\_11\_patch3 & 562MB & 5.2MB \\ \hline
-     Other data for Package & 207.4MB & N/A \\ \hline
-     Total & 33792.562GB & 20.213GB \\ \hline
+    HDFS & 43.3GB & 20GB \\ \hline
+    PanFS & 155TB & 1.6MB \\ \hline
+    CVMFS & 7.4GB &103MB \\ \hline
+    NDCMS & 862GB &53KB \\ \hline
+    AFS & 10.2GB &34MB \\ \hline
+    Local FS& 110GB&68.3MB \\ \hline
+    Total & 156TB &21GB \\ \hline
     \end{tabular}
     \caption{Data Size Comparison beweeen Solution 2 and 4}
     \label{table:datasize-2nd3rd}
@@ -974,12 +981,11 @@ Data is obtained through accessing Hadoop Distributed File System in Solution 2,
     \hline
     Task Category & Execution Time & Execution Time \\
     & Solution 2 & Solution 4\\ \hline
-    Software Acquisition & 16min 15s & N/A \\ \hline
-    Environment Building & 13min 21s  & 4s \\ \hline
-    Obtain file namelist & N/A & 37min 51s \\ \hline
-    Generate the package & N/A & 13min 37s \\ \hline
-    Actual Analysis & 31min 44s & 13min 1s \\ \hline
-    Total & 61min 20s & N/A \\ \hline
+    Software Acquisition & 8min 11s & N/A \\ \hline
+    Environment Building & 5min 49s  & 3s \\ \hline
+    Obtain file namelist & N/A & 28min 23s \\ \hline
+    Generate the package & N/A & 85min 51s \\ \hline
+    Actual Analysis & 20min 31s & 13min 4s \\ \hline
     \end{tabular}
     \caption{Execution Time Comparison between Solution 2 and 4}
     \label{table:time-2nd3rd}
