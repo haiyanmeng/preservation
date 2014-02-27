@@ -1,0 +1,42 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Overview of Tau Analysis}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Workflow of Matthias's Example}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Key Observations of the Example}{section.2}% 4
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Complexity of Data and Software Dependencies}{subsection.2.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Size of Data and Software Dependencies}{subsection.2.2}% 6
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Complexity of the Program}{subsection.2.2}% 7
+\BOOKMARK [3][-]{subsubsection.2.2.4}{Really Used Data and Software Size}{subsection.2.2}% 8
+\BOOKMARK [3][-]{subsubsection.2.2.5}{Stability of Dependencies}{subsection.2.2}% 9
+\BOOKMARK [1][-]{section.3}{Preservation Strategies}{}% 10
+\BOOKMARK [2][-]{subsection.3.1}{Solution 1: Email}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.2}{Solution 2: Script}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.3}{Solution 3: Formulated Script}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.4}{Solution 4: Package}{section.3}% 14
+\BOOKMARK [1][-]{section.4}{One Implemention of Fine-Grained Toolkit Using Parrot}{}% 15
+\BOOKMARK [2][-]{subsection.4.1}{Working principle of Packaging Utility}{section.4}% 16
+\BOOKMARK [2][-]{subsection.4.2}{Workflow of Packaging Utility}{section.4}% 17
+\BOOKMARK [2][-]{subsection.4.3}{Structure of Map File}{section.4}% 18
+\BOOKMARK [2][-]{subsection.4.4}{Discussion of Solution 4}{section.4}% 19
+\BOOKMARK [1][-]{section.5}{Evaluation}{}% 20
+\BOOKMARK [2][-]{subsection.5.1}{Relationship of Different Solutions}{section.5}% 21
+\BOOKMARK [2][-]{subsection.5.2}{Evaluation of Solution 2}{section.5}% 22
+\BOOKMARK [2][-]{subsection.5.3}{Evaluation of Solution 4}{section.5}% 23
+\BOOKMARK [2][-]{subsection.5.4}{ Data size Comparison of Solution 2 and 4}{section.5}% 24
+\BOOKMARK [2][-]{subsection.5.5}{Execution Time Comparison of Solution 2 and 4}{section.5}% 25
+\BOOKMARK [1][-]{section.6}{Discussion of Data and Software Preservation}{}% 26
+\BOOKMARK [2][-]{subsection.6.1}{Preservation Integration of Multiple Programs}{section.6}% 27
+\BOOKMARK [2][-]{subsection.6.2}{Preservation Granularity}{section.6}% 28
+\BOOKMARK [2][-]{subsection.6.3}{Preservation of Large Data}{section.6}% 29
+\BOOKMARK [2][-]{subsection.6.4}{Mining of Dependencies}{section.6}% 30
+\BOOKMARK [2][-]{subsection.6.5}{Preservation Degree of Directory Structure}{section.6}% 31
+\BOOKMARK [2][-]{subsection.6.6}{User Access Model of Data and Software}{section.6}% 32
+\BOOKMARK [2][-]{subsection.6.7}{Here is the Useful Package}{section.6}% 33
+\BOOKMARK [1][-]{section.7}{Related Work }{}% 34
+\BOOKMARK [2][-]{subsection.7.1}{Software Preservation Approaches}{section.7}% 35
+\BOOKMARK [2][-]{subsection.7.2}{Software Environment vs Computing Environment}{section.7}% 36
+\BOOKMARK [2][-]{subsection.7.3}{Software Preservation Format}{section.7}% 37
+\BOOKMARK [2][-]{subsection.7.4}{facilitate the reproduction of scientific experiments}{section.7}% 38
+\BOOKMARK [2][-]{subsection.7.5}{figure out the absolutely relevant data and software }{section.7}% 39
+\BOOKMARK [2][-]{subsection.7.6}{the importance of case study}{section.7}% 40
+\BOOKMARK [1][-]{section.8}{Conclusion}{}% 41
+\BOOKMARK [1][-]{section.9}{References}{}% 42

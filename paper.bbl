@@ -1,0 +1,121 @@
+\begin{thebibliography}{10}
+
+\bibitem{barham2003xen}
+P.~Barham, B.~Dragovic, K.~Fraser, S.~Hand, T.~Harris, A.~Ho, R.~Neugebauer,
+  I.~Pratt, and A.~Warfield.
+\newblock Xen and the art of virtualization.
+\newblock {\em ACM SIGOPS Operating Systems Review}, 37(5):164--177, 2003.
+
+\bibitem{blomer2011cernvm}
+J.~Blomer, P.~Buncic, and T.~Fuhrmann.
+\newblock Cernvm-fs: delivering scientific software to globally distributed
+  computing resources.
+\newblock In {\em Proceedings of the first international workshop on
+  Network-aware data management}, pages 49--56. ACM, 2011.
+
+\bibitem{buncic2010cernvm}
+P.~Buncic, C.~A. Sanchez, J.~Blomer, L.~Franco, A.~Harutyunian, P.~Mato, and
+  Y.~Yao.
+\newblock Cernvm--a virtual software appliance for lhc applications.
+\newblock In {\em Journal of Physics: Conference Series}, volume 219, page
+  042003. IOP Publishing, 2010.
+
+\bibitem{castagne2013consider}
+M.~Castagn{\'e}.
+\newblock Consider the source: The value of source code to digital preservation
+  strategies.
+\newblock {\em SLIS Student Research Journal}, 2(2):5, 2013.
+
+\bibitem{cifuentes1996binary}
+C.~Cifuentes and V.~Malhotra.
+\newblock Binary translation: Static, dynamic, retargetable?
+\newblock In {\em Software Maintenance 1996, Proceedings., International
+  Conference on}, pages 340--349. IEEE, 1996.
+
+\bibitem{compostella2010cdf}
+G.~Compostella, S.~P. Griso, D.~Lucchesi, I.~Sfiligoi, and D.~Thain.
+\newblock Cdf software distribution on the grid using parrot.
+\newblock In {\em Journal of Physics: Conference Series}, volume 219, page
+  062009. IOP Publishing, 2010.
+
+\bibitem{esquembre2004easy}
+F.~Esquembre.
+\newblock Easy java simulations: A software tool to create scientific
+  simulations in java.
+\newblock {\em Computer Physics Communications}, 156(2):199--204, 2004.
+
+\bibitem{goldberg1974survey}
+R.~P. Goldberg.
+\newblock Survey of virtual machine research.
+\newblock {\em Computer}, 7(6):34--45, 1974.
+
+\bibitem{hong2010software}
+N.~C. Hong, S.~Crouch, S.~Hettrick, T.~Parkinson, and M.~Shreeve.
+\newblock Software preservation benefits framework.
+\newblock {\em Software Sustainability Institute Technical Report}, 2010.
+
+\bibitem{johnston2014workflow}
+L.~R. Johnston.
+\newblock A workflow model for curating research data in the university of
+  minnesota libraries: Report from the 2013 data curation pilot.
+\newblock 2014.
+
+\bibitem{kivity2007kvm}
+A.~Kivity, Y.~Kamay, D.~Laor, U.~Lublin, and A.~Liguori.
+\newblock kvm: the linux virtual machine monitor.
+\newblock In {\em Proceedings of the Linux Symposium}, volume~1, pages
+  225--230, 2007.
+
+\bibitem{kohn2001divorcing}
+S.~R. Kohn, G.~Kumfert, J.~F. Painter, and C.~J. Ribbens.
+\newblock Divorcing language dependencies from a scientific software library.
+\newblock In {\em PPSC}, 2001.
+
+\bibitem{mancl2001refactoring}
+D.~Mancl.
+\newblock Refactoring for software migration.
+\newblock {\em Communications Magazine, IEEE}, 39(10):88--93, 2001.
+
+\bibitem{matthews2008significant}
+B.~Matthews, B.~McIlwrath, D.~Giaretta, and E.~Conway.
+\newblock The significant properties of software: A study.
+\newblock {\em JISC report, March}, 2008.
+
+\bibitem{matthews2010framework}
+B.~Matthews, A.~Shaon, J.~Bicarregui, and C.~Jones.
+\newblock A framework for software preservation.
+\newblock {\em International Journal of Digital Curation}, 5(1):91--105, 2010.
+
+\bibitem{matthews2009towards}
+B.~Matthews, A.~Shaon, J.~Bicarregui, C.~Jones, J.~Woodcock, and E.~Conway.
+\newblock Towards a methodology for software preservation.
+\newblock 2009.
+
+\bibitem{phelps2005no}
+T.~A. Phelps and P.~B. Watry.
+\newblock A no-compromises architecture for digital document preservation.
+\newblock In {\em Research and Advanced Technology for Digital Libraries},
+  pages 266--277. Springer, 2005.
+
+\bibitem{rice1996scientific}
+J.~R. Rice and R.~F. Boisvert.
+\newblock From scientific software libraries to problem-solving environments.
+\newblock {\em Computational Science \& Engineering, IEEE}, 3(3):44--53, 1996.
+
+\bibitem{rosenblum1999vmware}
+M.~Rosenblum.
+\newblock Vmware’s virtual platform™.
+\newblock In {\em Proceedings of Hot Chips}, pages 185--196, 1999.
+
+\bibitem{smith2005architecture}
+J.~E. Smith and R.~Nair.
+\newblock The architecture of virtual machines.
+\newblock {\em Computer}, 38(5):32--38, 2005.
+
+\bibitem{zabolitzky2002preserving}
+J.~G. Zabolitzky.
+\newblock Preserving software: Why and how.
+\newblock {\em Iterations: An Interdisciplinary Journal of Software History},
+  1(13):1--8, 2002.
+
+\end{thebibliography}
