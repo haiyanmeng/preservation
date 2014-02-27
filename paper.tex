@@ -359,7 +359,7 @@ direct software dependency from the analysis program, which further depends on
 perl, python, rsync, openssh-clients and other packages. The analysis program
 accesses one file called File1, which is one symbolic link file further referring to
 another file named File2.
-The implicit dependencies also refers to some files under /pscratch, which is a local mount point of one PanFS with the size of 206TB.
+The implicit dependencies also refers to some files under {\tt /pscratch}, which is a local mount point of one PanFS with the size of 206TB.
 And more importantly, the successful execution of this program greatly depends on the underlying OS and hardware platform.
 
 \subsubsection{Size of Data and Software Dependencies}
@@ -385,7 +385,7 @@ data in the program is 20GB.  The same trend occurs to the size of software and
 other dependencies. The size of CMSSW repository is 1.16TB, the size of
 packages checked out from CMSSW is 449MB, and the size of actually used CMSSW
 files is only 5.2MB. 
-The total size of PanFS mounted as /pscratch is 206TB, however, the really used data from /pscratch is only 119MB.
+The total size of PanFS mounted as {\tt /pscratch is 206TB}, however, the really used data from {\tt /pscratch} is only 119MB.
 We compared the original size and actually used size of data and software in Table~\ref{table:size-original-real}.
 
 \subsubsection{Stability of Dependencies}
@@ -415,11 +415,11 @@ been cancelled now.
         1. Create a CMS release,\\
             \hspace{9pt} e.g. {\tt cmsrel CMSSW\_5\_3\_11\_patch3} \\
         2. Install the BEAN packages as the instructions: \\
-            \hspace{9pt} {\tt https://github.com/cms-ttH/BEAN/blob/...}\\
+            \hspace{9pt} {\tt \url{https://github.com/cms-ttH/BEAN/blob/...}}\\
         3. Install grid-control: \\ 
-            \hspace{9pt} {\tt svn co https://ekptrac.physik.uni-ka/...} \\
+            \hspace{9pt} {\tt svn co \url{https://ekptrac.physik.uni-ka/...}} \\
         4. INstall the TauAnalysis package: \\
-           \hspace{9pt} {\tt git clone https://github.com/matz-e/...} \\
+           \hspace{9pt} {\tt git clone \url{https://github.com/matz-e/...}} \\
            \hspace{9pt} {\tt scram b -j32} \\
         5. Fix grid\_control.cfg and run it. \\
         6. Perform the actual tau roast program. \\ 
@@ -428,10 +428,10 @@ been cancelled now.
         {\tt set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3)} \\
         {\tt cmsrel \$HOME/\$CMSSW\_BASE} \\
         {\tt cvs co -r V03-09-23 PhysicsTools/PatUtils} \\
-        {\tt git clone {\tt https://github.com/cms-ttH/BEAN.git}} \\
-        {\tt wget -r http://nd.edu/~abrinke1/ElectronEffectiveArea.h} \\
+        {\tt git clone \url{https://github.com/cms-ttH/BEAN.git}} \\
+        {\tt wget -r \url{http://nd.edu/~abrinke1/...}} \\
         {\tt scram b -j32} \\
-        {\tt wget http://pyyaml.org/download/pyyaml/PyYAML...}\\
+        {\tt wget \url{http://pyyaml.org/download/pyyaml/PyYAML...}}\\
         \#the experiment data is from HDFS \\
         {\tt cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10}\\
         {\tt cmsenv}\\
@@ -439,38 +439,38 @@ been cancelled now.
         {\tt scripts/roaster data/generic\_ttl.yaml} \\ 
         \hline
         {\bf version 3: Formulated Script} \\ \hline
-        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
-        set {\bf GIT} = (https://github.com) \\
-        set {\bf PYYAML} = (http://pyyaml.org) \\
-        set {\bf ND} = (http://nd.edu) \\
-        cmsrel \$HOME/\$CMSSW\_BASE \\
-        cvs co -r V03-09-23 PhysicsTools/PatUtils \\
-        git clone \${\bf GIT}/cms-ttH/BEAN.git \\
-        wget -r \${\bf ND}/~abrinke1/ElectronEffectiveArea.h \\
-        scram b -j32 \\
-        wget \${\bf PYYAML}/download/pyyaml/PyYAML...\\
+        {\tt set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3)} \\
+        {\tt set {\bf GIT} = (\url{https://github.com})} \\
+        {\tt set {\bf PYYAML} = (\url{http://pyyaml.org})} \\
+        {\tt set {\bf ND} = (\url{http://nd.edu})} \\
+        {\tt cmsrel \$HOME/\$CMSSW\_BASE} \\
+        {\tt cvs co -r V03-09-23 PhysicsTools/PatUtils} \\
+        {\tt git clone \${\bf GIT}/cms-ttH/BEAN.git} \\
+        {\tt wget -r \${\bf ND}\url{/~abrinke1/ElectronEffectiveArea.h}} \\
+        {\tt scram b -j32} \\
+        {\tt wget \${\bf PYYAML}/download/pyyaml/PyYAML...}\\
         \#the experiment data is from HDFS \\
-        cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\
-        cmsenv\\
-        python setup.py install --user \\
-        scripts/roaster data/generic\_ttl.yaml \\ 
+        {\tt cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10}\\
+        {\tt cmsenv}\\
+        {\tt python setup.py install --user} \\
+        {\tt scripts/roaster data/generic\_ttl.yaml} \\ 
         \hline
-        {\bf Version 4: Fine-Grained Toolkit}\\ \hline
-        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
-        set {\bf GIT} = (https://github.com) \\
-        set {\bf PYYAML} = (http://pyyaml.org) \\
-        set {\bf ND} = (http://nd.edu) \\
-        cmsrel \$HOME/\$CMSSW\_BASE \\
-        cvs co -r V03-09-23 PhysicsTools/PatUtils \\
-        git clone \${\bf GIT}/cms-ttH/BEAN.git \\
-        wget -r \${\bf ND}/~abrinke1/ElectronEffectiveArea.h \\
-        scram b -j32 \\
-        wget \${\bf PYYAML}/download/pyyaml/PyYAML...\\
+       {\bf Version 4: Fine-Grained Toolkit}\\ \hline
+        {\tt set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3)} \\
+        {\tt set {\bf GIT} = (\url{https://github.com})} \\
+        {\tt set {\bf PYYAML} = (\url{http://pyyaml.org})} \\
+        {\tt set {\bf ND} = (\url{http://nd.edu})} \\
+        {\tt cmsrel \$HOME/\$CMSSW\_BASE} \\
+        {\tt cvs co -r V03-09-23 PhysicsTools/PatUtils} \\
+        {\tt git clone \${\bf GIT}/cms-ttH/BEAN.git} \\
+        {\tt wget -r \${\bf ND}\url{/~abrinke1/ElectronEffectiveArea.h}} \\
+        {\tt scram b -j32} \\
+        {\tt wget \${\bf PYYAML}/download/pyyaml/PyYAML...}\\
         \#the experiment data is from HDFS \\
-        cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\ 
-        cmsenv\\
-        python setup.py install --user \\
-        scripts/roaster data/generic\_ttl.yaml \\
+        {\tt cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10}\\
+        {\tt cmsenv}\\
+        {\tt python setup.py install --user} \\
+        {\tt scripts/roaster data/generic\_ttl.yaml} \\ 
         \hline
     \end{tabular}
     \caption{Scripts of each Solution}
@@ -612,23 +612,23 @@ corresponding map file will be downloaded into the new machine.
     \begin{tabular}{|l|l|}
         \hline
         Archive Path & Service Description \\ \hline
-        /archive/OS/path & OS Image \\ \hline
-        /archive/software/path & Common Software Library \\ \hline
-        /archive/CMSSW/path & CMS Software Library \\ \hline
-        /archive/git/path & Git Software Library \\ \hline
-        /archive/http/path & http resources \\ \hline
-        /archive/experiment/path & experiment private files \\ \hline
-        /archive/grid-data/path & data from the Grid \\ \hline
+        {\tt /archive/OS/path} & OS Image \\ \hline
+        {\tt /archive/software/path} & Common Software Library \\ \hline
+        {\tt /archive/CMSSW/path} & CMS Software Library \\ \hline
+        {\tt /archive/git/path} & Git Software Library \\ \hline
+        {\tt /archive/http/path} & http resources \\ \hline
+        {\tt /archive/experiment/path} & experiment private files \\ \hline
+        {\tt /archive/grid-data/path} & data from the Grid \\ \hline
     \end{tabular}
     \caption{Structure Organization of the Archive}
     \label{table:archive-map}
 \end{table}
 
 Table~\ref{table:archive-map} illustrates the structure of the remote archive.
-\path{/archive/OS} includes the images of different Operating Systems.
-/archive/software integrates all the commonly used software, such as git,
+{\tt /archive/OS} includes the images of different Operating Systems.
+{\tt /archive/software} integrates all the commonly used software, such as git,
 python, perl. The archive also organizes the data from CMSSW, Git, HTTP and the
-Grid. \path{/archive/experiment} includes the all the experiments submitted into the
+Grid. {\tt /archive/experiment} includes the all the experiments submitted into the
 archive. The private files and description files of each experiment will be
 organized together.
 
@@ -636,7 +636,7 @@ The Version 4 of Table~\ref{table:scripts} illustrates the script used in
 Solution 4, which is the same as the one used in Solution 3. 
 However, one map file is necessary for the relocation of the data access targets, as
 show in Figure~\ref{fig:version-evolution}. 
-The map file redirects the git access path into /archive/git from the original path (http://github.com) referred in the script.
+The map file redirects the git access path into {\tt /archive/git} from the original path (\path{http://github.com}) referred in the script.
 This design decouples the experiment script and the actual data access targets, which minimizes the impact of the evolution of different data dependencies
 and ensures the transparent access.
 The modification of the archive only introduces the minimal changes of the map file.
@@ -649,9 +649,9 @@ This solution tries to create one self-contained and independent package for eac
 \subsection{Working principle of Packaging Utility} 
 
 Parrot is a virtual filesystem access tool which attaching existing programs to
-a variety of remote I/O systems including http, ftp, gridftp, irods, HDFS,
+a variety of remote {\tt I/O} systems including http, ftp, gridftp, irods, HDFS,
 xrootd, grow and chirp. It traps all system calls of one program through ptrace
-debugging interface, and replaces them with remote I/O operations as desired.
+debugging interface, and replaces them with remote {\tt I/O} operations as desired.
 Through executing one program under Parrot, all the paths of files involved in
 this program can be recorded.  
 
@@ -671,15 +671,12 @@ directly execute the actual analysis program inside the package.
     \centering
     \begin{tabular}{|l|}
         \hline
-        \#description of OS version and hardware architecture \\
-        \#list of indirect software dependencies \\
-        \# set all environment variables\\
-        set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3) \\
-        cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10\\
-        cmsenv \\
-        python setup.py install --user \\
-        cd \$HOME/\$CMSSW\_BASE/src/ttH/TauRoast\\
-        scripts/roaster data/generic\_ttl.yaml \\
+        {\tt set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3)} \\
+        {\tt cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10}\\
+        {\tt cmsenv} \\
+        {\tt python setup.py install --user} \\
+        {\tt cd \$HOME/\$CMSSW\_BASE/src/ttH/TauRoast}\\
+        {\tt scripts/roaster data/generic\_ttl.yaml} \\
         \hline
     \end{tabular}
     \caption{Script of Fine-Grained Toolkit using Parrot}
@@ -707,16 +704,15 @@ The workflow of generating one package for one analysis program is as follows.
 
 Parrot is one virtual file system that can support user access to multiple underlying file systems. Parrot traps each system call involved in the process of data access, figures out the type of file system and redirects it into corresponding operations to the accessed file system. During this process, each accessed file is recorded into one file with the access type of it, such as open, stat, read and write.
 
-The command used to generate the file name list is as follows. The `-L` parameter refers to the path of the file containing all the accessed file name of the experiment.
+The command used to generate the file name list is as follows. The {\tt -L} parameter refers to the path of the file containing all the accessed file name of the experiment.
 
-parrot\_run -L namelist /bin/tcsh parrot\_cms.sh
+{\tt parrot\_run -L namelist /bin/tcsh script\_v4.sh}
 
-The original ouput of this command is one namelist file with the size of 5.7MB
-and 128,711 lines, each of which corresponds to one one accessed file of the
+The original ouput of this command is one namelist file with the size of 6.6MB
+and 132,058 lines, each of which corresponds to one one accessed file of the
 program. We noticed that some items appeared multiple times. To reduce the
 packaging time, de-duplication and sorting techoniques are used for the
-namelist file, generating one smaller file with the size of 5.7MB and 42,385
-lines.
+namelist file, generating one smaller file with the size of 3.2MB and 67,178 lines.
 
 (2) generate one package containing the files of L1 
 
@@ -734,15 +730,19 @@ access data from different file systems.
 \label{fig:package-info}
 \end{figure}
 The command used to generate the package containing all the files of L1 is as follows. 
-`package1-4.sh` is a bash script which iterates each line of L1 and
+{\tt package-utility.sh} is a bash script which iterates each line of L1 and
 determines the behavior according to the file type (common files, directories,
 linked files) and the system call type.
 The package description information is shown in Figure~\ref{fig:package-info}.
 
-parrot\_run /bin/bash package1-4.sh -L ~/namelist
+{\tt parrot\_run /bin/bash package-utility.sh -L namelist}
 
-%*****lack: file content + metadata; only file metadata; different process solutions
-Each file inside L1 is copied into the package, the final path of the file becomes the path of the package, followed by the original file path. In this program, the path of the package is /tmp/package1-4, so the final path of one file with the original path path1 is /tmp/package1-4/path1.
+%*****lack: file content + metadata; only file metadata; different process
+%solutions
+Each file inside L1 is copied into the package, the final path of the file
+becomes the path of the package, followed by the original file path. In this
+program, the path of the package is {\tt /tmp/package-hep}, so the final path of one
+file with the original path path1 is {\tt /tmp/package-hep/path1}.
 
 To ensure the successful reproduction, the filesystem structure of the original
 execution environment should be preserved as completely as possible. However,
@@ -761,15 +761,15 @@ kept inside the map file. The structure of the map file is shown in Table~\ref{t
     \begin{tabular}{|l|l|}
     \hline
     Path used in Program & Actual Location \\ \hline
-    / & /tmp/package-hep \\ \hline
-    /tmp/package-hep & /tmp/package-hep \\ \hline
-    /dev & /dev \\ \hline
-    /misc & /misc\\ \hline
-    /net & /net\\ \hline
-    /proc & /proc\\ \hline
-    /sys & /sys\\ \hline
-    /var & /var\\ \hline
-    /selinux & /selinux\\ \hline
+    {\tt /} & {\tt /tmp/package-hep} \\ \hline
+    {\tt /tmp/package-hep} & {\tt /tmp/package-hep} \\ \hline
+    {\tt /dev} & {\tt /dev} \\ \hline
+    {\tt /misc} & {\tt /misc}\\ \hline
+    {\tt /net} & {\tt /net}\\ \hline
+    {\tt /proc} & {\tt /proc}\\ \hline
+    {\tt /sys} & {\tt /sys}\\ \hline
+    {\tt /var} & {\tt /var}\\ \hline
+    {\tt /selinux} & {\tt /selinux}\\ \hline
     \end{tabular}
     \caption{Structure of Map File}
     \label{table:map-file}
@@ -784,23 +784,23 @@ generated in step 2.
 
 Command:
 
-parrot\_run -m /tmp/mountlist /bin/tcsh parrot\_cms.sh
+{\tt parrot\_run -m /tmp/mountlist /bin/tcsh script\_v4.sh}
 
 \subsection{Structure of Map File} 
 
 The map file of one package supports pattern matching semantics,
 which greatly reduces the scale of the map file and improves the efficiency of file path redirection. 
 For example,
-one item inside the map file is "/dir1 /package-dir1" means that the access to each file and
-subdirectory under /dir1 will be redirected into /package-dir1.
+one item inside the map file is {\tt /dir1 /package-dir1} means that the access to each file and
+subdirectory under {\tt /dir1} will be redirected into {\tt /package-dir1}.
 If the semantics of the map file do not support pattern matching, the size of the map file will become astonishing. 
-/dir1 may contain thousands of files, which will generates thousands of map items and will take more time to redirect file paths.
+{\tt /dir1} may contain thousands of files, which will generates thousands of map items and will take more time to redirect file paths.
 
 During the packaging process, we noticed
 that it is impossible to copy the files under certain directories.
-For example, during namelist acquisition process, three special files under /dev directory were recorded into the namelist: tty, null and urandom, which are used for input and output.
+For example, during namelist acquisition process, three special files under {\tt /dev} directory were recorded into the namelist: tty, null and urandom, which are used for input and output.
 We tried to copy these files into the new package, but the packaging utility halted.
-We also noticed that copying the files under directories like /proc is
+We also noticed that copying the files under directories like {\tt /proc} is
 meaningless. Because the process id of one program is random and depends on the
 current allocation of process ID. 
 
@@ -808,12 +808,12 @@ As for these two file categories, letting
 the program directly utilize the files on the machine, where the new user
 repeats the program, is a better choice. The semantics is implemented by
 setting the target path of one file equal to the origin file path inside the
-map file. For example, "/dev /dev" means that when the program needs to access
-files under /dev directory, it will directly use the file under /dev, which is
+map file. For example, {\tt /dev /dev} means that when the program needs to access
+files under {\tt /dev} directory, it will directly use the file under {\tt /dev}, which is
 independent from the namespace of the package. This semantics also makes the
 reference of files outside the package possible. If the new user wants to
-expand the analysis of one program to his own data with the path of /A, he can add the analysis
-code into the analysis script and add one item "/A /A" into the map file.
+expand the analysis of one program to his own data with the path of {\tt /A}, he can add the analysis
+code into the analysis script and add one item {\tt /A /A} into the map file.
 
 
 \subsection{Discussion of Solution 4} 
@@ -918,7 +918,7 @@ The breakdown of execution time of the Solution 4 is illustrated in Table~\ref{t
 
 The data size of Solution 4 is shown in Table~\ref{table:datasize-3rd}. The
 data categories is more complex than our imagination. Except the data stored in
-Hadoop and the necessary set of software, files from /pscratch, /sbin, /lib and other
+Hadoop and the necessary set of software, files from {\tt /pscratch, /sbin, /lib} and other
 paths are also necessary for the reproduction of the program.
 
 \begin{table}
@@ -946,7 +946,7 @@ as small as possible. The total size of Hadoop under Solution 2 is astonishing,
 while the size of Hadoop under the package is decreased to 20GB. The same trend
 applies to the size of CMSSW\_5\_3\_11\_patch3. Because the packaging utility
 tries to construct one independent and self-contained package, necessary files
-from /sbin, /lib and other directories are also copied into the package and
+from {\tt /sbin, /lib} and other directories are also copied into the package and
 denoted as "Other data for Package" in Table~\ref{table:datasize-2nd3rd}.
 
 \begin{table}
@@ -1094,17 +1094,17 @@ inefficient.
 Directory is one list of files and subdirectories under it. At first, we only
 copied the accessed items under one directory and ignored the unaccessed items.
 However, some operations on one directory depends on each item under it. For
-example, `ls /dirA` is one linux command to list the name of each item under
-/dirA. Because the directory itself has the name list of items under it, only
+example, {\tt ls /dirA} is one linux command to list the name of each item under
+{\tt /dirA}. Because the directory itself has the name list of items under it, only
 the path of the directory was recorded into the namelist in the first phrase of
-Solution 4. However, when we repeated the command `ls /dirA` using the preserved package, it returned NULL because none of items under it existed in
-value of `ls /dirA`, the behavior of the whole program will become incorrect
+Solution 4. However, when we repeated the command {\tt ls /dirA} using the preserved package, it returned NULL because none of items under it existed in
+value of {\tt ls /dirA}, the behavior of the whole program will become incorrect
 and unpredictable. 
 
 To ensure the semantics of the original program, all the items under one directory must be copied
 into the package. However, the
 time and space overhead appears again. Currently, Solution 4 creates one item
-with the same name but the size of zero for each item under /dirA. Another
+with the same name but the size of zero for each item under {\tt /dirA}. Another
 solution is to introduce one database to preserve the metadata of each file and
 directory. 
 
