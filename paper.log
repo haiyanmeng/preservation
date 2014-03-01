@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  27 FEB 2014 17:51
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  1 MAR 2014 16:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -337,25 +337,27 @@ Overfull \hbox (5.37114pt too wide) in paragraph at lines 1165--1166
  []
 
 
-Overfull \hbox (2.80623pt too wide) in paragraph at lines 1180--1184
-\T1/aer/m/n/9 [14] in-tro-duced one con-cep-tual frame-work for soft-ware prese
+Overfull \hbox (2.80623pt too wide) in paragraph at lines 1182--1187
+\T1/aer/m/n/9 [16] in-tro-duced one con-cep-tual frame-work for soft-ware prese
 r-
  []
 
-(./paper.bbl [12]) [13
+(./paper.bbl [12]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-] (./paper.aux)
+) [13]
+(./paper.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 1984 strings out of 493312
- 22154 string characters out of 6143677
+ 1988 strings out of 493312
+ 22239 string characters out of 6143677
  90905 words of memory out of 5000000
- 5410 multiletter control sequences out of 15000+600000
+ 5414 multiletter control sequences out of 15000+600000
  46294 words of font info for 62 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  39i,9n,28p,607b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.dvi (13 pages, 95920 bytes).
+Output written on paper.dvi (13 pages, 97924 bytes).

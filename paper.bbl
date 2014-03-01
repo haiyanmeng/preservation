@@ -1,5 +1,12 @@
 \begin{thebibliography}{10}
 
+\bibitem{agosti2012envisage}
+M.~Agosti and N.~Orio.
+\newblock To envisage and design the transition from a digital archive system
+  developed for domain experts to one for non-domain users.
+\newblock In {\em Proceedings of the 12th ACM/IEEE-CS joint conference on
+  Digital Libraries}, pages 11--14. ACM, 2012.
+
 \bibitem{barham2003xen}
 P.~Barham, B.~Dragovic, K.~Fraser, S.~Hand, T.~Harris, A.~Ho, R.~Neugebauer,
   I.~Pratt, and A.~Warfield.
@@ -12,6 +19,13 @@ J.~Blomer, P.~Buncic, and T.~Fuhrmann.
   computing resources.
 \newblock In {\em Proceedings of the first international workshop on
   Network-aware data management}, pages 49--56. ACM, 2011.
+
+\bibitem{borgman2012data}
+C.~L. Borgman.
+\newblock Data, data use, and scientific inquiry: Two case studies of data
+  practices.
+\newblock In {\em Proceedings of the 12th ACM/IEEE-CS joint conference on
+  Digital Libraries}, pages 19--22, 2012.
 
 \bibitem{buncic2010cernvm}
 P.~Buncic, C.~A. Sanchez, J.~Blomer, L.~Franco, A.~Harutyunian, P.~Mato, and
@@ -107,10 +121,24 @@ M.~Rosenblum.
 \newblock Vmware’s virtual platform™.
 \newblock In {\em Proceedings of Hot Chips}, pages 185--196, 1999.
 
+\bibitem{schoneberg2013scalable}
+H.~Sch{\"o}neberg, H.-G. Schmidt, and W.~H{\"o}hn.
+\newblock A scalable, distributed and dynamic workflow system for digitization
+  processes.
+\newblock In {\em Proceedings of the 13th ACM/IEEE-CS joint conference on
+  Digital libraries}, pages 359--362. ACM, 2013.
+
 \bibitem{smith2005architecture}
 J.~E. Smith and R.~Nair.
 \newblock The architecture of virtual machines.
 \newblock {\em Computer}, 38(5):32--38, 2005.
+
+\bibitem{subotic2013distributed}
+I.~Subotic, L.~Rosenthaler, and H.~Schuldt.
+\newblock A distributed archival network for process-oriented autonomic
+  long-term digital preservation.
+\newblock In {\em Proceedings of the 13th ACM/IEEE-CS joint conference on
+  Digital libraries}, pages 29--38. ACM, 2013.
 
 \bibitem{zabolitzky2002preserving}
 J.~G. Zabolitzky.

@@ -198,9 +198,9 @@ Section 4: Evaluation
         .h file       & http & 41KB & 41KB & 41KB \\ \hline
         Misc commands & PanFS & 155TB & N/A  & 1.6MB \\ \hline
         Linux commands & localFS & 110GB &  N/A & 68.3MB \\ \hline     
-        CVMFS & CVMFS & 7.4GB & N/A & 103MB \\ \hline
-        NDCMS & optFS & 862GB & N/A & 53KB \\ \hline
-        AFS & AFS &10.2GB & N/A & 34MB\\ \hline
+        Cern files & CVMFS & 7.4GB & N/A & 103MB \\ \hline
+        NDCMS & NFS & 862GB & N/A & 53KB \\ \hline
+        Local store & AFS &10.2GB & N/A & 34MB\\ \hline
         Total      &    & 181.1TB            & N/A & 21GB \\ \hline
     \end{tabular}
     \caption{Data and Code Used by Tau Roast}
@@ -927,9 +927,9 @@ paths are also necessary for the reproduction of the program.
     \hline
     Data Category &Location & Data Size \\ \hline
     HDFS & hadoop &20GB \\ \hline
-    PanFS & opt & 1.6MB \\ \hline
+    PanFS & pscratch & 1.6MB \\ \hline
     CVMFS & cvmfs &103MB \\ \hline 
-    NDCMS & opt &53KB \\ \hline
+    NFS & opt &53KB \\ \hline
     AFS & afs &34MB \\ \hline
     Local FS& bin etc lib lib64 sbin tmp usr&68.3MB \\ \hline
     Total & &21GB \\ \hline
@@ -958,7 +958,7 @@ denoted as "Other data for Package" in Table~\ref{table:datasize-2nd3rd}.
     HDFS & 43.3GB & 20GB \\ \hline
     PanFS & 155TB & 1.6MB \\ \hline
     CVMFS & 7.4GB &103MB \\ \hline
-    NDCMS & 862GB &53KB \\ \hline
+    NFS & 862GB &53KB \\ \hline
     AFS & 10.2GB &34MB \\ \hline
     Local FS& 110GB&68.3MB \\ \hline
     Total & 156TB &21GB \\ \hline
@@ -1171,7 +1171,9 @@ Attempts from different perspectives to facilitate the reproduction of scientifi
 \cite{blomer2011cernvm} proposed CVMFS to facilitate the software distribution over the network to CernVM. 
 \cite{rice1996scientific} made the reproduction process easier through the integration of user interface, scientific software libraries, knowledge base into problem-solving environment.
 \cite{kohn2001divorcing} tried to enable the creation and distribution of language-independent software library by addressing language interoperability.
-
+\cite{agosti2012envisage} aimed to help non-domain users to utilize the digital archive system developed for domain experts.
+\cite{schoneberg2013scalable} proposed a scalable, distributed and dynamic workflow system for digitization processes.
+\cite{subotic2013distributed} proposed a distributed archival network for process-oriented automatic long-term digital preservation.
 \subsection{figure out the absolutely relevant data and software }
 
 Current mechanisms of preserving scientific experiments assume that all the data and software mentioned in the experiments are necessary for the reproduction of the experiments. However, this is not always right. In some cases, the original author may leave additional code referring to irrelative data and software in the experiment programs. One mechanism, which can figure out the absolutely relevant data and software of one experiment, is important for both the preservation and reproduction of scientific experiments.
@@ -1180,6 +1182,7 @@ Current mechanisms of preserving scientific experiments assume that all the data
 \cite{matthews2008significant} introduced one conceptual framework for software preservation from several case studies of software preservation
 \cite{matthews2010framework} designed a tool to capture software preservation properties within a software environment through a series of case studies conducted to evaluate the software preservation framework.
 \cite{johnston2014workflow} proposed one overall data curation workflow for 3-5 case studies of preserving research data.
+\cite{borgman2012data} tried to figure out what types of data are most likely to be used and reused, by whom, and for what purposes through two cases studies.
 To figure out how to preserve HEP applications, this paper studies one case of preserving one representative HEP application.
 
 
