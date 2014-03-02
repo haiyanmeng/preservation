@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  1 MAR 2014 16:32
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  2 MAR 2014 15:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -178,37 +178,41 @@ File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
 (/usr/share/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
-) (./paper.aux)
+)
+(/usr/share/texmf-dist/tex/latex/threeparttable/threeparttable.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box30
+)
+(./paper.aux)
 \openout1 = `paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
-LaTeX Font Info:    ... okay on input line 3.
-LaTeX Font Info:    Try loading font information for U+msa on input line 13.
-
-(/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Try loading font information for U+msa on input line 14.
+ (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 13.
+LaTeX Font Info:    Try loading font information for U+msb on input line 14.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 13.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 14.
 
 (/usr/share/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-Overfull \hbox (7.60657pt too wide) in paragraph at lines 16--30
+Overfull \hbox (7.60657pt too wide) in paragraph at lines 17--31
 \T1/aer/m/it/9 ware and sys-tems. Im-plicit de-pen-den-cies, net-worked re-sour
 ces,
  []
@@ -217,147 +221,133 @@ ces,
 
 
 ]
-Overfull \hbox (8.90034pt too wide) in paragraph at lines 101--106
+Overfull \hbox (8.90034pt too wide) in paragraph at lines 102--107
 []\T1/aer/m/n/9 There may be de-pen-den-cies upon \T1/aer/bx/n/9 net-worked re-
 sources
  []
 
 File: data-code-size.eps Graphic file (type eps)
 <data-code-size.eps>
-Overfull \hbox (11.58943pt too wide) in paragraph at lines 190--206
- [][] 
+Overfull \hbox (11.58943pt too wide) in paragraph at lines 191--208
+[][]
  []
 
-
+[2]
 Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [2]
-
-LaTeX Warning: Citation `cvmfs' on page \thepage  undefined on input line 297.
-
-
-Underfull \vbox (badness 3049) has occurred while \output is active []
 
 File: dependencies.eps Graphic file (type eps)
 
-<dependencies.eps>
-LaTeX Font Info:    Try loading font information for T1+aett on input line 362.
+<dependencies.eps> [3]
+LaTeX Font Info:    Try loading font information for T1+aett on input line 396.
 
  (/usr/share/texmf-dist/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-) [3]
-
-LaTeX Warning: Reference `table:software-source-size' on page \thepage  undefin
-ed on input line 369.
-
+)
 File: version-evolution.eps Graphic file (type eps)
+
 <version-evolution.eps> [4] [5]
 File: solution3.eps Graphic file (type eps)
  <solution3.eps>
-Overfull \hbox (2.27652pt too wide) in paragraph at lines 612--623
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6]
+Overfull \hbox (2.27652pt too wide) in paragraph at lines 639--650
  [][] 
  []
 
 
-Overfull \hbox (27.14188pt too wide) in paragraph at lines 627--634
+Overfull \hbox (27.14188pt too wide) in paragraph at lines 654--661
 []\T1/aer/m/n/9 Table 3[] il-lus-trates the struc-ture of the re-mote archive. 
 \T1/aett/m/n/9 /archive/OS
  []
 
 
-Overfull \hbox (45.65459pt too wide) in paragraph at lines 627--634
+Overfull \hbox (45.65459pt too wide) in paragraph at lines 654--661
 \T1/aer/m/n/9 in-cludes the im-ages of dif-fer-ent Op-er-at-ing Sys-tems. \T1/a
 ett/m/n/9 /archive/software
  []
 
 
-Overfull \hbox (6.05177pt too wide) in paragraph at lines 627--634
+Overfull \hbox (6.05177pt too wide) in paragraph at lines 654--661
 \T1/aer/m/n/9 in-te-grates all the com-monly used soft-ware, such as git, pytho
 n,
  []
 
-[6]
-Overfull \hbox (17.8397pt too wide) in paragraph at lines 648--648
+
+Overfull \hbox (17.8397pt too wide) in paragraph at lines 675--675
 []\secfnt ONE IM-PLE-MEN-TION OF FINE-GRAINED
  []
 
 File: workflow-parrot.eps Graphic file (type eps)
 <workflow-parrot.eps>
-File: package-info.eps Graphic file (type eps)
- <package-info.eps>
 Underfull \vbox (badness 1735) has occurred while \output is active []
 
  [7]
+File: package-info.eps Graphic file (type eps)
+
+<package-info.eps>
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [8]
-Overfull \hbox (17.79184pt too wide) in paragraph at lines 871--882
- [][] 
- []
-
-
-Overfull \hbox (9.11507pt too wide) in paragraph at lines 926--937
+Overfull \hbox (17.79184pt too wide) in paragraph at lines 898--909
  [][] 
  []
 
 [9]
-Overfull \hbox (11.09584pt too wide) in paragraph at lines 982--992
+Overfull \hbox (9.11507pt too wide) in paragraph at lines 953--964
  [][] 
  []
 
 
-Overfull \hbox (4.71172pt too wide) in paragraph at lines 998--998
+Overfull \hbox (11.09584pt too wide) in paragraph at lines 1009--1019
+ [][] 
+ []
+
+
+Overfull \hbox (4.71172pt too wide) in paragraph at lines 1025--1025
 []\secfnt DISCUSSION OF DATA AND SOFT-WARE
  []
 
 File: preservation-integration.eps Graphic file (type eps)
 <preservation-integration.eps> [10]
-Overfull \hbox (4.93027pt too wide) in paragraph at lines 1080--1080
+Overfull \hbox (4.93027pt too wide) in paragraph at lines 1107--1107
 []\secfnt Preservation De-gree of Di-rec-tory Struc-ture 
  []
 
 [11]
-Overfull \hbox (5.7383pt too wide) in paragraph at lines 1137--1154
+Overfull \hbox (5.7383pt too wide) in paragraph at lines 1164--1181
 \T1/aer/m/n/9 en-vi-ron-ment: tech-ni-cal/hardware preser-va-tion, mi-gra-tion 
 and
  []
 
 
-Overfull \hbox (3.66187pt too wide) in paragraph at lines 1159--1160
+Overfull \hbox (3.66187pt too wide) in paragraph at lines 1186--1187
 \T1/aer/m/n/9 tion of com-put-ing en-vi-ron-ment is im-ple-mented with CernVM,
  []
 
 
-Overfull \hbox (5.37114pt too wide) in paragraph at lines 1165--1166
+Overfull \hbox (5.37114pt too wide) in paragraph at lines 1192--1193
 \T1/aer/m/n/9 re-leases to avoid re-peat-ing the time-consuming soft-ware build
 -
  []
 
 
-Overfull \hbox (2.80623pt too wide) in paragraph at lines 1182--1187
+Overfull \hbox (2.80623pt too wide) in paragraph at lines 1209--1214
 \T1/aer/m/n/9 [16] in-tro-duced one con-cep-tual frame-work for soft-ware prese
 r-
  []
 
-(./paper.bbl [12]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-) [13]
-(./paper.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+[12] (./paper.bbl) [13] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 1988 strings out of 493312
- 22239 string characters out of 6143677
- 90905 words of memory out of 5000000
- 5414 multiletter control sequences out of 15000+600000
+ 2043 strings out of 493312
+ 23080 string characters out of 6143677
+ 91143 words of memory out of 5000000
+ 5465 multiletter control sequences out of 15000+600000
  46294 words of font info for 62 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  39i,9n,28p,607b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.dvi (13 pages, 97924 bytes).
+Output written on paper.dvi (13 pages, 99480 bytes).

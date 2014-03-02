@@ -1,5 +1,6 @@
 \documentclass{acm_proc_article-sp}
 \usepackage{url}
+\usepackage[flushleft]{threeparttable}
 \begin{document}
 
 \title{A Case Study in Preserving a High Energy Physics Application}
@@ -203,6 +204,13 @@ Section 4: Evaluation
         Local store & AFS &10.2GB & N/A & 34MB\\ \hline
         Total      &    & 181.1TB            & N/A & 21GB \\ \hline
     \end{tabular}
+    \begin{tablenotes}
+      \small
+      \item The first column illustrates the total size of each data and software source; 
+            the second column illustrates the size of the named files from each source;
+            the third column illustrates the size of acutally used data from each source.
+            N/A denotes it is hard to figure out the named size of implicit dependencies directly.        
+    \end{tablenotes}
     \caption{Data and Code Used by Tau Roast}
     \label{table:size-original-real}
 \end{table}
@@ -294,11 +302,11 @@ The largest of these repositories is the CMS Software Distribution (CMSSW),
 a carefully-curated selection of software packages which is distributed
 in binary form.  Historically, CMSSW was downloaded and installed on shared
 filesystems within HPC centers.  In recent years, distribution has moved to
-an on-demand delivery system known as CVMFS~\cite{cvmfs}.  The content
+an on-demand delivery system known as CVMFS~\cite{blomer2011cernvm}.  The content
 of CMSSW is managed very carefully by a centralized team whose main goal
 is to ensure that the current version of the software operates correctly
 on the operating systems and architectures currently in use.  However,
-preservation per se is not an objective of the group, and so there is
+preservation is not an objective of the group, and so there is
 no guarantee that old versions of CMSSW operate in new environments,
 or vice versa. 
 
@@ -359,21 +367,21 @@ direct software dependency from the analysis program, which further depends on
 perl, python, rsync, openssh-clients and other packages. The analysis program
 accesses one file called File1, which is one symbolic link file further referring to
 another file named File2.
-The implicit dependencies also refers to some files under {\tt /pscratch}, which is a local mount point of one PanFS with the size of 206TB.
-And more importantly, the successful execution of this program greatly depends on the underlying OS and hardware platform.
+The implicit dependencies also include some remote file systems mounted as local file systems, such CVMFS, AFS, NFS, PanFS and HDFS.
+More importantly, the successful execution of this program greatly depends on the underlying OS and hardware platform.
 
 \subsubsection{Size of Data and Software Dependencies}
 The size of data and software dependencies is astonishing.
 The size of BEAN is 11.6TB, which is too large to be analyzed directly by the tau roast program. After one preprocessing which only collects the events matching basic quality criteria, the data size is still very large, 43.3GB. 
 
-The size of software from each source is shown in Table~\ref{table:software-source-size}.
+The first column of Table~\ref{table:size-original-real} illustrates the size of each source of data and software. The size of PanFS is as large as 155TB and the size of Ntuples data is 24TB. The total size of all the dependencies is about 181TB, which directly makes the idea of preserving the original execution environment completely impossible.
 
 \subsubsection{Complexity of the Program}
 Complex data and software dependencies, complex environment building process, the large size of data and software involved in the tau roast program, together with the access authority problem, determine the complexity of the program. 
 In order to obtain the experimental data from the Grid, the author needs to install and config grid-control software. 
 The access authority of the Grid is also necessary for the data acquisition.
-The software acquisition from CMSSW, Git and HTTP and environment building process is time-consuming. The execution time of actual data analysis is about 30 minutes. However, the software acquisition and environment building time, excluding data acquisition time, is about 30 minutes, which is very close to the execution time of actual data analysis. If the acquisition of experimental data is considered, actual data analysis only occupies one small percentage of the whole time consumption.
-The size of data and software dependencies further complicate the program.
+The software acquisition from CMSSW, Git and HTTP and environment building process is time-consuming. The execution time of actual data analysis is about 20 minutes. However, the software acquisition and environment building time, excluding data acquisition time, is about 14 minutes. If the acquisition of experimental data is considered, actual data analysis only occupies one small percentage of the whole time consumption.
+The size of data and software dependencies further complicates the program.
 
 \subsubsection{Really Used Data and Software Size} 
 
@@ -383,10 +391,10 @@ Figure~\ref{fig:data-code-size} illustrates the inputs of the tau roast program.
 After the TauAnalysis procedure, the data size of Ntuples is 43.3GB, however, the atual size of really used
 data in the program is 20GB.  The same trend occurs to the size of software and
 other dependencies. The size of CMSSW repository is 1.16TB, the size of
-packages checked out from CMSSW is 449MB, and the size of actually used CMSSW
-files is only 5.2MB. 
-The total size of PanFS mounted as {\tt /pscratch is 206TB}, however, the really used data from {\tt /pscratch} is only 119MB.
-We compared the original size and actually used size of data and software in Table~\ref{table:size-original-real}.
+packages checked out from CMSSW is 448.3MB, and the size of actually used CMSSW
+files is only 6.3MB. 
+The total size of PanFS mounted as {\tt /pscratch} is 155TB, however, the really used data from {\tt /pscratch} is only 1.6MB.
+The third column of Table~\ref{table:size-original-real} illustrates the size of actually used data and software from each dependency.
 
 \subsubsection{Stability of Dependencies}
 
@@ -403,8 +411,8 @@ would result in the failure of resource access. CMSSW, which seems to be
 stable, in fact, also involves stability problems. CMSSW provides different
 collections of accessible versions to different architectures. Transformation
 from one architecture to another may result in the failure of accessing one
-certain CMSSW version. At the beginning of our reseach, cvs supported
-anonymous access of CMSSW outside of CERN. However, this anonymous access has
+certain CMSSW version. At the beginning of our reseach, we can use the cvs command to
+check out packages from CMSSW anonymously. However, this anonymous access has
 been cancelled now.
 
 \begin{table}
@@ -455,7 +463,7 @@ been cancelled now.
         {\tt python setup.py install --user} \\
         {\tt scripts/roaster data/generic\_ttl.yaml} \\ 
         \hline
-       {\bf Version 4: Fine-Grained Toolkit}\\ \hline
+       {\bf Version 4: Fine-Grained Toolkit - Package}\\ \hline
         {\tt set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3)} \\
         {\tt set {\bf GIT} = (\url{https://github.com})} \\
         {\tt set {\bf PYYAML} = (\url{http://pyyaml.org})} \\
@@ -486,15 +494,25 @@ been cancelled now.
 
 \section{Preservation Strategies}
 
-Figure~\ref{fig:version-evolution} illustrates the evolution history of different preservation strategies.
+Figure~\ref{fig:version-evolution} illustrates the evolution history of
+different preservation strategies. First, an email depicting how to repeat the
+experiment is used. Then, all the necessary steps to reproduce the experiment
+mentioned in the mail are collected into one shell script. In order to decouple
+data sources and data references, one formulated script is introduced
+to express all the dependencies at the beginning of the script in the form of
+environment variables. Finally, this decoupling idea is further extended into
+one map file which keeps the relationship between the data reference in the
+script and the actual storage location. One independent package containing all
+the data and software dependencies is generated to make the reproduction
+process more easier.  
 
 \subsection{Solution 1: Email}
 
-In order to repeat Matthais's example, the new user consulted the original
+In order to repeat Matthais's example, we consulted the original
 author by email about the necessary work for the experiment. In response,
 Matthias introduced the general workflow of his tau roast program through one long
-email including notes, linux shell commands, web links. The Version 1 of
-Table~\ref{table:scripts} illstrates his email.
+email including notes, linux shell commands, web linksi, as illustrated by the Version 1 of
+Table~\ref{table:scripts}.
 
 However, this solution to repeat one experiment has three potential drawbacks.
 Firstly, the experience of repeating one tau roast program through emails is
@@ -510,12 +528,16 @@ for the new user. In Matthias's example, the sources of software includes
 CMSSW, Git, HTTP. The access of CMSSW requires the new user to be an authorized
 user of CMSSW. What's more, some parts of the workflow are unrepeatable. The
 third step of this experiment requires the new user to own the access authority
-of the Grid. 
+of the Grid and involves the analysis of AOD data with the size of about 400TB.
 
 Implication: Directly repeating the experiment using the workflow description and results provided by the original author is complex and difficult. Some extra work must be done to make the reproduction process easier.
 
-\subsection{Solution 2: Script}
-One possible solution for the access authority problem of grid data is to grant the new user the authority to access gird data directly. Another possible solution is let the new user directly operate on the machine the original author used. As for the complexity of jumping between multiple web links, people may suggest that letting the original author generate one clear script including all the contents from different web links.
+\subsection{Solution 2: Script} One possible solution for the access authority
+problem of grid data is to grant the new user the authority to access gird data
+directly. Another possible solution is let the new user directly operate on the
+machine the original author used. As for the complexity of jumping between
+multiple web links, people may suggest that the original author
+should generate one script including all the contents from different web links.
 
 To test out these possible solutions, we integrate the content of all the notes, commands and web links involved in the emails into one neat, complete shell script, which begins with the definition of environment variables, software acquisition from CMSSW, Git and other web resources, and software installation, ends with the execution of the actual analysis program. Version 2 of Table~\ref{table:scripts} illstrates the merged script. As for the data acquisition from the Grid, we directly use the local copy in HDFS to avoid requiring the new user to obtain a grid certification.
 
@@ -532,20 +554,25 @@ higher than that of the email format.
 
 The script can reduce the complexity of repeating one experiment through the integration of all the necessary procedures. However, the data and software dependencies are still randomly distributed across the whole script, which requires one complete scan of the script to obtain the  dependency list. 
 
-To further separate the data and software dependencies from the actual analysis
-script, we formulate the Version 2 of Table~\ref{table:scripts}  into one new version, as shown in
+To decouple data sources and data references and make the data dependencies clear, Version 2 of Table~\ref{table:scripts} is formulated into one new version, as shown in
 the Version 3 of Table~\ref{table:scripts}. Each new environment variable at the beginning part of
 the script is corresponding to one dependency. All the following access to data
 or software dependency will refer to its corresponding environment variable.
 All the environment variables of dependencies form one map, which maintains the
 target address of each dependency.
 
-This script style may function as one new guideline to the original author of one experiment, which expresses the dependencies more clearly and expedites the preparation process to 
-repeat one experiment. The introduction of the map file also reduces the workload of changing one dependency. For example, if we want to utilize one new git package to analyze the same dataset, only the change of environment variable corresponding to the original git package is necessary. Without the map file, the whole script needs to be scanned to figure out and replace all the references of the original git package.
+This script style may function as one new guideline to the original author of
+one experiment, which expresses the dependencies more clearly and expedites the
+preparation process to repeat one experiment. The introduction of the map file
+also reduces the workload of changing one dependency. For example, if we want
+to utilize one new git package to analyze the same dataset, only the modification of
+environment variable corresponding to the original git package is necessary.
+Without the map mechanism, the whole script needs to be scanned to figure out and
+replace all the references of the original git package.
 
-However, each execution of the script
-will involve the acquisition of software from different sources and the
-building of software environment. As for accessing grid data, using the data
+So far, the data access authority is ignored and
+the reproduction of the experiment is on the machine the original author used. 
+As for grid data, using the data
 copy stored in the machine where Matthias executed the experiment requires the
 new user to have the authority to access the machine, which complicates the
 management of the original machine, even is impossible if the original machine
@@ -554,11 +581,12 @@ analysis the access authority for grid is unacceptable to system administrator.
 
 Implication: All the data and software involved in the experiment should be
 provided to the new user in the format of one self-contained package so that
-the new user can avoid complex data and software acquisition and software
-environment building process. In addition, the requirements of the underlying
-OS and hardware should also be provided to the new user.
+the new user can avoid 
+access authority problems.
+In addition, the requirements of the underlying
+OS and hardware should also be figured out and provided to the new user.
 
-\subsection{Solution 4: Package}
+\subsection{Solution 4: Fine-Grained Toolkit - Package}
 The difficulty of data access authority acquisition enforces us to find out one
 solution, in which the reproduction of the original analysis can be done
 without any external dependency. That is, one independent and self-contained
@@ -566,9 +594,9 @@ package containing all the data and software dependencies is necessary.
 
 Someone may suggest that it should be the responsibility of the original author
 to generate the required package. However, letting the original author provide
-the package which can be used by others to repeat the original experiment is
-unrealistic. One reason is that figuring out the underlying dependencies of
-each software is complex and time-consumpting and even impossible for the
+the package. 
+One reason is that figuring out the underlying dependencies of
+each software is complex and time-consuming and even impossible for the
 original author. In this experiment, the machine used for the experiment is one
 public machine of physics department, and Matthias is one common user without
 root authority. The underlying OS and supporting softwares are installed and
@@ -577,11 +605,11 @@ architecture design of the required package including all the data and software
 dependencies is not under the research field of physists.
 
 To generate one self-contained and independent package for one experiment, all
-the clear and implicit dependencies must be figured out firstly. The map file
+the clear and implicit dependencies must be figured out firstly. The map mechanism
 of Solution 3 can provide clear data and software dependencies. As for the
 implicit dependencies, directly preserving the whole OS together with the data
 stored on the disk of the original machine or the data from other filesystems
-mounted as local filesystems, such as HDFS and PanFS,  is not feasible. One
+mounted as local filesystems, such as HDFS and PanFS, is not feasible. One
 efficient mechanism which can figure out the really used parts of all these
 filesystems is necessary. The requirements of the underlying OS and hardware
 architecture can be easily found with system tools such as uname or
@@ -589,7 +617,7 @@ lsb\_release.
 
 Then one new package including all the data and software dependencies can be generated and published. 
 One packaging utility is necessary for the original author to generate the package. 
-To multiplex the common data which is involved in different experiments, such as OS images and common software library, the data of different packages will be rearranged and categorized in the archive.
+To multiplex the common data which is involved in different experiments, such as OS images and common software libraries, the data of different packages will be rearranged and categorized in the archive.
 One description file, which includes the experiment aim, dependency list,  package size and relevant information, will be generated for each package.
 
 \begin{figure}
@@ -601,8 +629,7 @@ One description file, which includes the experiment aim, dependency list,  packa
 
 The relationship of different roles involved in the experiment preservation and
 reproduction is shown in Figure~\ref{fig:solution3}.  The original author is
-responsible for generating one package based on the successful execution
-with the help of the packaging utility. Then the package, together with
+responsible for generating one package with the help of the packaging utility. Then the package, together with
 its map file and description file will be uploaded into the archive. When
 another scholar wants to repeat the experiment, one copy of the package and its
 corresponding map file will be downloaded into the new machine.
