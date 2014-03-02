@@ -652,10 +652,10 @@ corresponding map file will be downloaded into the new machine.
 \end{table}
 
 Table~\ref{table:archive-map} illustrates the structure of the remote archive.
-{\tt /archive/OS} includes the images of different Operating Systems.
-{\tt /archive/software} integrates all the commonly used software, such as git,
+Item {\tt /archive/OS} includes the images of different Operating Systems.
+Item {\tt /archive/software} integrates all the commonly used software, such as git,
 python, perl. The archive also organizes the data from CMSSW, Git, HTTP and the
-Grid. {\tt /archive/experiment} includes the all the experiments submitted into the
+Grid. Item {\tt /archive/experiment} includes the all the experiments submitted into the
 archive. The private files and description files of each experiment will be
 organized together.
 
@@ -666,11 +666,18 @@ show in Figure~\ref{fig:version-evolution}.
 The map file redirects the git access path into {\tt /archive/git} from the original path (\path{http://github.com}) referred in the script.
 This design decouples the experiment script and the actual data access targets, which minimizes the impact of the evolution of different data dependencies
 and ensures the transparent access.
-The modification of the archive only introduces the minimal changes of the map file.
+The modification of the archive only introduces the minimal changes of the map file on the client side.
 
-The archive supports two different data preservation model: Internal and External. Internal method will preserve the data in the archive. External method refuses to preserve the content of data, but only preserve the reference to the actual storage place of data. For example, the size of experiment data from the Grid is extremely large, and storing the same data in the archive is time-consuming and space-consuming. Through External method, the archive only preserves one reference to the data inside the remote Grid.
+The archive supports two different data preservation models: Internal and External. Internal method will preserve the data in the archive. External method refuses to preserve the content of data, but only preserve the reference to the actual storage place of data. For example, the size of experiment data from the Grid is extremely large, and storing the same data in the archive is time-consuming and space-consuming. Through External method, the archive only preserves one reference to the data inside the remote Grid.
 
-This solution tries to create one self-contained and independent package for each experiment and integrate different packages for different experiments into one archive to multiplex common data. One packaging utility  will be provided to help the original author to generate the package. The archive can maintain the experiment dependencies through Internal or External method. The archive itself will be responsible for the data maintenance and relevant authority access problem. All the new user can repeat one experiment through the interaction with the archive.
+This solution tries to create one self-contained and independent package for
+each experiment and integrate different packages for different experiments into
+one archive to multiplex common data. One packaging utility, which can figure out all the really used data of one program  will be provided
+to help the original author to generate the package. The archive can maintain
+the experiment dependencies through Internal or External method. The archive
+itself will be responsible for the data maintenance and relevant authority
+access problem. The new user can repeat one experiment through the
+interaction with the archive.
 
 \section{One Implemention of Fine-Grained Toolkit Using Parrot}
 \subsection{Working principle of Packaging Utility} 
@@ -689,10 +696,11 @@ sandbox (the data from grid has been preserved in HDFS and the software from
 CMSSW, Git and HTTP has been on the local machine.). We re-execute the actual
 data analysis code under Parrot and get the name list of all the files actually
 accessed during the execution process of the actual data analysis. Then,
-according to the file name list, one package containing all the necessary data
+according to the filename list, one package containing all the necessary data
 and software for one analysis program is generated. Next time, when another
 scholar wants to repeat the program, he only needs to obtain the package and
-directly execute the actual analysis program inside the package.
+directly execute the actual analysis program inside the package. 
+Figure~\ref{fig:solution3} illustrates the working principle of the packaging utility.
 
 \begin{table}
     \centering
@@ -710,10 +718,10 @@ directly execute the actual analysis program inside the package.
     \label{table:parrot-script}
 \end{table}
 
-The shell script of the Solution 2 is simplified into one new version, which
+Table~\ref{table:parrot-script} illustrates
+the simplified script, which
 only contains the necessary environment variables and the
-actual analysis command. Table~\ref{table:parrot-script} illustrates
-the simplified script.
+actual analysis command.
 
 \subsection{Workflow of Packaging Utility}
 \begin{figure*}
@@ -723,31 +731,34 @@ the simplified script.
 \label{fig:workflow-parrot}
 \end{figure*}
 
-Figure~\ref{fig:workflow-parrot} illustrates the workflow of this solution.
-
-The workflow of generating one package for one analysis program is as follows.
+Figure~\ref{fig:workflow-parrot} illustrates the workflow of this solution. Firstly, execute the analysis program under Parrot and obtain one filename list containing all the accessed files. Then generate one package containing all the files included in the filename list. Finally, rerun the program with the help of the package. Each step will be examined in details.
 
 (1) execute one analysis program under Parrot and obtain filename list (L1) of it
 
-Parrot is one virtual file system that can support user access to multiple underlying file systems. Parrot traps each system call involved in the process of data access, figures out the type of file system and redirects it into corresponding operations to the accessed file system. During this process, each accessed file is recorded into one file with the access type of it, such as open, stat, read and write.
+Parrot is one virtual file system that can support user access to multiple
+underlying file systems. Parrot traps each system call involved in the process
+of data access, figures out the type of file system and redirects it into
+corresponding operations to the accessed file system. During this process, each
+accessed file, together with the access type, such as
+open, stat, read and write, is recorded into one file.
 
-The command used to generate the file name list is as follows. The {\tt -L} parameter refers to the path of the file containing all the accessed file name of the experiment.
+The command used to generate the filename list is as follows. The {\tt -L} parameter refers to the path of the file containing all the accessed file name of the experiment.
 
 {\tt parrot\_run -L namelist /bin/tcsh script\_v4.sh}
 
 The original ouput of this command is one namelist file with the size of 6.6MB
 and 132,058 lines, each of which corresponds to one one accessed file of the
-program. We noticed that some items appeared multiple times. To reduce the
+program. We noticed that some items appeared multiple times in the filename list. To reduce the
 packaging time, de-duplication and sorting techoniques are used for the
 namelist file, generating one smaller file with the size of 3.2MB and 67,178 lines.
 
 (2) generate one package containing the files of L1 
 
 The packaging utility iterates each filename inside L1 and copies it into the
-target package. After finishing the packaging process, the target package
+target package. Finally, the target package
 together with its description information, and one map file, which redirects
 the access of files from different file systems into the files inside the target package, will be
-provided to users. The packaging process also runs within Parrot environment to
+generated as the output of this step. The packaging process also runs within Parrot environment to
 access data from different file systems.
 
 \begin{figure}
@@ -756,20 +767,24 @@ access data from different file systems.
 \caption{Package Description Infomation}
 \label{fig:package-info}
 \end{figure}
-The command used to generate the package containing all the files of L1 is as follows. 
+The command used to generate the package is as follows. 
 {\tt package-utility.sh} is a bash script which iterates each line of L1 and
 determines the behavior according to the file type (common files, directories,
-linked files) and the system call type.
+symbolic link files) and the system call type.
 The package description information is shown in Figure~\ref{fig:package-info}.
 
 {\tt parrot\_run /bin/bash package-utility.sh -L namelist}
 
 %*****lack: file content + metadata; only file metadata; different process
 %solutions
-Each file inside L1 is copied into the package, the final path of the file
+Each file inside L1 except for common dependencies is copied into the package, the final path of the file
 becomes the path of the package, followed by the original file path. In this
 program, the path of the package is {\tt /tmp/package-hep}, so the final path of one
 file with the original path path1 is {\tt /tmp/package-hep/path1}.
+
+The map relationship between the file access path used in the actual analysis
+program and the actual file location used during the reproduction process is
+kept inside the map file, as illustrated in Table~\ref{table:map-file}.
 
 To ensure the successful reproduction, the filesystem structure of the original
 execution environment should be preserved as completely as possible. However,
@@ -777,11 +792,8 @@ attempting to copy the whole content of one directory or one file is
 space-consuming and time-consuming, because the original program may only
 access the metadata of one file with the size of 200GB. Our solution is to
 determine the copy degree of one directory or one common file according to the
-system call type for its path.
+type of the system call.
 
-The map relationship between the file access path used in the actual analysis
-program and the actual file location used during the reproduction process is
-kept inside the map file. The structure of the map file is shown in Table~\ref{table:map-file}.
 
 \begin{table}
     \centering
@@ -805,11 +817,8 @@ kept inside the map file. The structure of the map file is shown in Table~\ref{t
 %*****lack: re-execute process: re-execution process will redirect all the data access into the package except for data under proc sys dev selinux
 (3) rerun the analysis program using the package
 
-When another scholar wants to repeat one analysis program, the accessed data
-field is limited into the target package with the help of the map file 
-generated in step 2. 
-
-Command:
+When another scholar wants to repeat the analysis program, 
+the description of the exepriment environment is firstly referred to build the underlying OS and basic software environment. In this example, the only necessary software basis is Parrot. Then the scholar can obtain one copy of the package and its map file, and rerun the program using the following command:
 
 {\tt parrot\_run -m /tmp/mountlist /bin/tcsh script\_v4.sh}
 
@@ -821,23 +830,23 @@ For example,
 one item inside the map file is {\tt /dir1 /package-dir1} means that the access to each file and
 subdirectory under {\tt /dir1} will be redirected into {\tt /package-dir1}.
 If the semantics of the map file do not support pattern matching, the size of the map file will become astonishing. 
-{\tt /dir1} may contain thousands of files, which will generates thousands of map items and will take more time to redirect file paths.
+{\tt /dir1} may contain thousands of files, which will generate thousands of map items and take more time to redirect file paths.
 
-During the packaging process, we noticed
+During the packaging process, we notice
 that it is impossible to copy the files under certain directories.
 For example, during namelist acquisition process, three special files under {\tt /dev} directory were recorded into the namelist: tty, null and urandom, which are used for input and output.
-We tried to copy these files into the new package, but the packaging utility halted.
-We also noticed that copying the files under directories like {\tt /proc} is
+Trying to copy these files into the new package would cause the packaging utility halt.
+We also notice that copying the files under directories like {\tt /proc} is
 meaningless. Because the process id of one program is random and depends on the
 current allocation of process ID. 
 
-As for these two file categories, letting
-the program directly utilize the files on the machine, where the new user
+As for these special file paths, letting
+the program directly utilize the files on the new machine, where the new user
 repeats the program, is a better choice. The semantics is implemented by
 setting the target path of one file equal to the origin file path inside the
 map file. For example, {\tt /dev /dev} means that when the program needs to access
-files under {\tt /dev} directory, it will directly use the file under {\tt /dev}, which is
-independent from the namespace of the package. This semantics also makes the
+files under {\tt /dev} directory, it will directly use the file under {\tt /dev} on the new machine, which is
+independent from the namespace of the package. This semantics also make the
 reference of files outside the package possible. If the new user wants to
 expand the analysis of one program to his own data with the path of {\tt /A}, he can add the analysis
 code into the analysis script and add one item {\tt /A /A} into the map file.
@@ -846,25 +855,21 @@ code into the analysis script and add one item {\tt /A /A} into the map file.
 \subsection{Discussion of Solution 4} 
 
 Under Solution 4, the reproduction of one analysis program becomes easier.
-Rethink Matthias's example, the reproduction of it only needs
-the necessary environment variables, the actual analysis command
+Rethink Matthias's example, the reproduction only needs
+to set necessary environment variables, the actual analysis command
 and the package. If different scholars want to repeat one analysis program,
 what they need to do is to obtain the package and rerun the actual analysis
 program. Under Solution 2, each scholar needs to get the necessary data and
 software, and then prepare software environment. 
 
 %here is the new content-hmeng
-The starting point of Solution 4 is one successful execution sandbox on the original machine. 
+The starting point of Solution 4 is one successful execution on the original machine. 
 Parrot traps all the system calls and copies each accessed file (except for common dependencies) into one package.
-The necessary scientific data will be copied into the target package.
-The software dependencies can be divided into two categories: clear dependencies, which can be observed directly through reading the analysis script and implicit dependencies,
-which can not be obtained through reading the analysis script. 
-Parrot can obtain every dependency through trapping each system call.
-Strictly speaking, the software concept and the scientific data concept are lost in Solution 4, because
+The necessary scientific data and software dependencies will be copied into the target package.
+Strictly speaking, the concept of software and the concept of the scientific data are lost in Solution 4, because
 the granularity of parrot is file.
 The same thing happens to networked resources.
 Packaging utlity maintains one list of common dependencies and first judges whether the file belongs to this list before trying to copy one file into the package.
-As for the computing environment, Solution 4 notices the new user through the description information at the beginning of the script.
 %the following subsection belongs to the "discussion of data and software
 %preservation" section
 

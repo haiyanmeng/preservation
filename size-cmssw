@@ -1,3 +1,24 @@
+[hmeng@lxplus0090 public]$ cd CMSSW/
+
+[hmeng@lxplus0090 CMSSW]$ ls
+admin  cmsnotes  CMSSW  COMP  config  CVSpm  CVSROOT  DOC  LCGAAwrappers  UserCode
+
+[hmeng@lxplus0090 CMSSW]$ du -hs admin/
+12K     admin/
+
 [hmeng@lxplus0048 CMSSW]$ du -hs CMSSW/
 8.5G    CMSSW/
+
+[hmeng@lxplus0090 CMSSW]$ du -hs admin/ cmsnotes/ COMP/ config/ 
+12K     admin/
+2.8G    cmsnotes/
+1.8G    COMP/
+4.4M    config/
+
+[hmeng@lxplus0090 CMSSW]$ du -hs CVSpm CVSROOT/ DOC LCGAAwrappers/ UserCode/
+1.0K    CVSpm
+12K     CVSROOT/
+1.0K    DOC
+493K    LCGAAwrappers/
+
 
