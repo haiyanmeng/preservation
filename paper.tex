@@ -880,7 +880,7 @@ Packaging utlity maintains one list of common dependencies and first judges whet
         Solution ID & Data Resources & Software Resources & Operation Manual \\ \hline
         Solution 1& grid & CMSSW Git HTTP & email \\ \hline
         Solution 2 and 3& local (HDFS) & CMSSW Git HTTP & shell script \\ \hline
-        Solution 4& package & package & shell script + packaging utility \\ \hline
+        Solution 4& package & package & user manual of package \\ \hline
     \end{tabular}
     \caption{The relationship of different solutions}
     \label{table:relationship}
@@ -895,7 +895,7 @@ Packaging utlity maintains one list of common dependencies and first judges whet
 The section first illustrates the relationship of different preservation and reproduction solutions, then the platform used to evaluate different solutions is introduced. The execution time and data size of Solution 2 and 4 are tested and compared. It is hard to accurately calculate the time consumption of Solution 1. Solution 3 shares the same time consumption and data size with Solution 3.
 
 \subsection{Relationship of Different Solutions}
-The relationship of these three solutions to repeat one program is shown in Table~\ref{table:relationship}. The aim is to make it easier to repeat one program through making the data and software preparation easier.
+The relationship of these four solutions to repeat one program is shown in Table~\ref{table:relationship}. Each new solution tries to make it easier to repeat one program through making the data and software preparation easier.
 
 \subsection{Evaluation Platform}
 
@@ -913,7 +913,7 @@ and the package together with the map file are copied onto it, and the
 experiment is repeated on the virtual machine.
 
 \subsection{Evaluation of Solution 2}
-The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-2nd}. About half of the total execution time is consumed to prepare relevant software environment. The cvs command is forked to check out 23 packages from CMSSW and three git repositories are cloned.
+The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-2nd}. About 40\%  of the total execution time is consumed to prepare relevant software environment. The cvs command is called to check out 23 packages from CMSSW and three git repositories are cloned.
 
 \begin{table}
     \centering
@@ -932,7 +932,8 @@ The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-
     \label{table:time-2nd}
 \end{table}
 
-The size of data and software from each category is shown in table~\ref{table:datasize-2nd}.
+This solution does not support mining of implicit dependencies.
+The size of data and software from each category is shown in table~\ref{table:datasize-2nd}, which only lists the size of each clear dependency.
 
 \begin{table}
     \centering
@@ -949,8 +950,15 @@ The size of data and software from each category is shown in table~\ref{table:da
     \label{table:datasize-2nd}
 \end{table}
 
-\subsection{Evaluation of Solution 4}
-The breakdown of execution time of the Solution 4 is illustrated in Table~\ref{table:time-3rd}. The time used to obtain file namelist and generate P1 is greatly longer than the execution time within the new package. however, the time consumption of file namelist acquisition and package generation is one-time. That is, once the package is generated, many users can directly obtain the package and repeat the experiment separately. 
+\subsection{Evaluation of Solution 4} 
+
+The breakdown of execution time of the
+Solution 4 is illustrated in Table~\ref{table:time-3rd}. The time used to
+obtain filename list and generate P1 is greatly longer than the execution time
+within the new package. However, the time consumption of filename list
+acquisition and package generation is one-time. That is, once the package is
+generated, many users can directly obtain the package and repeat the experiment
+separately. 
 
 \begin{table}
     \centering
@@ -966,9 +974,8 @@ The breakdown of execution time of the Solution 4 is illustrated in Table~\ref{t
 \end{table}
 
 The data size of Solution 4 is shown in Table~\ref{table:datasize-3rd}. The
-data categories is more complex than our imagination. Except the data stored in
-Hadoop and the necessary set of software, files from {\tt /pscratch, /sbin, /lib} and other
-paths are also necessary for the reproduction of the program.
+data categories are more complex than our imagination. Except the data stored in
+Hadoop and the necessary set of software, files from local filesystem and several remote filesystems, such as PanFS, CVMFS, NFS, and AFS, are also necessary for the reproduction of the program.
 
 \begin{table}
     \centering
@@ -992,18 +999,16 @@ paths are also necessary for the reproduction of the program.
 The packaging utility checks the system call of each file within the namelist,
 and maintains the minimum dataset, which makes the size of the final package 
 as small as possible. The total size of Hadoop under Solution 2 is astonishing,
-while the size of Hadoop under the package is decreased to 20GB. The same trend
-applies to the size of CMSSW\_5\_3\_11\_patch3. Because the packaging utility
-tries to construct one independent and self-contained package, necessary files
-from {\tt /sbin, /lib} and other directories are also copied into the package and
-denoted as "Other data for Package" in Table~\ref{table:datasize-2nd3rd}.
+while the size of Hadoop under the package is decreased to 20GB. 
+The total size of PanFS is 155TB, however, the size of the really used data of PanFS is only 1.6MB.
+Table~\ref{table:datasize-2nd3rd} compares the original size and the really used size of each data source.
+Solution 4 reduces the total size of all data sources from 156TB to 21GB.
 
 \begin{table}
     \centering
     \begin{tabular}{|l|r|r|}
     \hline
-     Data Category & Data Size & Data Size \\
-    & Solution 2 & Solution 4\\ \hline
+     Data Category & Solution2: Size & Solution4: Size \\ \hline
     HDFS & 43.3GB & 20GB \\ \hline
     PanFS & 155TB & 1.6MB \\ \hline
     CVMFS & 7.4GB &103MB \\ \hline
@@ -1019,23 +1024,22 @@ denoted as "Other data for Package" in Table~\ref{table:datasize-2nd3rd}.
 \subsection{Execution Time Comparison of Solution 2 and 4}
 
 Table~\ref{table:time-2nd3rd} shows the execution time comparison between
-Solution 2 and 3. The time consumption of the reproduction of one program from
+Solution 2 and 4. The time consumption of the reproduction of one program from
 different scholars kept the same under Solution 2, including software and data
 preparation. However, under Solution 4, the data and software preparation is
 one-time. The following reproduction of the same program only needs to obtain
 one copy of the package and execute the actual experimental analysis directly.
-Data is obtained through accessing Hadoop Distributed File System in Solution 2, but is copied into the package in Solution 4. This localization of data speeds up the data analysis process, resulting the actual analysis time reducing from 31 minutes to 13 minutes.
+Data is obtained through accessing HDFS in Solution 2, but is copied into the package in Solution 4. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
 
 \begin{table}
     \centering
     \begin{tabular}{|l|r|r|}
     \hline
-    Task Category & Execution Time & Execution Time \\
-    & Solution 2 & Solution 4\\ \hline
+    Task Category & Solution 2: Time & Solution 4: Time\\ \hline
     Software Acquisition & 8min 11s & N/A \\ \hline
-    Environment Building & 5min 49s  & 3s \\ \hline
+    Environment Build & 5min 49s  & 3s \\ \hline
     Obtain file namelist & N/A & 28min 23s \\ \hline
-    Generate the package & N/A & 85min 51s \\ \hline
+    Generate package & N/A & 85min 51s \\ \hline
     Actual Analysis & 20min 31s & 13min 4s \\ \hline
     \end{tabular}
     \caption{Execution Time Comparison between Solution 2 and 4}

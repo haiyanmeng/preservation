@@ -21,4 +21,14 @@ admin  cmsnotes  CMSSW  COMP  config  CVSpm  CVSROOT  DOC  LCGAAwrappers  UserCo
 1.0K    DOC
 493K    LCGAAwrappers/
 
+[hmeng@lxplus0119 CMSSW]$ du -hs */
+12K     admin/
+2.8G    cmsnotes/
+8.5G    CMSSW/
+1.8G    COMP/
+4.4M    config/
+762K    CVSpm/
+12K     CVSROOT/
+21K     DOC/
+493K    LCGAAwrappers/
 
