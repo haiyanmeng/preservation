@@ -892,8 +892,25 @@ Packaging utlity maintains one list of common dependencies and first judges whet
 
 %*****hmeng-doubt: in the fourth version, let user to mark whether they change the data and software. if changed, one new package is generated to avoid data overlap and pollution. otherwise, directly starts packaging process based on the current target package. 
 \section{Evaluation}
+The section first illustrates the relationship of different preservation and reproduction solutions, then the platform used to evaluate different solutions is introduced. The execution time and data size of Solution 2 and 4 are tested and compared. It is hard to accurately calculate the time consumption of Solution 1. Solution 3 shares the same time consumption and data size with Solution 3.
+
 \subsection{Relationship of Different Solutions}
 The relationship of these three solutions to repeat one program is shown in Table~\ref{table:relationship}. The aim is to make it easier to repeat one program through making the data and software preparation easier.
+
+\subsection{Evaluation Platform}
+
+The first three solutions are all directly verified on the machine the original
+author used to execute the experiment, which is convenient but involves access
+authority problem. Solution 4 is verified on the original machine and on one virtual machine.
+To compare the execution time and data size of Solution 4
+with Solution 2, the package generated on the original machine is utilized to
+rerun the experiment on the original machine. This choice avoids the impact of
+different CPUs of the original machine and the new machine to repeat the
+experiment. To completely verify the correctness of Solution 4, one virtual
+machine sharing the same kernel version with the original machine is deployed.
+Then the necessary software environment is configured on the virtual machine,
+and the package together with the map file are copied onto it, and the
+experiment is repeated on the virtual machine.
 
 \subsection{Evaluation of Solution 2}
 The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-2nd}. About half of the total execution time is consumed to prepare relevant software environment. The cvs command is forked to check out 23 packages from CMSSW and three git repositories are cloned.
