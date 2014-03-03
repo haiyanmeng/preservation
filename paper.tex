@@ -193,7 +193,7 @@ Section 4: Evaluation
         \bf Name & \bf Location & \bf Total & \bf Named & \bf Used \\ 
         \hline
         Ntuples data    & hdfs & 24TB & 43.3GB & 20GB \\ \hline
-        CMSSW binaries     & local & 1.16TB & 448.3MB & 6.3MB\\ \hline
+        CMSSW binaries     & local & 88.1GB & 448.3MB & 6.3MB\\ \hline
         Tau source       & git & 73.7MB & 73.7MB & 73.7MB \\ \hline
         PyYAML binaries    & http & 52MB & 51MB & 51MB \\ \hline
         .h file       & http & 41KB & 41KB & 41KB \\ \hline
@@ -202,7 +202,7 @@ Section 4: Evaluation
         Cern files & CVMFS & 7.4GB & N/A & 103MB \\ \hline
         NDCMS & NFS & 862GB & N/A & 53KB \\ \hline
         Local store & AFS &10.2GB & N/A & 34MB\\ \hline
-        Total      &    & 181.1TB            & N/A & 21GB \\ \hline
+        Total      &    & 180.1TB            & N/A & 21GB \\ \hline
     \end{tabular}
     \begin{tablenotes}
       \small
@@ -390,7 +390,7 @@ of really used data and software is greatly smaller.
 Figure~\ref{fig:data-code-size} illustrates the inputs of the tau roast program.
 After the TauAnalysis procedure, the data size of Ntuples is 43.3GB, however, the atual size of really used
 data in the program is 20GB.  The same trend occurs to the size of software and
-other dependencies. The size of CMSSW repository is 1.16TB, the size of
+other dependencies. The size of CMSSW repository is 13.1GB, the size of
 packages checked out from CMSSW is 448.3MB, and the size of actually used CMSSW
 files is only 6.3MB. 
 The total size of PanFS mounted as {\tt /pscratch} is 155TB, however, the really used data from {\tt /pscratch} is only 1.6MB.
