@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  3 MAR 2014 10:58
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  3 MAR 2014 11:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -302,32 +302,29 @@ Overfull \hbox (4.71172pt too wide) in paragraph at lines 1051--1051
 [10]
 File: preservation-integration.eps Graphic file (type eps)
  <preservation-integration.eps>
-Overfull \hbox (4.93027pt too wide) in paragraph at lines 1133--1133
+Overfull \hbox (4.93027pt too wide) in paragraph at lines 1144--1144
 []\secfnt Preservation De-gree of Di-rec-tory Struc-ture 
  []
 
 [11]
-Overfull \hbox (5.7383pt too wide) in paragraph at lines 1190--1207
+Overfull \hbox (5.7383pt too wide) in paragraph at lines 1201--1218
 \T1/aer/m/n/9 en-vi-ron-ment: tech-ni-cal/hardware preser-va-tion, mi-gra-tion 
 and
  []
 
 
-Overfull \hbox (3.66187pt too wide) in paragraph at lines 1212--1213
+Overfull \hbox (3.66187pt too wide) in paragraph at lines 1223--1224
 \T1/aer/m/n/9 tion of com-put-ing en-vi-ron-ment is im-ple-mented with CernVM,
  []
 
 
-Overfull \hbox (5.37114pt too wide) in paragraph at lines 1218--1219
+Overfull \hbox (5.37114pt too wide) in paragraph at lines 1229--1230
 \T1/aer/m/n/9 re-leases to avoid re-peat-ing the time-consuming soft-ware build
 -
  []
 
-
-Underfull \vbox (badness 1484) has occurred while \output is active []
-
- [12]
-Overfull \hbox (2.80623pt too wide) in paragraph at lines 1235--1240
+[12]
+Overfull \hbox (2.80623pt too wide) in paragraph at lines 1246--1251
 \T1/aer/m/n/9 [16] in-tro-duced one con-cep-tual frame-work for soft-ware prese
 r-
  []
@@ -342,4 +339,4 @@ Here is how much of TeX's memory you used:
  957 hyphenation exceptions out of 8191
  39i,9n,28p,607b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.dvi (13 pages, 101280 bytes).
+Output written on paper.dvi (13 pages, 101140 bytes).

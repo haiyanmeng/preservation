@@ -1050,7 +1050,13 @@ Data is obtained through accessing HDFS in Solution 2, but is copied into the pa
 %*****hmeng-doubt: this point is not the motivation. but one achievement comes together. out of imagination.
 \section{Discussion of Data and Software Preservation}
 \subsection{Preservation Integration of Multiple Programs}
-The Solution 4 can work well for the preservation and reproduction of one single program. However, different experimenters may execute different analysis programs on the same dataset using the same or overlapping sets of software. Generating one new package for each analysis program from scratch is time-consuming and space-consuming, which makes one data and software preservation mechanism, that can integrate the preservation requirements of different analysis programs, become necessary. 
+
+Different experimenters may execute different analysis
+programs on the same dataset using the same or overlapping sets of software.
+Generating one new package for each analysis program from scratch is
+time-consuming and space-consuming, which makes one data and software
+preservation mechanism, that can integrate the preservation requirements of
+different analysis programs, become necessary. 
 
 \begin{figure}
 \centering
@@ -1060,30 +1066,28 @@ The Solution 4 can work well for the preservation and reproduction of one single
 \end{figure}
 
 To integrate the data and software from multiple analysis programs into one
-package, the concrete information of data and software, such as size, version,
-source and the number of files, need to be recorded. we also need to design one
-more instructive shell script format, in which the data dependencies and
-software dependencies can be clearly expressed and recognized. The packaging
+archive, the concrete information of data and software, such as size, version,
+source and the number of files, need to be recorded. 
+The packaging
 process needs to be re-organized. Packaging utility needs to maintain one list
-of current software and data subset already stored in the package. When one
-user fork the packaging utility to preserve one program, the
-packaging utility will scan the script, get the data and software dependency
-part, judge whether each dependency has been inside the package, and only add
-the new data and software into the package, and update the package information
+of current software and data subset already stored in the archive. When one
+user utilizes the packaging utility to preserve one program, the
+packaging utility scans the script, gets the data and software dependency
+part, judges whether each dependency has been inside the package, and only adds
+the new data and software into the archive, and updates the package information
 and relavant retrieval information.
 
 The architecture of preservation integration of multiple programs is shown in
 Figure~\ref{fig:Preservation integration}. Script 1 and Script 2, sharing one
 dependency B, belongs two different programs. Without preservation
-integration, B will be preserved twice in the archive, which is
-space-consuming. To improve the utilization efficiency of storage resources,
+integration, B will be preserved twice in the archive. To improve the utilization efficiency of storage resources,
 preservation integration of multiple programs is necessary. In the archive,
-only one copy of B is stored, which is referred by both scripts and script 2.
+only one copy of B is stored, which is referred by both scripts.
 
 \subsection{Preservation Granularity}
 
 Another important factor of data and software preservation is the choice of
-preservation granularity. In Solution 4, the preservation granularity is one
+preservation granularity. In our implementation of Solution 4, the preservation granularity is one
 file, because Parrot virtual filesystem traps each system call and redirects
 the access path of each file. As a result, during the packaging process, each
 time only one file can be copied into the target package, which is
@@ -1096,7 +1100,7 @@ be set to the whole repository.
 
 \subsection{Preservation of Large Data}
 
-The preservation policy must concern about the size of data. If its size is
+The preservation policy must concern about the size of data. If data size is
 small, copying it into one pacakge and transferring it between different
 machines is not a bad idea. Howerver, when the size becomes large, copying it
 into one package will make the size of the package uncontrollable. In
@@ -1107,24 +1111,31 @@ as networked resources is more efficient than preserving it into one package.
 \subsection{Mining of Dependencies} 
 
 The mining degree of data and software dependencies greatly determines the
-repeatability of one experiment. Data dependencies is easy to figured out. However, the situation of software dependencies is complex. The software
-dependencies include OS, hardware platform, 
-direct software dependencies and indirect software dependency which is dependent upon direct software dependencies.
+repeatability of one experiment. Clear data dependencies is easy to figure
+out, but how to figure out implicit data dependencies is complex. The situation
+of software dependencies is more complex. The software dependencies include OS,
+hardware platform, direct software dependencies and indirect software
+dependencies.
 The first
-three categories are easy to deal with. The description of indirect software
-dependencies needs more efforts. One solution is to utlize package management
-tools, like rpm, pacman, apt, to recursively trace each direct software
-dependency and generate one clear dependency graph. With the dependency graph,
-the new user can configure the software environment and repeat the experiment.
-Solution 4 odopts this solution, which is easy to implement, but leaves the
-complex environment configuration to the new users. 
+three categories are easy to deal with. The acquisition of indirect software
+dependencies needs more efforts. 
 
-Another solution is to treat the computing environment, software environment
+One solution is to treat the computing environment, software environment
 and scientific data as one integral entirety and preserve the entirety
 completely. The reproduction of one experiment using this solution is easier.
 However, the original machine is not only for one special experiment and may
 concern a large amount of software and data unrelevant to the experiment. The
 time and space overhead of this solution must be considered.
+
+Another solution is to utlize package management
+tools, like rpm, pacman, apt, to recursively trace each direct software
+dependency and generate one clear dependency graph. With the dependency graph,
+the new user can configure the software environment and repeat the experiment.
+
+The third solution is to trace the system calls of the experiment execution process
+and record the paths of accessed files, which including the files of software dependencies.
+Parrot adopts this solution. Even if git is one software dependency, there is no necessary to install git on the new machine.
+All the files to guarantee the accurate execution of git has been copied into the package.
 
 %\subsection{The preservation} When the authors and the programs becomes more
 %and more, the whole pool of one repo may be nearly to be preserved. why not
@@ -1145,13 +1156,13 @@ is 1KB or 1MB, preserving the content is acceptable. If the size of one file is
 inefficient.  
 
 Directory is one list of files and subdirectories under it. At first, we only
-copied the accessed items under one directory and ignored the unaccessed items.
+copy the accessed items under one directory and ignored the unaccessed items.
 However, some operations on one directory depends on each item under it. For
 example, {\tt ls /dirA} is one linux command to list the name of each item under
 {\tt /dirA}. Because the directory itself has the name list of items under it, only
-the path of the directory was recorded into the namelist in the first phrase of
-Solution 4. However, when we repeated the command {\tt ls /dirA} using the preserved package, it returned NULL because none of items under it existed in
-value of {\tt ls /dirA}, the behavior of the whole program will become incorrect
+the path of the directory is recorded into the namelist in the first phrase of
+Solution 4. However, when we repeat the command {\tt ls /dirA} using the preserved package, it returns NULL because none of items under it exists in
+the package, the behavior of the whole program will become incorrect
 and unpredictable. 
 
 To ensure the semantics of the original program, all the items under one directory must be copied
@@ -1163,7 +1174,7 @@ directory.
 
 \subsection{User Access Model of Data and Software}
 
-Through this case study, we noticed that the user access module of remote data
+The user access module of remote data
 and software has a great impact of the preservation mechanism, especially when
 we try to integrate the preservation of multiple programs. If all the programs
 only refer the original data and software and refuse to modify them, the
@@ -1177,7 +1188,7 @@ need to be investigated.
 \subsection{Here is the Useful Package}
 
 At the beginnig of our case study, we generated one package for Matthias's
-example based on Solution 4. Several months later, the original machine meets
+example based on Solution 4. Several months later, the original machine met
 some problems and the access model of CMSSW was also modified. In this case, if
 you want to repeat Matthias's example on the original machine, different 
 configurations, including CMSSW\_ARCH, environment variables and CVS access
