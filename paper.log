@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  7 MAR 2014 13:51
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  7 MAR 2014 14:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -308,35 +308,11 @@ Overfull \hbox (4.93027pt too wide) in paragraph at lines 1155--1155
  []
 
 
-Overfull \hbox (5.7383pt too wide) in paragraph at lines 1212--1229
-\T1/aer/m/n/9 en-vi-ron-ment: tech-ni-cal/hardware preser-va-tion, mi-gra-tion 
-and
+Overfull \hbox (8.10556pt too wide) in paragraph at lines 1231--1233
+\T1/aer/m/n/9 en-vi-ron-ment is based on a CernVM filesys-tem(CVMFS) specif-
  []
 
-
-Overfull \hbox (3.66187pt too wide) in paragraph at lines 1234--1235
-\T1/aer/m/n/9 tion of com-put-ing en-vi-ron-ment is im-ple-mented with CernVM,
- []
-
-
-Overfull \hbox (5.37114pt too wide) in paragraph at lines 1240--1241
-\T1/aer/m/n/9 re-leases to avoid re-peat-ing the time-consuming soft-ware build
--
- []
-
-[12]
-Overfull \hbox (2.80623pt too wide) in paragraph at lines 1257--1262
-\T1/aer/m/n/9 [16] in-tro-duced one con-cep-tual frame-work for soft-ware prese
-r-
- []
-
-(./paper.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [13])
-[14
-
-] (./paper.aux) ) 
+[12] (./paper.bbl) [13] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
  2043 strings out of 493312
  23080 string characters out of 6143677
@@ -346,4 +322,4 @@ Here is how much of TeX's memory you used:
  957 hyphenation exceptions out of 8191
  39i,9n,28p,607b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.dvi (14 pages, 102432 bytes).
+Output written on paper.dvi (13 pages, 101872 bytes).

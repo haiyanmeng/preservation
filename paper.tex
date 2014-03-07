@@ -1207,57 +1207,47 @@ authority need to be modified. However, with the generated package and its map f
 %here is the new content-hmeng
 
 \section{Related Work }
-\subsection{Software Preservation Approaches}
 
 Generally, there are three approaches to preserve software environment:
-technical/hardware preservation, migration and emulation.  Hardware
+hardware preservation, migration and emulation.  Hardware
 preservation preserves the original software and its original operating
-environment. \cite{cifuentes1996binary} presented techniques used to migrate
-legacy software running on register-based machines to modern RISC machines. \cite{mancl2001refactoring}
-utilized one method called refactoring to make software migration become
-easier. However, migration often involves the re-compiling and re-configuring
+environment. 
+Software migration technique \cite{cifuentes1996binary,mancl2001refactoring} was used to facilitate running software on new machines.
+However, migration often involves the re-compiling and re-configuring
 the source code to accustom a new hardware platform and software environment.
-Emulation recreate the original software and hardware environment by
+Emulation recreates the original software and hardware environment by
 programming future platforms and OSs. One common solution to implement this is
 virtual machine. According to the usage and emulation degree of the real
 machine, virtual machine can be divided into system virtual machine and process
-virtual machine. \cite{goldberg1974survey}\cite{smith2005architecture} introduced the working principle, design principle and
-performance evaluation of system virtual machine. \cite{barham2003xen}\cite{kivity2007kvm}\cite{rosenblum1999vmware} illustrated the
-functionality of  system VM to support different guest operating systems. \cite{esquembre2004easy} illustrated how JVM, one process virtual machine, can expedite the creation of
-scientific simulations in Java. \cite{matthews2009towards}\cite{phelps2005no}\cite{hong2010software} discussed the pros and cons of each
-approach.
+virtual machine. 
+The working principle, design principle and
+performance evaluation of system virtual machine were illustrated in \cite{goldberg1974survey, smith2005architecture}. 
+The
+functionality of system VM to support different guest operating systems was illustrated in \cite{barham2003xen,kivity2007kvm,rosenblum1999vmware}.
+F. Esquembre \cite{esquembre2004easy} illustrated how JVM, one process virtual machine, can expedite the creation of
+scientific simulations in Java. 
+The pros and cons of these three approaches were discussed in \cite{matthews2009towards,phelps2005no,hong2010software}.
 
-\subsection{Software Environment vs Computing Environment}
+The preservation of computing environment and software environment was treated as one entirety in \cite{matthews2009towards,phelps2005no,hong2010software}. However, frequently changing experiment software makes the maintenance of the preserved experimental environment very complex. 
+CernVM \cite{buncic2010cernvm} treated them as two different categories. The preservation of computing environment is implemented with CernVM, and the preservation of software environment is based on a CernVM filesystem(CVMFS) specifically designed for efficient software distribution.
 
-\cite{matthews2009towards}\cite{phelps2005no}\cite{hong2010software} treated the preservation of computing environment and software environment as one entirety. However, frequently changing experiment software makes the maintenance of the preserved experimental environment very complex. 
-
-\cite{buncic2010cernvm} treated them as two different categories. The preservation of computing environment is implemented with CernVM, and the preservation of software environment is based on a CernVM filesystem(CVMFS) specifically designed for efficient software distribution.
-
-\subsection{Software Preservation Format}
-
-\cite{zabolitzky2002preserving}\cite{castagne2013consider} emphasized the importance of preserving software in source code format. 
-
-\cite{buncic2010cernvm} published pre-built and configured experiment software releases to avoid repeating the time-consuming software building procedure. 
-
-\subsection{facilitate the reproduction of scientific experiments}
+The importance of preserving software in source code format was emphasized in \cite{zabolitzky2002preserving,castagne2013consider}. 
+However, CVMFS \cite{buncic2010cernvm} published pre-built and configured experiment software releases to avoid repeating the time-consuming software building procedure. 
 
 Attempts from different perspectives to facilitate the reproduction of scientific experiments utilizing preserved software library has been made. 
-\cite{compostella2010cdf} discussed software distribution mechanism over the Grid using Parrot. 
-\cite{blomer2011cernvm} proposed CVMFS to facilitate the software distribution over the network to CernVM. 
-\cite{rice1996scientific} made the reproduction process easier through the integration of user interface, scientific software libraries, knowledge base into problem-solving environment.
-\cite{kohn2001divorcing} tried to enable the creation and distribution of language-independent software library by addressing language interoperability.
-\cite{agosti2012envisage} aimed to help non-domain users to utilize the digital archive system developed for domain experts.
-\cite{schoneberg2013scalable} proposed a scalable, distributed and dynamic workflow system for digitization processes.
-\cite{subotic2013distributed} proposed a distributed archival network for process-oriented automatic long-term digital preservation.
-\subsection{figure out the absolutely relevant data and software }
+The software distribution mechanism over network was discussed in \cite{compostella2010cdf, blomer2011cernvm}.
+J. R. Rice et al. \cite{rice1996scientific} made the reproduction process easier through the integration of user interface, scientific software libraries, knowledge base into problem-solving environment.
+S. R. Kohn et al. \cite{kohn2001divorcing} tried to enable the creation and distribution of language-independent software library by addressing language interoperability.
+a scalable, distributed and dynamic workflow system for digitization processes was proposed in \cite{schoneberg2013scalable}.
+A distributed archival network was designed in \cite{subotic2013distributed} to facilitate process-oriented automatic long-term digital preservation.
+M. Agosti et al. \cite{agosti2012envisage} aimed to help non-domain users to utilize the digital archive system developed for domain experts.
 
 Current mechanisms of preserving scientific experiments assume that all the data and software mentioned in the experiments are necessary for the reproduction of the experiments. However, this is not always right. In some cases, the original author may leave additional code referring to irrelative data and software in the experiment programs. One mechanism, which can figure out the absolutely relevant data and software of one experiment, is important for both the preservation and reproduction of scientific experiments.
 
-\subsection{the importance of case study}
-\cite{matthews2008significant} introduced one conceptual framework for software preservation from several case studies of software preservation
-\cite{matthews2010framework} designed a tool to capture software preservation properties within a software environment through a series of case studies conducted to evaluate the software preservation framework.
-\cite{johnston2014workflow} proposed one overall data curation workflow for 3-5 case studies of preserving research data.
-\cite{borgman2012data} tried to figure out what types of data are most likely to be used and reused, by whom, and for what purposes through two cases studies.
+B. Matthews et al. \cite{matthews2008significant} introduced one conceptual framework for software preservation from several case studies of software preservation.
+One tool to capture software preservation properties within a software environment was designed in \cite{matthews2010framework} through a series of case studies conducted to evaluate the software preservation framework.
+L. R. Johnston et al. \cite{johnston2014workflow} proposed one overall data curation workflow for 3-5 case studies of preserving research data.
+Two case studies \cite{borgman2012data} were conducted to figure out the properties of data to be reused in the future, including type, purpose, new users.
 To figure out how to preserve HEP applications, this paper studies one case of preserving one representative HEP application.
 
 
