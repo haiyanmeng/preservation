@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  3 MAR 2014 11:38
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  7 MAR 2014 13:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -260,76 +260,83 @@ Overfull \hbox (17.8397pt too wide) in paragraph at lines 682--682
 []\secfnt ONE IM-PLE-MEN-TION OF FINE-GRAINED
  []
 
+
+Overfull \hbox (4.48003pt too wide) in paragraph at lines 684--688
+\T1/aer/m/n/9 The sec-tion in-tro-duces our im-ple-men-ta-tion of one fine-grai
+ned
+ []
+
 File: workflow-parrot.eps Graphic file (type eps)
-<workflow-parrot.eps>
-Underfull \vbox (badness 1735) has occurred while \output is active []
-
- [7]
+<workflow-parrot.eps> [7]
 File: package-info.eps Graphic file (type eps)
-
-<package-info.eps>
+ <package-info.eps>
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [8]
-Overfull \hbox (4.00272pt too wide) in paragraph at lines 895--896
+Overfull \hbox (4.00272pt too wide) in paragraph at lines 901--902
 \T1/aer/m/n/9 The sec-tion first il-lus-trates the re-la-tion-ship of dif-fer-e
 nt preser-
  []
 
-
-Overfull \hbox (17.79184pt too wide) in paragraph at lines 920--931
- [][] 
- []
-
 [9]
-Overfull \hbox (9.11507pt too wide) in paragraph at lines 982--993
+Overfull \hbox (17.79184pt too wide) in paragraph at lines 926--937
  [][] 
  []
 
 
-Overfull \hbox (13.41734pt too wide) in paragraph at lines 1036--1045
+Overfull \hbox (9.11507pt too wide) in paragraph at lines 988--999
  [][] 
- []
-
-
-Overfull \hbox (4.71172pt too wide) in paragraph at lines 1051--1051
-[]\secfnt DISCUSSION OF DATA AND SOFT-WARE
  []
 
 [10]
+Overfull \hbox (13.41734pt too wide) in paragraph at lines 1042--1051
+ [][] 
+ []
+
+
+Overfull \hbox (4.71172pt too wide) in paragraph at lines 1057--1057
+[]\secfnt DISCUSSION OF DATA AND SOFT-WARE
+ []
+
 File: preservation-integration.eps Graphic file (type eps)
- <preservation-integration.eps>
-Overfull \hbox (4.93027pt too wide) in paragraph at lines 1144--1144
+<preservation-integration.eps> [11]
+Overfull \hbox (4.93027pt too wide) in paragraph at lines 1155--1155
 []\secfnt Preservation De-gree of Di-rec-tory Struc-ture 
  []
 
-[11]
-Overfull \hbox (5.7383pt too wide) in paragraph at lines 1201--1218
+
+Overfull \hbox (5.7383pt too wide) in paragraph at lines 1212--1229
 \T1/aer/m/n/9 en-vi-ron-ment: tech-ni-cal/hardware preser-va-tion, mi-gra-tion 
 and
  []
 
 
-Overfull \hbox (3.66187pt too wide) in paragraph at lines 1223--1224
+Overfull \hbox (3.66187pt too wide) in paragraph at lines 1234--1235
 \T1/aer/m/n/9 tion of com-put-ing en-vi-ron-ment is im-ple-mented with CernVM,
  []
 
 
-Overfull \hbox (5.37114pt too wide) in paragraph at lines 1229--1230
+Overfull \hbox (5.37114pt too wide) in paragraph at lines 1240--1241
 \T1/aer/m/n/9 re-leases to avoid re-peat-ing the time-consuming soft-ware build
 -
  []
 
 [12]
-Overfull \hbox (2.80623pt too wide) in paragraph at lines 1246--1251
+Overfull \hbox (2.80623pt too wide) in paragraph at lines 1257--1262
 \T1/aer/m/n/9 [16] in-tro-duced one con-cep-tual frame-work for soft-ware prese
 r-
  []
 
-(./paper.bbl) [13] (./paper.aux) ) 
+(./paper.bbl
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [13])
+[14
+
+] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
  2043 strings out of 493312
  23080 string characters out of 6143677
@@ -339,4 +346,4 @@ Here is how much of TeX's memory you used:
  957 hyphenation exceptions out of 8191
  39i,9n,28p,607b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.dvi (13 pages, 101140 bytes).
+Output written on paper.dvi (14 pages, 102432 bytes).
