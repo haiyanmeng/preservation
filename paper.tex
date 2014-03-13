@@ -622,7 +622,7 @@ One description file, which includes the experiment aim, dependency list,  packa
 
 \begin{figure}
 \centering
-\epsfig{file=solution3.eps, height=2in, width=3in}
+\includegraphics[width=.8\columnwidth]{solution3.eps}
 \caption{Relationship of Roles}
 \label{fig:solution3}
 \end{figure}
@@ -732,7 +732,7 @@ actual analysis command.
 \subsection{Workflow of Packaging Utility}
 \begin{figure*}
 \centering
-\epsfig{file=workflow-parrot.eps, height=4in, width=6.5in}
+\includegraphics[width=1.6\columnwidth]{workflow-parrot.eps}
 \caption{Workflow of Solution 4}
 \label{fig:workflow-parrot}
 \end{figure*}
@@ -767,17 +767,24 @@ the access of files from different file systems into the files inside the target
 generated as the output of this step. The packaging process also runs within Parrot environment to
 access data from different file systems.
 
-\begin{figure}
-\centering
-\epsfig{file=package-info.eps, height=1.2in, width=2.5in}
-\caption{Package Description Infomation}
-\label{fig:package-info}
-\end{figure}
 The command used to generate the package is as follows. 
 {\tt package-utility.sh} is a bash script which iterates each line of L1 and
 determines the behavior according to the file type (common files, directories,
 symbolic link files) and the system call type.
-The package description information is shown in Figure~\ref{fig:package-info}.
+The package description information is shown in Table~\ref{table:package-info}.
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+     the total size of package&21GB \\ \hline
+    the total number of files&15905\\ \hline
+    the total number of directory&1549\\ \hline
+    the total number of symbolic link&4614 \\ \hline
+    \end{tabular}
+    \caption{Structure of Map File}
+    \label{table:map-file}
+\end{table}
 
 {\tt parrot\_run /bin/bash package-utility.sh -L namelist}
 
@@ -1118,7 +1125,7 @@ different analysis programs, become necessary.
 
 \begin{figure}
 \centering
-\epsfig{file=preservation-integration.eps, height=2.2in, width=3.3in}
+\includegraphics[width=.8\columnwidth]{preservation-integration.eps}
 \caption{Preservation Integration of Multiple Programs}
 \label{fig:Preservation integration}
 \end{figure}

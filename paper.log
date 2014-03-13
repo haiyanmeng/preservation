@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  13 MAR 2014 14:05
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  13 MAR 2014 17:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -183,7 +183,11 @@ Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
 Package: threeparttable 2003/06/13  v 3.0
 \@tempboxb=\box30
 )
-(./paper.aux)
+(./paper.aux
+
+LaTeX Warning: Label `table:map-file' multiply defined.
+
+)
 \openout1 = `paper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
@@ -233,11 +237,8 @@ Overfull \hbox (11.58943pt too wide) in paragraph at lines 191--208
  []
 
 [2]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 File: dependencies.eps Graphic file (type eps)
-
-<dependencies.eps> [3]
+ <dependencies.eps> [3]
 LaTeX Font Info:    Try loading font information for T1+aett on input line 396.
 
  (/usr/share/texmf-dist/tex/latex/ae/t1aett.fd
@@ -248,14 +249,11 @@ File: version-evolution.eps Graphic file (type eps)
 <version-evolution.eps> [4] [5]
 File: solution3.eps Graphic file (type eps)
  <solution3.eps>
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [6]
 Overfull \hbox (2.27652pt too wide) in paragraph at lines 639--650
  [][] 
  []
 
-
+[6]
 Overfull \hbox (17.8397pt too wide) in paragraph at lines 682--682
 []\secfnt ONE IM-PLE-MEN-TION OF FINE-GRAINED
  []
@@ -268,69 +266,79 @@ ned
 
 File: workflow-parrot.eps Graphic file (type eps)
 <workflow-parrot.eps> [7]
-File: package-info.eps Graphic file (type eps)
- <package-info.eps>
-Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Warning: Reference `table:package-info' on page \thepage  undefined on in
+put line 774.
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 4779) has occurred while \output is active []
 
  [8]
-Overfull \hbox (4.00272pt too wide) in paragraph at lines 901--902
+Overfull \hbox (4.00272pt too wide) in paragraph at lines 908--909
 \T1/aer/m/n/9 The sec-tion first il-lus-trates the re-la-tion-ship of dif-fer-e
 nt preser-
  []
 
+
+Overfull \hbox (14.66936pt too wide) in paragraph at lines 936--944
+ [][] 
+ []
+
+
+Overfull \hbox (17.79184pt too wide) in paragraph at lines 958--969
+ [][] 
+ []
+
 [9]
-Overfull \hbox (14.66936pt too wide) in paragraph at lines 929--937
+Overfull \hbox (9.11507pt too wide) in paragraph at lines 1020--1031
  [][] 
  []
 
 
-Overfull \hbox (17.79184pt too wide) in paragraph at lines 951--962
- [][] 
- []
+Underfull \vbox (badness 2538) has occurred while \output is active []
 
 
-Overfull \hbox (9.11507pt too wide) in paragraph at lines 1013--1024
+Overfull \hbox (13.41734pt too wide) in paragraph at lines 1074--1083
  [][] 
  []
 
 [10]
-Overfull \hbox (13.41734pt too wide) in paragraph at lines 1067--1076
- [][] 
- []
-
-
-Overfull \hbox (4.71172pt too wide) in paragraph at lines 1104--1104
+Overfull \hbox (4.71172pt too wide) in paragraph at lines 1111--1111
 []\secfnt DISCUSSION OF DATA AND SOFT-WARE
  []
 
 File: preservation-integration.eps Graphic file (type eps)
 <preservation-integration.eps> [11]
-Overfull \hbox (4.93027pt too wide) in paragraph at lines 1202--1202
+Overfull \hbox (4.93027pt too wide) in paragraph at lines 1209--1209
 []\secfnt Preservation De-gree of Di-rec-tory Struc-ture 
  []
 
-[12]
-Overfull \hbox (8.10556pt too wide) in paragraph at lines 1278--1280
+
+Overfull \hbox (8.10556pt too wide) in paragraph at lines 1285--1287
 \T1/aer/m/n/9 en-vi-ron-ment is based on a CernVM filesys-tem(CVMFS) specif-
  []
 
-
+[12] (./paper.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
+ [13])
+[14
 
-(./paper.bbl [13]) [14
+] (./paper.aux)
 
-] (./paper.aux) ) 
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2045 strings out of 493312
- 23112 string characters out of 6143677
+ 2043 strings out of 493312
+ 23082 string characters out of 6143677
  91143 words of memory out of 5000000
- 5467 multiletter control sequences out of 15000+600000
+ 5466 multiletter control sequences out of 15000+600000
  46294 words of font info for 62 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  39i,9n,28p,607b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.dvi (14 pages, 106052 bytes).
+Output written on paper.dvi (14 pages, 106488 bytes).
