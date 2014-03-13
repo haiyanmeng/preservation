@@ -38,7 +38,7 @@ future work in application preservation.
 
 \section{Introduction}
 
-Reproducibility is a cornerstone of the scientific process.
+Reproducibility is a cornerstone of the scientific process ~\cite{borgman2012data}.
 In order to understand, verify, and build upon previous work,
 one must be able to first recreate previous results by applying
 the same methods. Historically, reproducibility this has been
@@ -46,7 +46,7 @@ accomplished through painstaking detailed documentation recorded
 in lab notebooks, which are then summarized in peer-reviewed publications.
 But as science increasingly depends on computation,
 reproducibility must also encompass the environments, data, and software
-involved in each result. It is widely recognized that informal
+involved in each result ~\cite{zabolitzky2002preserving}. It is widely recognized that informal
 descriptions of software and systems -- although common -- are insufficient
 for reproducing a computational result accurately.
 A more automated and comprehensive approach is required.
@@ -55,7 +55,7 @@ The overall reproduction of a computation has three broad components,
 each of which suggests somewhat different approaches:
 
 \begin{itemize}
-\item The {\bf computing environment}, consisting of the basic hardware and the operating system can be preserved as physical artifacts or as a combination of virtual machine monitor (hardware) and virtual machine image (operating system).
+\item The {\bf computing environment}, consisting of the basic hardware and the operating system can be preserved as physical artifacts or as a combination of virtual machine monitor (hardware) and virtual machine image (operating system) ~\cite{matthews2009towards}.
 \item The {\bf scientific data} to be analyzed has historically received the most attention for curation.  In a large, well-organized project, it may be stored in a  data repository or database management system, with associated documentation and a curation strategy.  In a small effort, it could simply be a handful of files.
 \item The {\bf software environment} includes the source code, binaries, scripts, configuration files, and everything else needed to execute the desired code.  As with data, the software could be drawn from a well-managed software repository, or it could be a handful custom scripts that exist in the user's home directory.
 \end{itemize}
@@ -70,8 +70,8 @@ data, and software within a single virtual machine image,
 and then depositing the virtual
 it into a curated environment.  The publication could
 then simply refer to the identifier of the image, which the
-interested reader can obtain and re-use.  This approach has
-been used to some success with systems X, Y, and Z.
+interested reader can obtain and re-use. This approach has
+been used to some success with systems like JVM ~\cite{barthe2008preservation}.
 \footnote{Of course, we are glossing over the problem that hardware
 architectures and virtual machines also change, so one must also
 preserve the VMM software necessary to run the image.  The VMM itself
@@ -101,7 +101,7 @@ whole collection
 
 \item There may be dependencies upon {\bf networked resources} that
 are inherently external to the system, such as a database, a code
-repository, or a scalable filesystem.  For such resources, it
+repository ~\cite{cms2006cmssw}, or a scalable filesystem ~\cite{blomer2011cernvm}.  For such resources, it
 must be decided whether the dependency will simply be noted, or if it
 must be incorporated whole or in part.
 
@@ -218,7 +218,7 @@ Section 4: Evaluation
 \section{Overview of Tau Analysis}
 
 Within the ongoing investigation of the Higgs boson at the CMS
-detector, part of the LHC at CERN, the Higgs production in association
+detector, part of the LHC at CERN ~\cite{collaboration2008cms}, the Higgs production in association
 with two top quarks allows to measure the Higgs coupling strength to
 top quarks.  As the Higgs boson is to short-lived to be detected
 itself, it has to be reconstructed from its decay products.
@@ -237,7 +237,7 @@ multiple steps of reduction.
 
 {\bf Data Sources.}
 The CMS collaboration provides analysis end-users with a pre-processed
-and reduced data format, AOD, containing information for events, i.e.,
+and reduced data format, AOD ~\cite{holtman2001cms}, containing information for events, i.e.,
 proton-proton collisions with a signature of interest, in the form of
 reconstructed particles.  This format is based on the RAW output of
 the CMS detector readout electronics and reconstructed world-wide.
@@ -252,7 +252,7 @@ containing only trivial data containers packed in vectors.  This step
 is time and CPU intensive and its output contains data of 11.6$\,$TB to be
 analyzed by the tau analysis.
 It is performed by a small custom code framework,
-which is built on top of the CMS software stack, CMSSW,
+which is built on top of the CMS software stack, CMSSW ~\cite{cms2006cmssw},
 and uses packages provided by several other special interest groups within CMS.
 While the CMSSW framework is installed locally,
 the various packages used are checked out from CVS,
@@ -337,9 +337,9 @@ The workflow of Matthias's exmaple can be divided into eight procedures.
 
 (e) Obtain software from one private home page
 
-(f) Build software enviroment using SCRAM and Python
+(f) Build software enviroment using SCRAM ~\cite{rabbertz2004cms} and Python
 
-(g) Install grid control, obtain CMS data from grid and store the data into HDFS mounted as one local file system.
+(g) Install grid control ~\cite{holtman2001cms}, obtain CMS data from grid and store the data into HDFS ~\cite{borthakur2008hdfs} mounted as one local file system.
 
 (h) Actual data analysis.
 
@@ -367,7 +367,7 @@ direct software dependency from the analysis program, which further depends on
 perl, python, rsync, openssh-clients and other packages. The analysis program
 accesses one file called File1, which is one symbolic link file further referring to
 another file named File2.
-The implicit dependencies also include some remote file systems mounted as local file systems, such CVMFS, AFS, NFS, PanFS and HDFS.
+The implicit dependencies also include some remote file systems mounted as local file systems, such CVMFS, AFS ~\cite{howard1988scale}, NFS ~\cite{sandberg1985design}, PanFS ~\cite{welch2008scalable} and HDFS.
 More importantly, the successful execution of this program greatly depends on the underlying OS and hardware platform.
 
 \subsubsection{Size of Data and Software Dependencies}
@@ -922,12 +922,12 @@ different CPUs of the original machine and the new machine to repeat the
 experiment. 
 
 To completely verify the correctness of Solution 4, one virtual
-machine sharing the same kernel version with the original machine is deployed.
+machine ~\cite{goldberg1974survey} sharing the same kernel version with the original machine is deployed.
 Then the necessary software environment is configured on the virtual machine,
 and the package is copied onto it, and the
 experiment is repeated on the virtual machine.
 
-One virtual machine from amazon EC2 is used to verify the reproducibility of the experiment. Table~\ref{table:config-vm} illustrates the configuration of the original machine and each virtual machine. 
+One virtual machine from amazon EC2 ~\cite{amazon2010amazon} is used to verify the reproducibility of the experiment. Table~\ref{table:config-vm} illustrates the configuration of the original machine and each virtual machine. 
 All the machines adopt x86\_64 hardware platform and linux OS.
 Both the local VM and EC2 VM repeat the experiment with the help of the package generated on the original machine successfully.
 
@@ -1125,7 +1125,7 @@ different analysis programs, become necessary.
 
 \begin{figure}
 \centering
-\includegraphics[width=.8\columnwidth]{preservation-integration.eps}
+\includegraphics[width=1\columnwidth]{preservation-integration.eps}
 \caption{Preservation Integration of Multiple Programs}
 \label{fig:Preservation integration}
 \end{figure}

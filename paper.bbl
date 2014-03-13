@@ -7,11 +7,22 @@ M.~Agosti and N.~Orio.
 \newblock In {\em Proceedings of the 12th ACM/IEEE-CS joint conference on
   Digital Libraries}, pages 11--14. ACM, 2012.
 
+\bibitem{amazon2010amazon}
+E.~Amazon.
+\newblock Amazon elastic compute cloud (amazon ec2).
+\newblock {\em Amazon Elastic Compute Cloud (Amazon EC2)}, 2010.
+
 \bibitem{barham2003xen}
 P.~Barham, B.~Dragovic, K.~Fraser, S.~Hand, T.~Harris, A.~Ho, R.~Neugebauer,
   I.~Pratt, and A.~Warfield.
 \newblock Xen and the art of virtualization.
 \newblock {\em ACM SIGOPS Operating Systems Review}, 37(5):164--177, 2003.
+
+\bibitem{barthe2008preservation}
+G.~Barthe, B.~Gr{\'e}goire, and M.~Pavlova.
+\newblock Preservation of proof obligations from java to the java virtual
+  machine.
+\newblock In {\em Automated Reasoning}, pages 83--99. Springer, 2008.
 
 \bibitem{blomer2011cernvm}
 J.~Blomer, P.~Buncic, and T.~Fuhrmann.
@@ -26,6 +37,12 @@ C.~L. Borgman.
   practices.
 \newblock In {\em Proceedings of the 12th ACM/IEEE-CS joint conference on
   Digital Libraries}, pages 19--22, 2012.
+
+\bibitem{borthakur2008hdfs}
+D.~Borthakur.
+\newblock Hdfs architecture guide.
+\newblock {\em HADOOP APACHE PROJECT http://hadoop. apache.
+  org/common/docs/current/hdfs design. pdf}, 2008.
 
 \bibitem{buncic2010cernvm}
 P.~Buncic, C.~A. Sanchez, J.~Blomer, L.~Franco, A.~Harutyunian, P.~Mato, and
@@ -46,6 +63,15 @@ C.~Cifuentes and V.~Malhotra.
 \newblock In {\em Software Maintenance 1996, Proceedings., International
   Conference on}, pages 340--349. IEEE, 1996.
 
+\bibitem{collaboration2008cms}
+C.~Collaboration, S.~Chatrchyan, et~al.
+\newblock The cms experiment at the cern lhc.
+\newblock {\em Jinst}, 3(08):S08004, 2008.
+
+\bibitem{cms2006cmssw}
+C.~Collaboration et~al.
+\newblock The cmssw application framework, 2006.
+
 \bibitem{compostella2010cdf}
 G.~Compostella, S.~P. Griso, D.~Lucchesi, I.~Sfiligoi, and D.~Thain.
 \newblock Cdf software distribution on the grid using parrot.
@@ -63,10 +89,21 @@ R.~P. Goldberg.
 \newblock Survey of virtual machine research.
 \newblock {\em Computer}, 7(6):34--45, 1974.
 
+\bibitem{holtman2001cms}
+K.~Holtman.
+\newblock Cms data grid system overview and requirements.
+\newblock Technical report, CERN-CMS-NOTE-2001-037, 2001.
+
 \bibitem{hong2010software}
 N.~C. Hong, S.~Crouch, S.~Hettrick, T.~Parkinson, and M.~Shreeve.
 \newblock Software preservation benefits framework.
 \newblock {\em Software Sustainability Institute Technical Report}, 2010.
+
+\bibitem{howard1988scale}
+J.~H. Howard, M.~L. Kazar, S.~G. Menees, D.~A. Nichols, M.~Satyanarayanan,
+  R.~N. Sidebotham, and M.~J. West.
+\newblock Scale and performance in a distributed file system.
+\newblock {\em ACM Transactions on Computer Systems (TOCS)}, 6(1):51--81, 1988.
 
 \bibitem{johnston2014workflow}
 L.~R. Johnston.
@@ -111,6 +148,11 @@ T.~A. Phelps and P.~B. Watry.
 \newblock In {\em Research and Advanced Technology for Digital Libraries},
   pages 266--277. Springer, 2005.
 
+\bibitem{rabbertz2004cms}
+K.~Rabbertz, J.~Weng, A.~Nowack, A.~Sciaba, M.~Wynhoff, and S.~Muzaffar.
+\newblock Cms software installation.
+\newblock In {\em Proceedings of the CHEP}, volume~4, 2004.
+
 \bibitem{rice1996scientific}
 J.~R. Rice and R.~F. Boisvert.
 \newblock From scientific software libraries to problem-solving environments.
@@ -120,6 +162,12 @@ J.~R. Rice and R.~F. Boisvert.
 M.~Rosenblum.
 \newblock Vmware’s virtual platform™.
 \newblock In {\em Proceedings of Hot Chips}, pages 185--196, 1999.
+
+\bibitem{sandberg1985design}
+R.~Sandberg, D.~Goldberg, S.~Kleiman, D.~Walsh, and B.~Lyon.
+\newblock Design and implementation of the sun network filesystem.
+\newblock In {\em Proceedings of the Summer USENIX conference}, pages 119--130,
+  1985.
 
 \bibitem{schoneberg2013scalable}
 H.~Sch{\"o}neberg, H.-G. Schmidt, and W.~H{\"o}hn.
@@ -139,6 +187,12 @@ I.~Subotic, L.~Rosenthaler, and H.~Schuldt.
   long-term digital preservation.
 \newblock In {\em Proceedings of the 13th ACM/IEEE-CS joint conference on
   Digital libraries}, pages 29--38. ACM, 2013.
+
+\bibitem{welch2008scalable}
+B.~Welch, M.~Unangst, Z.~Abbasi, G.~A. Gibson, B.~Mueller, J.~Small,
+  J.~Zelenka, and B.~Zhou.
+\newblock Scalable performance of the panasas parallel file system.
+\newblock In {\em FAST}, volume~8, pages 1--17, 2008.
 
 \bibitem{zabolitzky2002preserving}
 J.~G. Zabolitzky.
