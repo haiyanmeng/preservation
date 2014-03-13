@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  13 MAR 2014 10:46
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  13 MAR 2014 14:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -282,50 +282,55 @@ nt preser-
  []
 
 [9]
-Overfull \hbox (17.79184pt too wide) in paragraph at lines 926--937
+Overfull \hbox (14.66936pt too wide) in paragraph at lines 929--937
  [][] 
  []
 
 
-Overfull \hbox (9.11507pt too wide) in paragraph at lines 988--999
+Overfull \hbox (17.79184pt too wide) in paragraph at lines 951--962
+ [][] 
+ []
+
+
+Overfull \hbox (9.11507pt too wide) in paragraph at lines 1013--1024
  [][] 
  []
 
 [10]
-Overfull \hbox (13.41734pt too wide) in paragraph at lines 1042--1051
+Overfull \hbox (13.41734pt too wide) in paragraph at lines 1067--1076
  [][] 
  []
 
 
-Overfull \hbox (4.71172pt too wide) in paragraph at lines 1057--1057
+Overfull \hbox (4.71172pt too wide) in paragraph at lines 1104--1104
 []\secfnt DISCUSSION OF DATA AND SOFT-WARE
  []
 
 File: preservation-integration.eps Graphic file (type eps)
 <preservation-integration.eps> [11]
-Overfull \hbox (4.93027pt too wide) in paragraph at lines 1155--1155
+Overfull \hbox (4.93027pt too wide) in paragraph at lines 1202--1202
 []\secfnt Preservation De-gree of Di-rec-tory Struc-ture 
  []
 
-
-Overfull \hbox (8.10556pt too wide) in paragraph at lines 1231--1233
+[12]
+Overfull \hbox (8.10556pt too wide) in paragraph at lines 1278--1280
 \T1/aer/m/n/9 en-vi-ron-ment is based on a CernVM filesys-tem(CVMFS) specif-
  []
 
-[12] (./paper.bbl
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [13])
-[14
+
+(./paper.bbl [13]) [14
 
 ] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 2043 strings out of 493312
- 23080 string characters out of 6143677
+ 2045 strings out of 493312
+ 23112 string characters out of 6143677
  91143 words of memory out of 5000000
- 5465 multiletter control sequences out of 15000+600000
+ 5467 multiletter control sequences out of 15000+600000
  46294 words of font info for 62 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  39i,9n,28p,607b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.dvi (14 pages, 103220 bytes).
+Output written on paper.dvi (14 pages, 106052 bytes).
