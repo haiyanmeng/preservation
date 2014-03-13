@@ -192,11 +192,11 @@ Section 4: Evaluation
         \hline
         \bf Name & \bf Location & \bf Total & \bf Named & \bf Used \\ 
         \hline
-        Ntuples data    & hdfs & 24TB & 43.3GB & 20GB \\ \hline
+        Ntuples data    & HDFS& 24TB & 43.3GB & 20GB \\ \hline
         CMSSW binaries     & local & 88.1GB & 448.3MB & 6.3MB\\ \hline
-        Tau source       & git & 73.7MB & 73.7MB & 73.7MB \\ \hline
-        PyYAML binaries    & http & 52MB & 51MB & 51MB \\ \hline
-        .h file       & http & 41KB & 41KB & 41KB \\ \hline
+        Tau source       & Git & 73.7MB & 73.7MB & 73.7MB \\ \hline
+        PyYAML binaries    & HTTP & 52MB & 51MB & 51MB \\ \hline
+        .h file       & HTTP& 41KB & 41KB & 41KB \\ \hline
         Misc commands & PanFS & 155TB & N/A  & 1.6MB \\ \hline
         Linux commands & localFS & 110GB &  N/A & 68.3MB \\ \hline     
         Cern files & CVMFS & 7.4GB & N/A & 103MB \\ \hline
@@ -279,7 +279,7 @@ Again, the code is stored in a git repository.
 The final data analysis, investigated below, can be run as a single
 process, and contains a stringent event selection to keep only high
 quality candidate events for the underlying physical process (using
-about 20$\,$MiB of space).  Quantities from the selected events can be
+about 20$\,$MB of space).  Quantities from the selected events can be
 both plotted and used in multivariate analysis to determine the level
 of expected signal in real data.
 This package is written using the CMSSW build framework,
@@ -323,9 +323,9 @@ installed.
 
 The authors played the role of curators, whose job it is to prepare the application for permanent archival by determining and packaging the dependencies.
 
-\subsection{Workflow of Matthias's Example}
+\subsection{Workflow of the Example}
 
-The workflow of Matthias's exmaple can be divided into eight procedures.
+The workflow of the exmaple can be divided into eight procedures.
 
 (a) Declare environment variables
 
@@ -339,7 +339,7 @@ The workflow of Matthias's exmaple can be divided into eight procedures.
 
 (f) Build software enviroment using SCRAM ~\cite{rabbertz2004cms} and Python
 
-(g) Install grid control ~\cite{holtman2001cms}, obtain CMS data from grid and store the data into HDFS ~\cite{borthakur2008hdfs} mounted as one local file system.
+(g) Install grid control ~\cite{holtman2001cms}, obtain CMS data from Grid and store the data into HDFS ~\cite{borthakur2008hdfs} mounted as one local file system.
 
 (h) Actual data analysis.
 
@@ -358,7 +358,7 @@ Figure~\ref{fig:dependencies} illustrates all the dependencies
 involved in the program, which can be divided into two categories: clear
 dependencies and implicit dependencies. Clear dependencies include scientific data
 dependencies and direct software dependencies which can be extracted directly
-from the analysis program. The scientific data of this example comes from the Grid. Direct software dependencies include CMSSW, Git, HTTP and one personal home page. 
+from the analysis program. The scientific data of this example comes from the Grid ~\cite{holtman2001cms}. Direct software dependencies include CMSSW, Git, HTTP and one personal home page. 
 
 Implicit dependencies include indirect software
 dependencies which is necessary for the successful execution of direct software
@@ -433,7 +433,7 @@ been cancelled now.
         6. Perform the actual tau roast program. \\ 
         \hline
         {\bf Version 2: Script}\\ \hline
-        {\tt set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3)} \\
+        {\tt setenv CMSSW\_BASE CMSSW\_5\_3\_11\_patch3} \\
         {\tt cmsrel \$HOME/\$CMSSW\_BASE} \\
         {\tt cvs co -r V03-09-23 PhysicsTools/PatUtils} \\
         {\tt git clone \url{https://github.com/cms-ttH/BEAN.git}} \\
@@ -447,10 +447,10 @@ been cancelled now.
         {\tt scripts/roaster data/generic\_ttl.yaml} \\ 
         \hline
         {\bf version 3: Formulated Script} \\ \hline
-        {\tt set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3)} \\
-        {\tt set {\bf GIT} = (\url{https://github.com})} \\
-        {\tt set {\bf PYYAML} = (\url{http://pyyaml.org})} \\
-        {\tt set {\bf ND} = (\url{http://nd.edu})} \\
+        {\tt setenv CMSSW\_BASE CMSSW\_5\_3\_11\_patch3} \\
+        {\tt setenv {\bf GIT} \url{https://github.com}} \\
+        {\tt setenv {\bf PYYAML} \url{http://pyyaml.org}} \\
+        {\tt setenv {\bf ND} \url{http://nd.edu}} \\
         {\tt cmsrel \$HOME/\$CMSSW\_BASE} \\
         {\tt cvs co -r V03-09-23 PhysicsTools/PatUtils} \\
         {\tt git clone \${\bf GIT}/cms-ttH/BEAN.git} \\
@@ -464,10 +464,10 @@ been cancelled now.
         {\tt scripts/roaster data/generic\_ttl.yaml} \\ 
         \hline
        {\bf Version 4: Fine-Grained Toolkit - Package}\\ \hline
-        {\tt set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3)} \\
-        {\tt set {\bf GIT} = (\url{https://github.com})} \\
-        {\tt set {\bf PYYAML} = (\url{http://pyyaml.org})} \\
-        {\tt set {\bf ND} = (\url{http://nd.edu})} \\
+        {\tt setenv CMSSW\_BASE CMSSW\_5\_3\_11\_patch3} \\
+        {\tt setenv {\bf GIT} \url{https://github.com}} \\
+        {\tt setenv {\bf PYYAML} \url{http://pyyaml.org}} \\
+        {\tt setenv {\bf ND} \url{http://nd.edu}} \\
         {\tt cmsrel \$HOME/\$CMSSW\_BASE} \\
         {\tt cvs co -r V03-09-23 PhysicsTools/PatUtils} \\
         {\tt git clone \${\bf GIT}/cms-ttH/BEAN.git} \\
@@ -510,7 +510,7 @@ process more easier.
 
 In order to repeat Matthais's example, we consulted the original
 author by email about the necessary work for the experiment. In response,
-Matthias introduced the general workflow of his tau roast program through one long
+the original author introduced the general workflow of his tau roast program through one long
 email including notes, linux shell commands, web linksi, as illustrated by the Version 1 of
 Table~\ref{table:scripts}.
 
@@ -524,7 +524,7 @@ email refers to one environment variable called CMSSW\_base without clear
 declaration, the new user needs to send one email to the original writer to
 obtain its accurate value. Secondly, the necessary procedures to repeat the
 experiment, including software acquisition from different sources, is complex
-for the new user. In Matthias's example, the sources of software includes
+for the new user. In the example, the sources of software includes
 CMSSW, Git, HTTP. The access of CMSSW requires the new user to be an authorized
 user of CMSSW. What's more, some parts of the workflow are unrepeatable. The
 third step of this experiment requires the new user to own the access authority
@@ -533,13 +533,13 @@ of the Grid and involves the analysis of AOD data with the size of about 400TB.
 Implication: Directly repeating the experiment using the workflow description and results provided by the original author is complex and difficult. Some extra work must be done to make the reproduction process easier.
 
 \subsection{Solution 2: Script} One possible solution for the access authority
-problem of grid data is to grant the new user the authority to access gird data
+problem of Grid data is to grant the new user the authority to access gird data
 directly. Another possible solution is let the new user directly operate on the
 machine the original author used. As for the complexity of jumping between
 multiple web links, people may suggest that the original author
 should generate one script including all the contents from different web links.
 
-To test out these possible solutions, we integrate the content of all the notes, commands and web links involved in the emails into one neat, complete shell script, which begins with the definition of environment variables, software acquisition from CMSSW, Git and other web resources, and software installation, ends with the execution of the actual analysis program. Version 2 of Table~\ref{table:scripts} illstrates the merged script. As for the data acquisition from the Grid, we directly use the local copy in HDFS to avoid requiring the new user to obtain a grid certification.
+To test out these possible solutions, we integrate the content of all the notes, commands and web links involved in the emails into one neat, complete shell script, which begins with the definition of environment variables, software acquisition from CMSSW, Git and other web resources, and software installation, ends with the execution of the actual analysis program. Version 2 of Table~\ref{table:scripts} illstrates the merged script. As for the data acquisition from the Grid, we directly use the local copy in HDFS to avoid requiring the new user to obtain a Grid certification.
 
 
 %*****hmeng-doult: the size of hadoop need to reconsidered. how to correctly illustrate the data size of this example?
@@ -572,12 +572,12 @@ replace all the references of the original git package.
 
 So far, the data access authority is ignored and
 the reproduction of the experiment is on the machine the original author used. 
-As for grid data, using the data
-copy stored in the machine where Matthias executed the experiment requires the
+As for Grid data, using the data
+copy stored in the machine where the original author executed the experiment requires the
 new user to have the authority to access the machine, which complicates the
 management of the original machine, even is impossible if the original machine
 executes rigid user access control. Granting everyone who wants to repeat the
-analysis the access authority for grid is unacceptable to system administrator. 
+analysis the access authority for Grid is unacceptable to system administrator. 
 
 Implication: All the data and software involved in the experiment should be
 provided to the new user in the format of one self-contained package so that
@@ -598,7 +598,7 @@ the package.
 One reason is that figuring out the underlying dependencies of
 each software is complex and time-consuming and even impossible for the
 original author. In this experiment, the machine used for the experiment is one
-public machine of physics department, and Matthias is one common user without
+public machine of physics department, and the original author is one common user without
 root authority. The underlying OS and supporting softwares are installed and
 maintained by the IT department of the university. On the other hand, the
 architecture design of the required package including all the data and software
@@ -638,12 +638,12 @@ corresponding map file will be downloaded into the new machine.
     \centering
     \begin{tabular}{|l|l|}
         \hline
-        Archive Path & Service Description \\ \hline
+        \bf Archive Path & \bf Service Description \\ \hline
         {\tt /archive/OS/path} & OS Image \\ \hline
         {\tt /archive/software/path} & Common Software Library \\ \hline
         {\tt /archive/CMSSW/path} & CMS Software Library \\ \hline
         {\tt /archive/git/path} & Git Software Library \\ \hline
-        {\tt /archive/http/path} & http resources \\ \hline
+        {\tt /archive/http/path} & HTTP resources \\ \hline
         {\tt /archive/experiment/path} & experiment private files \\ \hline
         {\tt /archive/grid-data/path} & data from the Grid \\ \hline
     \end{tabular}
@@ -682,15 +682,15 @@ interaction with the archive.
 \section{One Implemention of Fine-Grained Toolkit Using Parrot}
 
 The section introduces our implementation of one fine-grained packaging utility based on Solution 4. With the help of one
-virtual filesystem access tool, Parrot, we trap all system calls of one
+virtual filesystem access tool, Parrot ~\cite{thain2005parrot}, we trap all system calls of one
 program through ptrace debugging interface, and collect all the names of accessed files. 
 Then one self-contained package containing all the accessed files is generated to help others repeat the experiment.
 
 \subsection{Working principle of Packaging Utility} 
 
 Parrot is a virtual filesystem access tool which attaching existing programs to
-a variety of remote {\tt I/O} systems including http, ftp, gridftp, irods, HDFS,
-xrootd, grow and chirp. It traps all system calls of one program through ptrace
+a variety of remote {\tt I/O} systems including 
+HTTP, FTP, GridFTP, iRODS, HDFS, XRootD, GROW, and Chirp. It traps all system calls of one program through ptrace
 debugging interface, and replaces them with remote {\tt I/O} operations as desired.
 Through executing one program under Parrot, all the paths of files involved in
 this program can be recorded.  
@@ -698,7 +698,7 @@ this program can be recorded.
 With the help of Parrot, one packaging utility which generates one independent
 package for one program to make the reproduction of the program convenient can
 be deployed. The starting point of the packaging utility is one successful execution
-sandbox (the data from grid has been preserved in HDFS and the software from
+sandbox (the data from Grid has been preserved in HDFS and the software from
 CMSSW, Git and HTTP has been on the local machine.). We re-execute the actual
 data analysis code under Parrot and get the name list of all the files actually
 accessed during the execution process of the actual data analysis. Then,
@@ -739,7 +739,7 @@ actual analysis command.
 
 Figure~\ref{fig:workflow-parrot} illustrates the workflow of this solution. Firstly, execute the analysis program under Parrot and obtain one filename list containing all the accessed files. Then generate one package containing all the files included in the filename list. Finally, rerun the program with the help of the package. Each step will be examined in details.
 
-(1) execute one analysis program under Parrot and obtain filename list (L1) of it
+{\bf(1)} Execute one analysis program under Parrot and obtain filename list (L1) of it
 
 Parrot is one virtual file system that can support user access to multiple
 underlying file systems. Parrot traps each system call involved in the process
@@ -748,17 +748,17 @@ corresponding operations to the accessed file system. During this process, each
 accessed file, together with the access type, such as
 open, stat, read and write, is recorded into one file.
 
-The command used to generate the filename list is as follows. The {\tt -L} parameter refers to the path of the file containing all the accessed file name of the experiment.
+The command used to generate the filename list is as follows. The {\tt name-list} parameter refers to the path of the file containing all the accessed file name of the experiment.
 
-{\tt parrot\_run -L namelist /bin/tcsh script\_v4.sh}
+{\tt parrot\_run \texttt{-{}-}name-list namelist /bin/tcsh script\_v4.sh}
 
 The original ouput of this command is one namelist file with the size of 6.6MB
-and 132,058 lines, each of which corresponds to one one accessed file of the
+and 132,047 lines, each of which corresponds to one one accessed file of the
 program. We noticed that some items appeared multiple times in the filename list. To reduce the
 packaging time, de-duplication and sorting techoniques are used for the
-namelist file, generating one smaller file with the size of 3.2MB and 67,178 lines.
+namelist file, generating one smaller file with the size of 3.2MB and 67,168 lines.
 
-(2) generate one package containing the files of L1 
+{\bf (2)} Generate one package containing the files of L1 
 
 The packaging utility iterates each filename inside L1 and copies it into the
 target package. Finally, the target package
@@ -775,15 +775,15 @@ The package description information is shown in Table~\ref{table:package-info}.
 
 \begin{table}
     \centering
-    \begin{tabular}{|l|l|}
+    \begin{tabular}{|l|}
     \hline
-     the total size of package&21GB \\ \hline
-    the total number of files&15905\\ \hline
-    the total number of directory&1549\\ \hline
-    the total number of symbolic link&4614 \\ \hline
+     the total size of package: 21GB \\ 
+    the total number of files: 15905\\ 
+    the total number of directory: 1549\\ 
+    the total number of symbolic link: 4614 \\ \hline 
     \end{tabular}
-    \caption{Structure of Map File}
-    \label{table:map-file}
+    \caption{Package Infomation}
+    \label{table:package-info}
 \end{table}
 
 {\tt parrot\_run /bin/bash package-utility.sh -L namelist}
@@ -812,26 +812,21 @@ type of the system call.
     \centering
     \begin{tabular}{|l|l|}
     \hline
-    Path used in Program & Actual Location \\ \hline
+    \bf Path used in Program & \bf Actual Location \\ \hline
     {\tt /} & {\tt /tmp/package-hep} \\ \hline
     {\tt /tmp/package-hep} & {\tt /tmp/package-hep} \\ \hline
     {\tt /dev} & {\tt /dev} \\ \hline
-    {\tt /misc} & {\tt /misc}\\ \hline
-    {\tt /net} & {\tt /net}\\ \hline
-    {\tt /proc} & {\tt /proc}\\ \hline
-    {\tt /sys} & {\tt /sys}\\ \hline
-    {\tt /var} & {\tt /var}\\ \hline
-    {\tt /selinux} & {\tt /selinux}\\ \hline
+    {\tt ...} & {\tt ...}\\ \hline
     \end{tabular}
     \caption{Structure of Map File}
     \label{table:map-file}
 \end{table}
 
 %*****lack: re-execute process: re-execution process will redirect all the data access into the package except for data under proc sys dev selinux
-(3) rerun the analysis program using the package
+{\bf (3)} Repeat the analysis program using the package
 
 When another scholar wants to repeat the analysis program, 
-the description of the exepriment environment is firstly referred to build the underlying OS and basic software environment. In this example, the only necessary software basis is Parrot. Then the scholar can obtain one copy of the package and its map file, and rerun the program using the following command:
+the description of the exepriment environment is firstly referred to build the underlying OS and basic software environment. In this example, the only necessary software basis is Parrot. Then the scholar can obtain one copy of the package and its map file, and rerun the program using the following command. The {\tt m} parameter can be used to refer to the path of map file, which will be explained in the next part.
 
 {\tt parrot\_run -m /tmp/mountlist /bin/tcsh script\_v4.sh}
 
@@ -868,7 +863,7 @@ code into the analysis script and add one item {\tt /A /A} into the map file.
 \subsection{Discussion of Solution 4} 
 
 Under Solution 4, the reproduction of one analysis program becomes easier.
-Rethink Matthias's example, the reproduction only needs
+Rethink the example, the reproduction only needs
 to set necessary environment variables, the actual analysis command
 and the package. If different scholars want to repeat one analysis program,
 what they need to do is to obtain the package and rerun the actual analysis
@@ -890,12 +885,12 @@ Packaging utlity maintains one list of common dependencies and first judges whet
     \centering
     \begin{tabular}{|l|r|r|r|}
         \hline
-        Solution ID & Data Resources & Software Resources & Operation Manual \\ \hline
-        Solution 1& grid & CMSSW Git HTTP & email \\ \hline
+        \bf Solution ID & \bf Data Resources &\bf Software Resources & \bf Operation Manual \\ \hline
+        Solution 1& Grid & CMSSW Git HTTP & email \\ \hline
         Solution 2 and 3& local (HDFS) & CMSSW Git HTTP & shell script \\ \hline
         Solution 4& package & package & user manual of package \\ \hline
     \end{tabular}
-    \caption{The relationship of different solutions}
+    \caption{Relationship of Different Solutions}
     \label{table:relationship}
 \end{table*}
 
@@ -935,8 +930,8 @@ Both the local VM and EC2 VM repeat the experiment with the help of the package 
     \centering
     \begin{tabular}{|l|r|r|r|r|}
     \hline
-    Machine & Kernel & Distro & CPU & Mem\\ 
-    Type & Version & Version & Cores & (GB)\\ \hline
+    \bf Machine & \bf Kernel Version & \bf Distro & \bf CPU & \bf Mem\\ 
+    \bf Type &  & \bf Version & \bf Cores & (\bf GB)\\ \hline
     earth  & 2.6.18-371.4.1.el5 & RedHat 5.10 & 64 & 125 \\ \hline 
     local VM& 2.6.18-371.4.1.el5 & CentOS 5.10 & 4 & 2 \\ \hline
     EC2 VM& 2.6.18-348.el5xen & RedHat 5.9 & 16 & 60.5 \\ \hline
@@ -957,12 +952,12 @@ The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-
     \centering
     \begin{tabular}{|l|r|r|}
     \hline
-    Sub-Task & Time & Percentage \\ \hline
-    Software acquisition from CMSSW & 7min 24s & 21.44\% \\ \hline
-    Software acquisition from Git & 9s & 0.43\% \\ \hline
-    Software acquisition from Wget & 38s & 1.83\% \\ \hline
-    Environment Build - SCRAM & 5min 48s & 16.80\% \\ \hline
-    Environment Build - Python & 1s & 0.05\% \\ \hline
+    \bf Sub-Task & \bf Time & \bf Percentage \\ \hline
+    Obtain software from CMSSW & 7min 24s & 21.44\% \\ \hline
+    Obtain software from Git & 9s & 0.43\% \\ \hline
+    Obtain software from Wget & 38s & 1.83\% \\ \hline
+    Environment build - SCRAM & 5min 48s & 16.80\% \\ \hline
+    Environment build - Python & 1s & 0.05\% \\ \hline
     Data analysis & 20min 31s & 59.44\% \\ \hline
     Total & 34min 31s & 100.00\% \\ \hline
     \end{tabular}
@@ -977,7 +972,7 @@ The size of data and software from each category is shown in table~\ref{table:da
     \centering
     \begin{tabular}{|l|r|}
     \hline
-    Data Category & Data Size \\ \hline
+    \bf Data Category & \bf Data Size \\ \hline
     Software from CMSSW & 448.3MB \\ \hline
     Software from Git & 73.7MB \\ \hline
     Software from Wget & 52MB \\ \hline
@@ -1002,7 +997,7 @@ separately.
     \centering
     \begin{tabular}{|l|r|}
     \hline
-    Sub-Task & Time \\ \hline
+    \bf Sub-Task &\bf Time \\ \hline
     Obtain file namelist & 28min 23s \\ \hline
     Generate P1 & 85min 51s \\ \hline
     Re-run the program within P1 & 13min 4s \\ \hline
@@ -1019,7 +1014,8 @@ Hadoop and the necessary set of software, files from local filesystem and severa
     \centering
     \begin{tabular}{|l|l|r|}
     \hline
-    Data Category &Location & Data Size \\ \hline
+    \bf Data &\bf Location & \bf Data \\ 
+    \bf Category & & \bf Size\\ \hline
     HDFS & hadoop &20GB \\ \hline
     PanFS & pscratch & 1.6MB \\ \hline
     CVMFS & cvmfs &103MB \\ \hline 
@@ -1046,7 +1042,7 @@ Solution 4 reduces the total size of all data sources from 156TB to 21GB.
     \centering
     \begin{tabular}{|l|r|r|}
     \hline
-     Data Category & Solution2: Size & Solution4: Size \\ \hline
+    \bf Data Category & \bf Solution2: Size & \bf Solution4: Size \\ \hline
     HDFS & 43.3GB & 20GB \\ \hline
     PanFS & 155TB & 1.6MB \\ \hline
     CVMFS & 7.4GB &103MB \\ \hline
@@ -1073,7 +1069,8 @@ Data is obtained through accessing HDFS in Solution 2, but is copied into the pa
     \centering
     \begin{tabular}{|l|r|r|}
     \hline
-    Task Category & Solution 2: Time & Solution 4: Time\\ \hline
+    \bf Task & \bf Solution 2& \bf Solution 4\\ 
+    \bf Category & \bf Time & \bf Time \\ \hline
     Software Acquisition & 8min 11s & N/A \\ \hline
     Environment Build & 5min 49s  & 3s \\ \hline
     Obtain file namelist & N/A & 28min 23s \\ \hline
@@ -1094,7 +1091,7 @@ The execution time on one machine greatly depends on its hardware configuration,
     \centering
     \begin{tabular}{|l|r|}
     \hline
-    Machine Type & Execution Time \\ \hline
+    \bf Machine Type & \bf Execution Time \\ \hline
     earth & 13min 4s \\ \hline
     EC2 VM & 13min 30s\\ \hline
     local VM & 21min 38s \\ \hline
@@ -1252,10 +1249,10 @@ need to be investigated.
 
 \subsection{Here is the Useful Package}
 
-At the beginnig of our case study, we generated one package for Matthias's
+At the beginnig of our case study, we generated one package for the
 example based on Solution 4. Several months later, the original machine met
 some problems and the access model of CMSSW was also modified. In this case, if
-you want to repeat Matthias's example on the original machine, different 
+you want to repeat the example on the original machine, different 
 configurations, including CMSSW\_ARCH, environment variables and CVS access
 authority need to be modified. However, with the generated package and its map file, we can repeat the experiment directly on the same machine without any modification.
 %here is the new content-hmeng

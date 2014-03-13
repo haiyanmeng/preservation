@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  13 MAR 2014 18:15
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  13 MAR 2014 19:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -183,11 +183,7 @@ Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
 Package: threeparttable 2003/06/13  v 3.0
 \@tempboxb=\box30
 )
-(./paper.aux
-
-LaTeX Warning: Label `table:map-file' multiply defined.
-
-)
+(./paper.aux)
 \openout1 = `paper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
@@ -281,53 +277,54 @@ ned
  []
 
 File: workflow-parrot.eps Graphic file (type eps)
-<workflow-parrot.eps> [7]
+<workflow-parrot.eps>
+Overfull \hbox (14.66006pt too wide) in paragraph at lines 753--754
+[]\T1/aett/m/n/9 parrot_run --name-list namelist /bin/tcsh script_v4.sh 
+ []
 
-LaTeX Warning: Reference `table:package-info' on page \thepage  undefined on in
-put line 774.
 
+Underfull \vbox (badness 1735) has occurred while \output is active []
 
+ [7]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
+
+Underfull \vbox (badness 1342) has occurred while \output is active []
+
  [8]
-Overfull \hbox (4.00272pt too wide) in paragraph at lines 908--909
+Overfull \hbox (4.00272pt too wide) in paragraph at lines 903--904
 \T1/aer/m/n/9 The sec-tion first il-lus-trates the re-la-tion-ship of dif-fer-e
 nt preser-
  []
 
 
-Overfull \hbox (14.66936pt too wide) in paragraph at lines 936--944
+Overfull \hbox (24.41742pt too wide) in paragraph at lines 931--939
  [][] 
  []
 
 
-Overfull \hbox (17.79184pt too wide) in paragraph at lines 958--969
+Overfull \hbox (8.31563pt too wide) in paragraph at lines 953--964
  [][] 
  []
 
 [9]
-Overfull \hbox (9.11507pt too wide) in paragraph at lines 1020--1031
- [][] 
- []
-
-
-Overfull \hbox (13.41734pt too wide) in paragraph at lines 1074--1083
+Overfull \hbox (0.88188pt too wide) in paragraph at lines 1043--1054
  [][] 
  []
 
 [10]
-Overfull \hbox (4.71172pt too wide) in paragraph at lines 1111--1111
+Overfull \hbox (4.71172pt too wide) in paragraph at lines 1108--1108
 []\secfnt DISCUSSION OF DATA AND SOFT-WARE
  []
 
 File: preservation-integration.eps Graphic file (type eps)
 <preservation-integration.eps> [11]
-Overfull \hbox (4.93027pt too wide) in paragraph at lines 1209--1209
+Overfull \hbox (4.93027pt too wide) in paragraph at lines 1206--1206
 []\secfnt Preservation De-gree of Di-rec-tory Struc-ture 
  []
 
 
-Overfull \hbox (8.10556pt too wide) in paragraph at lines 1285--1287
+Overfull \hbox (8.10556pt too wide) in paragraph at lines 1282--1284
 \T1/aer/m/n/9 en-vi-ron-ment is based on a CernVM filesys-tem(CVMFS) specif-
  []
 
@@ -337,19 +334,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [13])
 [14
 
-] (./paper.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 2053 strings out of 493312
- 23268 string characters out of 6143677
+ 2054 strings out of 493312
+ 23285 string characters out of 6143677
  91143 words of memory out of 5000000
- 5476 multiletter control sequences out of 15000+600000
+ 5477 multiletter control sequences out of 15000+600000
  46294 words of font info for 62 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  39i,9n,28p,607b,353s stack positions out of 5000i,500n,10000p,200000b,80000s

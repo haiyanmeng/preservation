@@ -8,45 +8,45 @@ Warning--can't use both volume and number fields in buncic2010cernvm
 Warning--can't use both volume and number fields in compostella2010cdf
 Warning--empty journal in johnston2014workflow
 Warning--empty journal in matthews2009towards
-You've used 35 entries,
+You've used 36 entries,
             2118 wiz_defined-function locations,
-            692 strings with 9629 characters,
-and the built_in function-call counts, 13370 in all, are:
-= -- 1320
-> -- 659
+            698 strings with 9794 characters,
+and the built_in function-call counts, 13676 in all, are:
+= -- 1352
+> -- 672
 < -- 19
-+ -- 270
-- -- 226
-* -- 908
-:= -- 2146
-add.period$ -- 113
-call.type$ -- 35
-change.case$ -- 217
++ -- 275
+- -- 230
+* -- 931
+:= -- 2198
+add.period$ -- 116
+call.type$ -- 36
+change.case$ -- 222
 chr.to.int$ -- 0
-cite$ -- 39
-duplicate$ -- 542
-empty$ -- 1013
-format.name$ -- 226
-if$ -- 2855
+cite$ -- 40
+duplicate$ -- 553
+empty$ -- 1037
+format.name$ -- 230
+if$ -- 2917
 int.to.chr$ -- 0
-int.to.str$ -- 35
-missing$ -- 33
-newline$ -- 177
-num.names$ -- 70
-pop$ -- 247
+int.to.str$ -- 36
+missing$ -- 34
+newline$ -- 182
+num.names$ -- 72
+pop$ -- 250
 preamble$ -- 1
-purify$ -- 181
+purify$ -- 185
 quote$ -- 0
-skip$ -- 409
+skip$ -- 417
 stack$ -- 0
-substring$ -- 740
-swap$ -- 173
+substring$ -- 761
+swap$ -- 174
 text.length$ -- 19
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 140
+type$ -- 144
 warning$ -- 4
-while$ -- 128
-width$ -- 37
-write$ -- 388
+while$ -- 132
+width$ -- 38
+write$ -- 399
 (There were 4 warnings)
