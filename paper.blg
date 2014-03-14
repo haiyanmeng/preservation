@@ -4,49 +4,50 @@ The top-level auxiliary file: paper.aux
 The style file: abbrv.bst
 Database file #1: cclpapers.bib
 Database file #2: this.bib
+Warning--I didn't find a database entry for "thain2005parrot"
 Warning--can't use both volume and number fields in buncic2010cernvm
 Warning--can't use both volume and number fields in compostella2010cdf
 Warning--empty journal in johnston2014workflow
 Warning--empty journal in matthews2009towards
-You've used 36 entries,
+You've used 35 entries,
             2118 wiz_defined-function locations,
-            698 strings with 9794 characters,
-and the built_in function-call counts, 13676 in all, are:
-= -- 1352
-> -- 672
+            693 strings with 9644 characters,
+and the built_in function-call counts, 13370 in all, are:
+= -- 1320
+> -- 659
 < -- 19
-+ -- 275
-- -- 230
-* -- 931
-:= -- 2198
-add.period$ -- 116
-call.type$ -- 36
-change.case$ -- 222
++ -- 270
+- -- 226
+* -- 908
+:= -- 2146
+add.period$ -- 113
+call.type$ -- 35
+change.case$ -- 217
 chr.to.int$ -- 0
-cite$ -- 40
-duplicate$ -- 553
-empty$ -- 1037
-format.name$ -- 230
-if$ -- 2917
+cite$ -- 39
+duplicate$ -- 542
+empty$ -- 1013
+format.name$ -- 226
+if$ -- 2855
 int.to.chr$ -- 0
-int.to.str$ -- 36
-missing$ -- 34
-newline$ -- 182
-num.names$ -- 72
-pop$ -- 250
+int.to.str$ -- 35
+missing$ -- 33
+newline$ -- 177
+num.names$ -- 70
+pop$ -- 247
 preamble$ -- 1
-purify$ -- 185
+purify$ -- 181
 quote$ -- 0
-skip$ -- 417
+skip$ -- 409
 stack$ -- 0
-substring$ -- 761
-swap$ -- 174
+substring$ -- 740
+swap$ -- 173
 text.length$ -- 19
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 144
+type$ -- 140
 warning$ -- 4
-while$ -- 132
-width$ -- 38
-write$ -- 399
-(There were 4 warnings)
+while$ -- 128
+width$ -- 37
+write$ -- 388
+(There were 5 warnings)

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  13 MAR 2014 19:15
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=latex 2014.1.7)  14 MAR 2014 11:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -233,22 +233,22 @@ Overfull \hbox (1.20271pt too wide) in paragraph at lines 102--107
 
 File: data-code-size.eps Graphic file (type eps)
 <data-code-size.eps>
-Overfull \hbox (11.58943pt too wide) in paragraph at lines 191--208
+Overfull \hbox (11.58943pt too wide) in paragraph at lines 191--207
 [][]
  []
 
 [2]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 3049) has occurred while \output is active []
 
 
-Overfull \hbox (3.23781pt too wide) in paragraph at lines 340--341
+Overfull \hbox (3.23781pt too wide) in paragraph at lines 339--340
 []\T1/aer/m/n/9 (f) Build soft-ware en-vi-ro-ment us-ing SCRAM  [27] and Python
  
  []
 
 File: dependencies.eps Graphic file (type eps)
 <dependencies.eps> [3]
-LaTeX Font Info:    Try loading font information for T1+aett on input line 396.
+LaTeX Font Info:    Try loading font information for T1+aett on input line 395.
 
  (/usr/share/texmf-dist/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
@@ -258,7 +258,7 @@ File: version-evolution.eps Graphic file (type eps)
 <version-evolution.eps> [4] [5]
 File: solution3.eps Graphic file (type eps)
  <solution3.eps>
-Overfull \hbox (2.27652pt too wide) in paragraph at lines 639--650
+Overfull \hbox (2.27652pt too wide) in paragraph at lines 638--649
  [][] 
  []
 
@@ -266,69 +266,71 @@ Overfull \hbox (2.27652pt too wide) in paragraph at lines 639--650
 Underfull \vbox (badness 3977) has occurred while \output is active []
 
  [6]
-Overfull \hbox (17.8397pt too wide) in paragraph at lines 682--682
+Overfull \hbox (17.8397pt too wide) in paragraph at lines 681--681
 []\secfnt ONE IM-PLE-MEN-TION OF FINE-GRAINED
  []
 
 
-Overfull \hbox (4.48003pt too wide) in paragraph at lines 684--688
+LaTeX Warning: Citation `thain2005parrot' on page \thepage  undefined on input 
+line 684.
+
+
+Overfull \hbox (4.48003pt too wide) in paragraph at lines 683--687
 \T1/aer/m/n/9 The sec-tion in-tro-duces our im-ple-men-ta-tion of one fine-grai
 ned
  []
 
 File: workflow-parrot.eps Graphic file (type eps)
 <workflow-parrot.eps>
-Overfull \hbox (14.66006pt too wide) in paragraph at lines 753--754
+Overfull \hbox (14.66006pt too wide) in paragraph at lines 752--753
 []\T1/aett/m/n/9 parrot_run --name-list namelist /bin/tcsh script_v4.sh 
  []
 
-
-Underfull \vbox (badness 1735) has occurred while \output is active []
-
- [7]
+[7]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-Underfull \vbox (badness 1342) has occurred while \output is active []
-
  [8]
-Overfull \hbox (4.00272pt too wide) in paragraph at lines 903--904
+Overfull \hbox (4.00272pt too wide) in paragraph at lines 902--903
 \T1/aer/m/n/9 The sec-tion first il-lus-trates the re-la-tion-ship of dif-fer-e
 nt preser-
  []
 
 
-Overfull \hbox (24.41742pt too wide) in paragraph at lines 931--939
+Overfull \hbox (24.41742pt too wide) in paragraph at lines 930--938
  [][] 
  []
 
 
-Overfull \hbox (8.31563pt too wide) in paragraph at lines 953--964
+Overfull \hbox (8.31563pt too wide) in paragraph at lines 952--963
  [][] 
  []
 
 [9]
-Overfull \hbox (0.88188pt too wide) in paragraph at lines 1043--1054
+Overfull \hbox (0.88188pt too wide) in paragraph at lines 1042--1053
  [][] 
  []
 
 [10]
-Overfull \hbox (4.71172pt too wide) in paragraph at lines 1108--1108
+Overfull \hbox (4.71172pt too wide) in paragraph at lines 1107--1107
 []\secfnt DISCUSSION OF DATA AND SOFT-WARE
  []
 
 File: preservation-integration.eps Graphic file (type eps)
 <preservation-integration.eps> [11]
-Overfull \hbox (4.93027pt too wide) in paragraph at lines 1206--1206
+Overfull \hbox (4.93027pt too wide) in paragraph at lines 1205--1205
 []\secfnt Preservation De-gree of Di-rec-tory Struc-ture 
  []
 
 
-Overfull \hbox (8.10556pt too wide) in paragraph at lines 1282--1284
+Overfull \hbox (8.10556pt too wide) in paragraph at lines 1281--1283
 \T1/aer/m/n/9 en-vi-ron-ment is based on a CernVM filesys-tem(CVMFS) specif-
  []
 
-[12] (./paper.bbl
+
+Underfull \vbox (badness 2698) has occurred while \output is active []
+
+ [12]
+(./paper.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [13])
@@ -344,4 +346,4 @@ Here is how much of TeX's memory you used:
  957 hyphenation exceptions out of 8191
  39i,9n,28p,607b,353s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on paper.dvi (14 pages, 108720 bytes).
+Output written on paper.dvi (14 pages, 108328 bytes).
