@@ -882,26 +882,74 @@ Packaging utlity maintains one list of common dependencies and first judges whet
 
 %*****hmeng-doubt: in the fourth version, let user to mark whether they change the data and software. if changed, one new package is generated to avoid data overlap and pollution. otherwise, directly starts packaging process based on the current target package. 
 \section{Evaluation}
-The section first introduces the platform used to evaluate different solutions is introduced. The execution time and data size of Solution 2 and 4 are tested and compared. It is hard to accurately calculate the time consumption of Solution 1. Solution 3 shares the same time consumption and data size with Solution 3.
+The section evaluates the connectness of the packaging utility of Solution 4.
+To do it, the experiment is repeated using Solution 2 and 4 on the original machine.
+Then, two different virtual machines (VM) - one local VM and one amazon EC2 VM, are employed to further verify the reproductivity of Solution 4.
 
-\subsection{Evaluation Platform}
+\subsection{Evaluation on the Original Machine}
 
-The first three solutions are all directly verified on the machine the original
-author used to execute the experiment, which is convenient but involves access
-authority problem. Solution 4 is verified on the original machine and on one virtual machine.
-To compare the execution time and data size of Solution 4
-with Solution 2, the package generated on the original machine is utilized to
-rerun the experiment on the original machine. This choice avoids the impact of
-different CPUs of the original machine and the new machine to repeat the
-experiment. 
+This section evaluates the correctness of Solution 4 on the original machine and compares the time consumption and data size of Solution 2 and 4 on the original machine. 
 
-To completely verify the correctness of Solution 4, one virtual
-machine ~\cite{goldberg1974survey} sharing the same kernel version with the original machine is deployed.
-Then the necessary software environment is configured on the virtual machine,
-and the package is copied onto it, and the
-experiment is repeated on the virtual machine.
+To do this, we first repeat the example from scratch using Solution 2 on the the original machine and count the time consumption and data size. 
+Then based on the successful execution of Solution 2, Solution 4 is evaluated - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
 
-One virtual machine from amazon EC2 ~\cite{amazon2010amazon} is used to verify the reproducibility of the experiment. Table~\ref{table:config-vm} illustrates the configuration of the original machine and each virtual machine. 
+Table~\ref{table:time-2nd3rd} shows the execution time comparison between
+Solution 2 and 4. The time consumption of the reproduction of one program from
+different scholars kept the same under Solution 2, including software and data
+preparation. 
+However, under Solution 4, the Software Acquisition stage is not necessray, and all the environment building only takes 3s.
+Data is obtained through accessing HDFS in Solution 2, but is copied into the package in Solution 4. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l|r|r|}
+    \hline
+    \bf Task & \bf Solution 2& \bf Solution 4\\ 
+    \bf Category & \bf Time & \bf Time \\ \hline
+    Software Acquisition & 8min 11s & N/A \\ \hline
+    Environment Build & 5min 49s  & 3s \\ \hline
+    Actual Analysis & 20min 31s & 13min 4s \\ \hline
+    \end{tabular}
+    \caption{Execution Time Comparison between Solution 2 and 4}
+    \label{table:time-2nd3rd}
+\end{table}    
+
+Table~\ref{table:time-3rd} illustrates the time used to
+obtain filename list and generate the package. 
+The time used for these two steps is greatly longer than the execution time
+within the new package. However, the time consumption of filename list
+acquisition and package generation is one-time. That is, once the package is
+generated, many users can directly obtain the package and repeat the experiment
+separately. 
+
+\begin{table}
+    \centering
+    \begin{tabular}{|l|r|}
+    \hline
+    \bf Sub-Task &\bf Time \\ \hline
+    Obtain file namelist & 28min 23s \\ \hline
+    Generate P1 & 85min 51s \\ \hline
+    Re-run the program within P1 & 13min 4s \\ \hline
+    \end{tabular}
+    \caption{File of Solution 4}
+    \label{table:time-3rd}
+\end{table}
+
+Table~\ref{table:size-original-real} illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
+The third column is corresponding to the data size of Solution 4. 
+Solution 2 does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. Howerver, it is hard to figure out the named size of each local source. 
+
+In conclusion, Solution 4 can repeat the whole experiment successfully and reduce the total size involved in the experiment to one reasonable size.
+
+
+\subsection{Evaluation on Different Machines}
+
+To further verify the reproductivity of Solution 4 on other machines, two different virtual machines are employed -
+one virtual
+machine ~\cite{goldberg1974survey} sharing the same kernel version with the original machine,
+and one virtual machine from amazon EC2 ~\cite{amazon2010amazon}.
+
+Table~\ref{table:config-vm} illustrates the configuration of the original machine and each virtual machine. 
 All the machines adopt x86\_64 hardware platform and linux OS.
 Both the local VM and EC2 VM repeat the experiment with the help of the package generated on the original machine successfully.
 
@@ -919,89 +967,9 @@ Both the local VM and EC2 VM repeat the experiment with the help of the package 
     \label{table:config-vm}
 \end{table}
 
-\subsection{Execution Time Comparison of Solution 2 and 4 on the Original Machine}
-
-The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-2nd}. About 40\%  of the total execution time is consumed to prepare relevant software environment. The cvs command is called to check out 23 packages from CMSSW and three git repositories are cloned.
-
-\begin{table}
-    \centering
-    \begin{tabular}{|l|r|r|}
-    \hline
-    \bf Sub-Task & \bf Time & \bf Percentage \\ \hline
-    Obtain software from CMSSW & 7min 24s & 21.44\% \\ \hline
-    Obtain software from Git & 9s & 0.43\% \\ \hline
-    Obtain software from Wget & 38s & 1.83\% \\ \hline
-    Environment build - SCRAM & 5min 48s & 16.80\% \\ \hline
-    Environment build - Python & 1s & 0.05\% \\ \hline
-    Data analysis & 20min 31s & 59.44\% \\ \hline
-    Total & 34min 31s & 100.00\% \\ \hline
-    \end{tabular}
-    \caption{Breakdown of Execution Time of Solution 2}
-    \label{table:time-2nd}
-\end{table}
-
-The breakdown of execution time of the
-Solution 4 is illustrated in Table~\ref{table:time-3rd}. The time used to
-obtain filename list and generate P1 is greatly longer than the execution time
-within the new package. However, the time consumption of filename list
-acquisition and package generation is one-time. That is, once the package is
-generated, many users can directly obtain the package and repeat the experiment
-separately. 
-
-\begin{table}
-    \centering
-    \begin{tabular}{|l|r|}
-    \hline
-    \bf Sub-Task &\bf Time \\ \hline
-    Obtain file namelist & 28min 23s \\ \hline
-    Generate P1 & 85min 51s \\ \hline
-    Re-run the program within P1 & 13min 4s \\ \hline
-    \end{tabular}
-    \caption{Time Breakdown of Solution 4}
-    \label{table:time-3rd}
-\end{table}
-
-Table~\ref{table:time-2nd3rd} shows the execution time comparison between
-Solution 2 and 4. The time consumption of the reproduction of one program from
-different scholars kept the same under Solution 2, including software and data
-preparation. However, under Solution 4, the data and software preparation is
-one-time. The following reproduction of the same program only needs to obtain
-one copy of the package and execute the actual experimental analysis directly.
-Data is obtained through accessing HDFS in Solution 2, but is copied into the package in Solution 4. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
-
-\begin{table}
-    \centering
-    \begin{tabular}{|l|r|r|}
-    \hline
-    \bf Task & \bf Solution 2& \bf Solution 4\\ 
-    \bf Category & \bf Time & \bf Time \\ \hline
-    Software Acquisition & 8min 11s & N/A \\ \hline
-    Environment Build & 5min 49s  & 3s \\ \hline
-    Actual Analysis & 20min 31s & 13min 4s \\ \hline
-    \end{tabular}
-    \caption{Execution Time Comparison between Solution 2 and 4}
-    \label{table:time-2nd3rd}
-\end{table}    
-
-\subsection{Data Size Comparison of Solution 2 and 4 on the Original Machine}
-
-Table~\ref{table:size-original-real} illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
-The third column is corresponding to the data size of Solution 4. 
-Solution 2 does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. Howerver, it is hard to figure out the named size of each local source. 
-
-The packaging utility checks the system call of each file within the namelist,
-and maintains the minimum dataset, which makes the size of the final package 
-as small as possible. The total size of Hadoop under Solution 2 is astonishing,
-while the size of Hadoop under the package is decreased to 20GB. 
-The total size of PanFS is 155TB, however, the size of the really used data of PanFS is only 1.6MB.
-Table~\ref{table:datasize-2nd3rd} compares the original size and the really used size of each data source.
-Solution 4 reduces the total size of all data sources from 156TB to 21GB.
-
-\subsection{Excution Time on Different Machines}
 Table~\ref{table:time-vm} shows the execution time of the experiment on different machines - the original machine, local VM and EC2 VM. 
 Each machine utilizes the package generated on the original machine (i.e. earth) to repeat the experiment.
 The execution time on one machine greatly depends on its hardware configuration, which is shown in Table~\ref{table:config-vm}.
-
 
 \begin{table}
     \centering
@@ -1009,15 +977,12 @@ The execution time on one machine greatly depends on its hardware configuration,
     \hline
     \bf Machine Type & \bf Execution Time \\ \hline
     earth & 13min 4s \\ \hline
-    EC2 VM & 13min 30s\\ \hline
     local VM & 21min 38s \\ \hline
+    EC2 VM & 13min 30s\\ \hline
     \end{tabular}
     \caption{Execution Time on Different Machines}
     \label{table:time-vm}
 \end{table}
-
-
-
 
 %*****hmeng-doubt:Another reason for the packaging utility is that not all the data and software generated by the second version script is used during the the actual data analysis. The packaging utility can help us find out the optimal subset of data and software involved in one actual data analysis. 
 %*****hmeng-doubt: this point is not the motivation. but one achievement comes together. out of imagination.
