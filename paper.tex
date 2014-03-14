@@ -192,15 +192,15 @@ Section 4: Evaluation
         \hline
         \bf Name & \bf Location & \bf Total & \bf Named & \bf Used \\ 
         \hline
-        Ntuples data    & HDFS& 11.6TB & 43.3GB & 20GB \\ \hline
         CMSSW code     & CVS & 88.1GB & 448.3MB & 6.3MB\\ \hline
         Tau source       & Git & 73.7MB & 73.7MB & 6.7MB \\ \hline
         PyYAML binaries    & HTTP & 52MB & 52MB & 0KB \\ \hline
-        .h file       & HTTP& 41KB & 41KB & 0KB \\ \hline
-        Misc commands & PanFS & 155TB & N/A  & 1.6MB \\ \hline
-        Linux commands & localFS & 110GB &  N/A & 68.4MB \\ \hline     
+        .h file       & HTTP& 41KB & 41KB & 0KB \\ \hline \hline
+        Ntuples data    & HDFS& 11.6TB & 43.3GB & 20GB \\ \hline
         Configuration & CVMFS & 7.4GB & N/A & 103MB \\ \hline
+        Linux commands & localFS & 110GB &  N/A & 68.4MB \\ \hline     
         HOME dir& AFS &10.2GB & N/A & 32MB\\ \hline
+        Misc commands & PanFS & 155TB & N/A  & 1.6MB \\ \hline
         Total      &    & 166.8TB            & N/A & 21GB \\ \hline
     \end{tabular}
     \begin{tablenotes}
@@ -876,29 +876,13 @@ Packaging utlity maintains one list of common dependencies and first judges whet
 %the following subsection belongs to the "discussion of data and software
 %preservation" section
 
-\begin{table*}
-    \centering
-    \begin{tabular}{|l|r|r|r|}
-        \hline
-        \bf Solution ID & \bf Data Resources &\bf Software Resources & \bf Operation Manual \\ \hline
-        Solution 1& Grid & CMSSW Git HTTP & email \\ \hline
-        Solution 2 and 3& local (HDFS) & CMSSW Git HTTP & shell script \\ \hline
-        Solution 4& package & package & user manual of package \\ \hline
-    \end{tabular}
-    \caption{Relationship of Different Solutions}
-    \label{table:relationship}
-\end{table*}
-
 %The fourth solution should be based on the third solution. during the packaging process, packaging utility first checks whether the file has been inside the target package, (if exists, whether it is the latest version). only if the file does not exist in the target package or the file in the target package is not the latest version, the packaging utility copies the file into the target package.
 
 %*****hmeng-doubt: potential risk: different analysis programs share some common file names, but with different file contents. we should analyze the possibility of conflict: data.
 
 %*****hmeng-doubt: in the fourth version, let user to mark whether they change the data and software. if changed, one new package is generated to avoid data overlap and pollution. otherwise, directly starts packaging process based on the current target package. 
 \section{Evaluation}
-The section first illustrates the relationship of different preservation and reproduction solutions, then the platform used to evaluate different solutions is introduced. The execution time and data size of Solution 2 and 4 are tested and compared. It is hard to accurately calculate the time consumption of Solution 1. Solution 3 shares the same time consumption and data size with Solution 3.
-
-\subsection{Relationship of Different Solutions}
-The relationship of these four solutions to repeat one program is shown in Table~\ref{table:relationship}. Each new solution tries to make it easier to repeat one program through making the data and software preparation easier.
+The section first introduces the platform used to evaluate different solutions is introduced. The execution time and data size of Solution 2 and 4 are tested and compared. It is hard to accurately calculate the time consumption of Solution 1. Solution 3 shares the same time consumption and data size with Solution 3.
 
 \subsection{Evaluation Platform}
 
@@ -961,22 +945,6 @@ The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-
 \end{table}
 
 This solution does not support mining of implicit dependencies.
-The size of data and software from each category is shown in table~\ref{table:datasize-2nd}, which only lists the size of each clear dependency.
-
-\begin{table}
-    \centering
-    \begin{tabular}{|l|r|}
-    \hline
-    \bf Data Category & \bf Data Size \\ \hline
-    Software from CMSSW & 448.3MB \\ \hline
-    Software from Git & 73.7MB \\ \hline
-    Software from Wget & 52MB \\ \hline
-    HDFS & 43.3GB \\ \hline
-    Total & 43.86GB \\ \hline
-    \end{tabular}
-    \caption{Data Size of Solution 2}
-    \label{table:datasize-2nd}
-\end{table}
 
 \subsection{Evaluation of Solution 4} 
 
@@ -1005,24 +973,6 @@ The data size of Solution 4 is shown in Table~\ref{table:datasize-3rd}. The
 data categories are more complex than our imagination. Except the data stored in
 Hadoop and the necessary set of software, files from local filesystem and several remote filesystems, such as PanFS, CVMFS, NFS, and AFS, are also necessary for the reproduction of the program.
 
-\begin{table}
-    \centering
-    \begin{tabular}{|l|l|r|}
-    \hline
-    \bf Data &\bf Location & \bf Data \\ 
-    \bf Category & & \bf Size\\ \hline
-    HDFS & hadoop &20GB \\ \hline
-    PanFS & pscratch & 1.6MB \\ \hline
-    CVMFS & cvmfs &103MB \\ \hline 
-    NFS & opt &53KB \\ \hline
-    AFS & afs &34MB \\ \hline
-    Local FS& bin etc lib lib64 sbin tmp usr&68.3MB \\ \hline
-    Total & &21GB \\ \hline
-    \end{tabular}
-    \caption{Data Size of Solution 4}
-    \label{table:datasize-3rd}
-\end{table}    
-
 \subsection{ Data size Comparison of Solution 2 and 4}
 
 The packaging utility checks the system call of each file within the namelist,
@@ -1032,23 +982,6 @@ while the size of Hadoop under the package is decreased to 20GB.
 The total size of PanFS is 155TB, however, the size of the really used data of PanFS is only 1.6MB.
 Table~\ref{table:datasize-2nd3rd} compares the original size and the really used size of each data source.
 Solution 4 reduces the total size of all data sources from 156TB to 21GB.
-
-\begin{table}
-    \centering
-    \begin{tabular}{|l|r|r|}
-    \hline
-    \bf Data Category & \bf Solution2: Size & \bf Solution4: Size \\ \hline
-    HDFS & 43.3GB & 20GB \\ \hline
-    PanFS & 155TB & 1.6MB \\ \hline
-    CVMFS & 7.4GB &103MB \\ \hline
-    NFS & 862GB &53KB \\ \hline
-    AFS & 10.2GB &34MB \\ \hline
-    Local FS& 110GB&68.3MB \\ \hline
-    Total & 156TB &21GB \\ \hline
-    \end{tabular}
-    \caption{Data Size Comparison beweeen Solution 2 and 4}
-    \label{table:datasize-2nd3rd}
-\end{table}
 
 \subsection{Execution Time Comparison of Solution 2 and 4}
 
@@ -1068,8 +1001,6 @@ Data is obtained through accessing HDFS in Solution 2, but is copied into the pa
     \bf Category & \bf Time & \bf Time \\ \hline
     Software Acquisition & 8min 11s & N/A \\ \hline
     Environment Build & 5min 49s  & 3s \\ \hline
-    Obtain file namelist & N/A & 28min 23s \\ \hline
-    Generate package & N/A & 85min 51s \\ \hline
     Actual Analysis & 20min 31s & 13min 4s \\ \hline
     \end{tabular}
     \caption{Execution Time Comparison between Solution 2 and 4}
