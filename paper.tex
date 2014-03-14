@@ -927,7 +927,7 @@ The execution time on one machine greatly depends on its hardware configuration.
 \begin{figure}
 \centering
 \includegraphics[width=1\columnwidth]{preservation-integration.eps}
-\caption{Preservation Integration of Multiple Programs}
+\caption{Preserving Multiple Artifacts}
 \label{fig:Preservation integration}
 \end{figure}
 
@@ -953,7 +953,7 @@ As simple as that picture appears, there are a number of problems that must be s
 
 {\bf Measure the Mess or Force Cleanliness?}  Two radically different approachs to dependency tracking are possible.  The first is to allow end users complete freedom to construct their environment as desired, then \emph{measure} what items were actually used.  As we have shown, this is possible, but has significant overheads and does not fully preserve the structure or intent of the end user.   The second approach is to \emph{force} users to work in a clean environment in which no resource can be used until a proper dependency has been declared.  This ensures that all dependencies are known in advance (and made explicit to the end user) but places a variety of restrictions on the user's daily work, and may prevent creative approaches that do not fit within the curator's view of how programs should be structured.  Whether end users will accept the inconvenience of forced cleanliness for the benefits of reproducibility can only be discovered through experiment.
 
-{\bf What is the Granularity of Dependencies?}  Dependencies could be handled
+{\bf Granularity of Dependencies.}  Dependencies could be handled
 at many different levels of granularity.  In this work, we have shown
 how they can be handled at the level of entire repositories or individual files.
 Other possible choices might include intermediate-sized software packages
@@ -963,7 +963,7 @@ in complex dependency maps and less wasted space.  A hybrid solution may
 be able to combine both by storing large granularity dependencies, but
 retain the ability to select sub-items out of objects when efficiency demands it.
 
-{\bf What is the Scope of Reuse?}  We have presented the data preservation
+{\bf Scope of Reuse.}  We have presented the data preservation
 problem as primarily one of accurate reproduction: if a result depends
 on running program X, we must be able to run exactly X again.  However,
 the goal of scientific reproducibility is rarely limited to running
@@ -975,7 +975,7 @@ a larger granularity of preservation is desirable.  A better understanding of
 how end users will consume preserved software will help to shape how
 software is preserved in the first place.
 
-{\bf How to Detect Dependencies?}  If we allow users to work in uncontrolled
+{\bf Dependency Detection.}  If we allow users to work in uncontrolled
 environments, then we must have better methods for understanding the dependencies  of existing programs.  At first, we relied on an expert reader to examine
 the user's script and extract the repository dependencies.  This is clearly
 not a scalable approach.  We then demonstrated an automated method of observing
@@ -985,7 +985,16 @@ More sophisticated observation techniques could infer higher-level information,
 such as the RPM package names of the files accessed, the URLs of remote
 repositories named throughout the program, or even the addresses and names of networked dependencies like databases and filesystems.
 
-{\bf Keep Source, Binary, or Both?}
+{\bf Source, Binary, or Both?}  A science archive might choose to retain
+the source code of an artifact or the binary code that can actually run in a given environment.
+While conventional wisdom suggests that access to source code is critical for the long term
+survival and evolution of a piece of software, it also requires the maintenance of an enormous
+amount of supporting software in the form of compilers, linkers, and supporting libraries for
+the target platform.  Rebuilding all of these for every invocation of an artifact is
+likely to have excessive cost.  We suggest that a realistic repository will have to
+maintain \emph{both}: the source describes the ultimate meaning of the code, but
+the binary is an important performance cache, a backup if the compiler toolchain should
+fail to be preserved, and a checksum to ensure that a source artifact was rebuilt correctly.
 
 \section{Related Work }
 
