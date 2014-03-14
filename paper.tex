@@ -830,23 +830,25 @@ Packaging utlity maintains one list of common dependencies and first judges whet
 
 %*****hmeng-doubt: in the fourth version, let user to mark whether they change the data and software. if changed, one new package is generated to avoid data overlap and pollution. otherwise, directly starts packaging process based on the current target package. 
 \section{Evaluation}
-The section evaluates the connectness of the packaging utility of Solution 4.
-To do it, the experiment is repeated using Solution 2 and 4 on the original machine.
-Then, two different virtual machines (VM) - one local VM and one amazon EC2 VM, are employed to further verify the reproductivity of Solution 4.
+The section evaluated the connectness and overhead of the packaging utility of Solution 4.
+To do it, the experiment was repeated using Solution 2 and 4 on the original machine.
+Then, two different virtual machines (VM) - one VM from Notre Dame Cloud Platform based on KVM and one VM from amazon EC2 Platform based on Xen, were employed to further verify the correctness of Solution 4.
 
-\subsection{Evaluation on the Original Machine}
-
-This section evaluates the correctness of Solution 4 on the original machine and compares the time consumption and data size of Solution 2 and 4 on the original machine. 
-
-To do this, we first repeat the example from scratch using Solution 2 on the the original machine and count the time consumption and data size. 
+We first repeated the example from scratch using Solution 2 on the the original machine and counted the time consumption and data size. 
 Then based on the successful execution of Solution 2, Solution 4 is evaluated - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
 
+As for time consumption, we counted the time used to obtain remote software dependencies, build environment, and analyze the dataset respectively. Solution 4 also counted the time used to obtain the file namelist and generate the package. 
+
+As for data size, we can easily figure out the size of each data and code source easily inside the package under Solution 4.
+Solution 2 does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. Howerver, it is hard to figure out the named size of each local source. 
+Instead, we only knew that total size of each file system is very large.
+
 Table~\ref{table:time-2nd3rd} shows the execution time comparison between
-Solution 2 and 4. The time consumption of the reproduction of one program from
-different scholars kept the same under Solution 2, including software and data
-preparation. 
-However, under Solution 4, the Software Acquisition stage is not necessray, and all the environment building only takes 3s.
-Data is obtained through accessing HDFS in Solution 2, but is copied into the package in Solution 4. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
+Solution 2 and 4.
+Solution 4 is faster than Solution 2, because all the software copied into the pacakge has been compiled and the Software Acquisition stage is not necessray.
+and all the environment building only takes 3s.
+We were suprised that Solution 4 even reduces the actual analysis time. 
+The reason for this is that data is obtained through accessing HDFS in Solution 2, but is copied into the package in Solution 4. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
 
 \begin{table}
     \centering
@@ -856,17 +858,20 @@ Data is obtained through accessing HDFS in Solution 2, but is copied into the pa
     \bf Category & \bf Time & \bf Time \\ \hline
     Software Acquisition & 8min 11s & N/A \\ \hline
     Environment Build & 5min 49s  & 3s \\ \hline
-    Actual Analysis & 20min 31s & 13min 4s \\ \hline
+    Actual Analysis & 20min 31s & 13min 04s \\ \hline
     \end{tabular}
     \caption{Execution Time Comparison between Solution 2 and 4}
     \label{table:time-2nd3rd}
 \end{table}    
 
 Table~\ref{table:time-3rd} illustrates the time used to
-obtain filename list and generate the package. 
+obtain the filename list and generate the package. 
 The time used for these two steps is greatly longer than the execution time
-within the new package. However, the time consumption of filename list
-acquisition and package generation is one-time. That is, once the package is
+within the new package. 
+Because each filename of the list, together with its system call type, needs to be checked, and the structure of each directory item must be maintained.
+However, 
+this is only done once.
+That is, once the package is
 generated, many users can directly obtain the package and repeat the experiment
 separately. 
 
@@ -875,61 +880,44 @@ separately.
     \begin{tabular}{|l|r|}
     \hline
     \bf Sub-Task &\bf Time \\ \hline
-    Obtain file namelist & 28min 23s \\ \hline
-    Generate P1 & 85min 51s \\ \hline
-    Re-run the program within P1 & 13min 4s \\ \hline
+    Obtain filename list & 28min 23s \\ \hline
+    Generate package & 85min 51s \\ \hline
     \end{tabular}
-    \caption{File of Solution 4}
+    \caption{Time Used to Obtain Filename List and Generate Package}
     \label{table:time-3rd}
 \end{table}
 
 Table~\ref{table:size-original-real} illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
-The third column is corresponding to the data size of Solution 4. 
+The third column is corresponding to the data size of Solution 4 and can be easily figured out, because all the necessary data has been copies into the package.
 Solution 2 does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. Howerver, it is hard to figure out the named size of each local source. 
+Instead, we only knew that total size of each file system is very large.
 
-In conclusion, Solution 4 can repeat the whole experiment successfully and reduce the total size involved in the experiment to one reasonable size.
-
-
-\subsection{Evaluation on Different Machines}
-
-To further verify the reproductivity of Solution 4 on other machines, two different virtual machines are employed -
+To further verify the correctness of Solution 4 on other machines, two different virtual machines are employed -
 one virtual
-machine ~\cite{goldberg1974survey} sharing the same kernel version with the original machine,
-and one virtual machine from amazon EC2 ~\cite{amazon2010amazon}.
+machine ~\cite{goldberg1974survey} from Notre Dame Clou Platform based on KVM sharing the same kernel version with the original machine,
+and one virtual machine from amazon EC2 ~\cite{amazon2010amazon} based on Xen.
 
-Table~\ref{table:config-vm} illustrates the configuration of the original machine and each virtual machine. 
+Table~\ref{table:config-vm} illustrates the configuration of 
+each machine and the execution time of the experiment on each machine.
 All the machines adopt x86\_64 hardware platform and linux OS.
-Both the local VM and EC2 VM repeat the experiment with the help of the package generated on the original machine successfully.
+Both of the two VMs repeated the experiment with the help of the package generated on the original machine successfully.
+The execution time on one machine greatly depends on its hardware configuration.
 
 \begin{table}
     \centering
     \begin{tabular}{|l|r|r|r|r|}
     \hline
-    \bf Machine & \bf Kernel Version & \bf Distro & \bf CPU & \bf Mem\\ 
-    \bf Type &  & \bf Version & \bf Cores & (\bf GB)\\ \hline
-    earth  & 2.6.18-371.4.1.el5 & RedHat 5.10 & 64 & 125 \\ \hline 
-    local VM& 2.6.18-371.4.1.el5 & CentOS 5.10 & 4 & 2 \\ \hline
-    EC2 VM& 2.6.18-348.el5xen & RedHat 5.9 & 16 & 60.5 \\ \hline
+    \bf Machine & \bf Distro & \bf CPU & \bf Mem & \bf Execution\\ 
+    \bf Type   &\bf Version&\bf Cores & (\bf GB) & \bf Time\\ \hline
+    Native &  RedHat  & 64 & 125 & 13min 04s\\  
+    Machine& 5.10 &&&\\ \hline
+    KVM & CentOS & 4 & 2 & 21min 38s\\
+    (Notre Dame)&5.10 &&&\\ \hline
+    Xen & RedHat & 16 & 60.5 & 13min 30s\\ 
+    (EC2) &5.9 &&&\\ \hline
     \end{tabular}
-    \caption{Configuration of Different Machines}
+    \caption{Evaluation of Different Machines}
     \label{table:config-vm}
-\end{table}
-
-Table~\ref{table:time-vm} shows the execution time of the experiment on different machines - the original machine, local VM and EC2 VM. 
-Each machine utilizes the package generated on the original machine (i.e. earth) to repeat the experiment.
-The execution time on one machine greatly depends on its hardware configuration, which is shown in Table~\ref{table:config-vm}.
-
-\begin{table}
-    \centering
-    \begin{tabular}{|l|r|}
-    \hline
-    \bf Machine Type & \bf Execution Time \\ \hline
-    earth & 13min 4s \\ \hline
-    local VM & 21min 38s \\ \hline
-    EC2 VM & 13min 30s\\ \hline
-    \end{tabular}
-    \caption{Execution Time on Different Machines}
-    \label{table:time-vm}
 \end{table}
 
 %*****hmeng-doubt:Another reason for the packaging utility is that not all the data and software generated by the second version script is used during the the actual data analysis. The packaging utility can help us find out the optimal subset of data and software involved in one actual data analysis. 
@@ -1076,16 +1064,6 @@ the original data and the special data used in one certain
 program. To have a clear understanding of the data access model, more examples
 need to be investigated.
 
-\subsection{Here is the Useful Package}
-
-At the beginnig of our case study, we generated one package for the
-example based on Solution 4. Several months later, the original machine met
-some problems and the access model of CMSSW was also modified. In this case, if
-you want to repeat the example on the original machine, different 
-configurations, including CMSSW\_ARCH, environment variables and CVS access
-authority need to be modified. However, with the generated package and its map file, we can repeat the experiment directly on the same machine without any modification.
-%here is the new content-hmeng
-
 \section{Related Work }
 
 Generally, there are three approaches to preserve software environment:
@@ -1130,13 +1108,13 @@ L. R. Johnston et al. \cite{johnston2014workflow} proposed one overall data cura
 Two case studies \cite{borgman2012data} were conducted to figure out the properties of data to be reused in the future, including type, purpose, new users.
 To figure out how to preserve HEP applications, this paper studies one case of preserving one representative HEP application.
 
-
-\section{Conclusion}
-
-In this paper, we tries to illustrate the challenges involved in data and software preservation and reproduction through one case study in preserving one High Energy Physics application.
-Four different solutions to repeat the original application, together with the pros and cons of each one, are proposed and analyzed. Each new solution aims to improve the reproductivity of the application and reduce the complexity of reproduction. Finally, we propose one fine-grained packaging toolkit to help the original author to generate one independent package containing all the necessary dependencies except for common dependencies, and repeat the experiment from scratch on two Amazon EC2 virtual machines successfully.
-
-In the future, more case studies will be investigated to verify the correctness of our packaging toolkit. The challenges we propose in this paper will also be investigated.
+\section{Postscript}
+By the way, at the beginnig of our case study, we generated one package for the
+example based on Solution 4. Several months later, the original machine met
+some problems and the access model of CMSSW was also modified. In this case, if
+you want to repeat the example on the original machine, different 
+configurations, including CMSSW\_ARCH, environment variables and CVS access
+authority need to be modified. However, with the generated package and its map file, we can repeat the experiment directly on the same machine without any modification.
 
 \bibliographystyle{abbrv}
 \bibliography{cclpapers,this}
