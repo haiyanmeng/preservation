@@ -1,4 +1,4 @@
-\documentclass{acm_proc_article-sp}
+\documentclass{sig-alternate}
 \usepackage{url}
 \usepackage[flushleft]{threeparttable}
 \begin{document}
@@ -299,8 +299,9 @@ and a few are very specific to a single researcher.
 
 The largest of these repositories is the CMS Software Distribution (CMSSW),
 a carefully-curated selection of software packages which is distributed
-in binary form.  Historically, CMSSW was downloaded and installed on shared
-filesystems within HPC centers.  In recent years, distribution has moved to
+in several forms.  Historically, components of CMSSW were obtained by checking components
+of the source out of CVS, or by installing a complete binary package on a shared
+filesystem within an HPC center.  In recent years, distribution has moved to
 an on-demand delivery system known as CVMFS~\cite{blomer2011cernvm}.  The content
 of CMSSW is managed very carefully by a centralized team whose main goal
 is to ensure that the current version of the software operates correctly
@@ -309,110 +310,103 @@ preservation is not an objective of the group, and so there is
 no guarantee that old versions of CMSSW operate in new environments,
 or vice versa. 
 
+\section{Observations}
+
 \emph{TauRoast} was provided to us in the form of an
 email which described, in prose, how to obtain the source,
 build the program, and run it correctly on one specific
-machine at Notre Dame, with no particularly guarantee that
+machine at our home institution, with no particular guarantee that
 it will run anywhere else in the world.
 Although this starting point may seem extreme, it is
 perfectly natural for collaborators to share configurations
 with each other in this form, and to rely on the presence
 of a working environment with appropriate dependencies already
-installed.
+installed.  From this starting point, the authors played the
+role of curators, whose job it is to prepare the application
+for permanent archival.
 
-The authors played the role of curators, whose job it is to prepare the application for permanent archival by determining and packaging the dependencies.
+First, we elaborated the email instructions into an
+executable script that obtains the dependencies and then
+executes the analysis.  The script declares the necessary
+environment variables, downloads and checks out the necessary source code,
+builds it appropriately, calls initialization scripts in
+the dependent software, and then runs the analysis.
+A few rounds of correction with the original author were necessary
+to obtain all the dependencies and run the artifact correctly.
+(The original email also indicated how to run the application
+within a production batch system.  For the purposes of preservation,
+we consider the execution infrastructure to be distinct from the application,
+and leave it out of consideration for now.)
 
-\subsection{Workflow of the Example}
+The process of elaborating the program into a script revealed
+several observations about this type of application:
 
-The workflow of the exmaple can be divided into eight procedures.
+\begin{itemize}
 
-(a) Declare environment variables
+\item {\bf Many Explicit External Dependencies.}  TauRoast depends on a large number of
+external dependencies, each with a different access method and data source.
+While we knew in advance that it depended upon the large CMSSW distribution,
+it was not apparent until elaborating the script that it depended upon
+two different Github repositories for the Tau source,
+a CVS server at CERN for some configuration information, a public web page
+for the PyYAML library, and the public home page of a Notre Dame student
+for one missing header file.  (The latter is particularly troubling!)
+While, at some level, the authors and users of these software know of these dependencies, they are often missing in
+informal communications or forgotten once the dependency is install.
+However, once known, they are at least expressed explicitly within the script.
 
-(b) Obtain software from CMSSW
+{\bf Many Implicit Local Dependencies.} A much harder problem is that the
+application assumed the presence of many different components in the local
+filesystem view.  It would be tempting to capture all of these by simply
+storing a virtual machine image containing the local filesystem.  However,
+the application dependend on no less than {\bf six} networked filesystems
+available on a particular machine available to the author:
+the data to be analyzed was stored on an HDFS~\cite{hadoop} cluster,
+some configuration data was stored on a CVMFS~\cite{cvmfs} filesystem,
+and a variety of software tools were on an NFS~\cite{howard1988scale},
+pNFS~\cite{welch2008scalable} and AFS~\cite{sandberg1985design} systems.
+The original authors were not aware of many of these dependencies,
+because they simply relied on local administrators to configure the
+software and make it available.
 
-(c) Obtain software from Git
+\item {\bf Configuration Complexity.}  As a means of controlling the complexity
+of dependent software packages, the high energy physics community has developed
+a number of tools that perform run-time configuration and consistency checks
+of the available software.  {\tt scram} is the software management tool used
+by the CMS experiment.  Before running any code, {\tt scram} is used to locate
+the appropriate version software,  set environment variables such as the PATH, run any
+tool-specific configuration, and do the same for all software on which it depends.
+If the correct versions are not available, {\tt scram} halts and emits an error.
+While this procedure has great value for consistency, it also introduces a significant cost
+because it involves a large number of nested scripts traversing a filesystem,
+repeatedly looking up metadata.  In our example, the time to perform this configuration
+with a cold cache is about 14 minutes, which is almost as large as the actual analysis
+run, which takes 20 minutes.
 
-(d) Obtain software from some public HTTP web links
+{\bf High Selectivity.}  Although the total size of the resources accessed by this
+program is very large, the size of the data and software actually used are much smaller.
+Often, an entire repository or data source is named within the script, but the program
+only needs a handful of items from that source.  For example, the data is stored on an
+HDFS filesystem with 24TB of data, but only 43GB of that are the input Ntuples,
+and of those only 20GB are actually consumed by the program. The CMSSW repository is 88GB in total
+but only 448MB in source are checked out, and the software actually used only
+measured 6.3MB.  In a few cases, a source of software is named but never actually accessed.
+(For example, our original script includes the Open Science Grid software stack in the PATH, but does not actually use it.)
+We suspect that end users are accustomed to missing dependencies and thus get in the habit of adding commonly used software,
+whether it is needed or not.
 
-(e) Obtain software from one private home page
+\item {\bf Rapid Changes in Dependencies.}  Over the course of three months
+between collecting the initial email, analyzing the program, and writing this
+paper, the computing environment was under continuous change.  The CMSSW software
+distribution released a new version, the target execution environment was upgraded
+to a new operating system, and the experiment deprecated the use of CVS for obtaining
+the software.  While the users of this software seem be accustomed to constant change,
+any preservation technique will have to be very cautious about relying upon an
+external service, even one that may appear to be highly stable.
 
-(f) Build software enviroment using SCRAM ~\cite{rabbertz2004cms} and Python
+\end{itemize}
 
-(g) Install grid control ~\cite{holtman2001cms}, obtain CMS data from Grid and store the data into HDFS ~\cite{borthakur2008hdfs} mounted as one local file system.
-
-(h) Actual data analysis.
-
-\subsection{Key Observations of the Example}
-
-\subsubsection{Complexity of Data and Software Dependencies}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=.8\columnwidth]{dependencies.eps}
-\caption{Dependencies}
-\label{fig:dependencies}
-\end{figure}
-
-Figure~\ref{fig:dependencies} illustrates all the dependencies
-involved in the program, which can be divided into two categories: clear
-dependencies and implicit dependencies. Clear dependencies include scientific data
-dependencies and direct software dependencies which can be extracted directly
-from the analysis program. The scientific data of this example comes from the Grid ~\cite{holtman2001cms}. Direct software dependencies include CMSSW, Git, HTTP and one personal home page. 
-
-Implicit dependencies include indirect software
-dependencies which is necessary for the successful execution of direct software
-dependencies and other implicit dependencies. For example, we know Git is one
-direct software dependency from the analysis program, which further depends on
-perl, python, rsync, openssh-clients and other packages. The analysis program
-accesses one file called File1, which is one symbolic link file further referring to
-another file named File2.
-The implicit dependencies also include some remote file systems mounted as local file systems, such CVMFS, AFS ~\cite{howard1988scale}, NFS ~\cite{sandberg1985design}, PanFS ~\cite{welch2008scalable} and HDFS.
-More importantly, the successful execution of this program greatly depends on the underlying OS and hardware platform.
-
-\subsubsection{Size of Data and Software Dependencies}
-The size of data and software dependencies is astonishing.
-The size of BEAN is 11.6TB, which is too large to be analyzed directly by the tau roast program. After one preprocessing which only collects the events matching basic quality criteria, the data size is still very large, 43.3GB. 
-
-The first column of Table~\ref{table:size-original-real} illustrates the size of each source of data and software. The size of PanFS is as large as 155TB and the size of Ntuples data is 24TB. The total size of all the dependencies is about 181TB, which directly makes the idea of preserving the original execution environment completely impossible.
-
-\subsubsection{Complexity of the Program}
-Complex data and software dependencies, complex environment building process, the large size of data and software involved in the tau roast program, together with the access authority problem, determine the complexity of the program. 
-In order to obtain the experimental data from the Grid, the author needs to install and config grid-control software. 
-The access authority of the Grid is also necessary for the data acquisition.
-The software acquisition from CMSSW, Git and HTTP and environment building process is time-consuming. The execution time of actual data analysis is about 20 minutes. However, the software acquisition and environment building time, excluding data acquisition time, is about 14 minutes. If the acquisition of experimental data is considered, actual data analysis only occupies one small percentage of the whole time consumption.
-The size of data and software dependencies further complicates the program.
-
-\subsubsection{Really Used Data and Software Size} 
-
-Even if the orginal data size referred by the program is astonishing, the size
-of really used data and software is greatly smaller.
-Figure~\ref{fig:data-code-size} illustrates the inputs of the tau roast program.
-After the TauAnalysis procedure, the data size of Ntuples is 43.3GB, however, the atual size of really used
-data in the program is 20GB.  The same trend occurs to the size of software and
-other dependencies. The size of CMSSW repository is 13.1GB, the size of
-packages checked out from CMSSW is 448.3MB, and the size of actually used CMSSW
-files is only 6.3MB. 
-The total size of PanFS mounted as {\tt /pscratch} is 155TB, however, the really used data from {\tt /pscratch} is only 1.6MB.
-The third column of Table~\ref{table:size-original-real} illustrates the size of actually used data and software from each dependency.
-
-\subsubsection{Stability of Dependencies}
-
-The program involves obtaining software from the home page of another graduate
-student from University of Notre Dame. However, the maintenance of this
-home page will terminate after the graduation of the student.
-The stability of each dependency must be evaluated to ensure the program can be 
-repeated by others.
-
-The stability of the Grid is relatively higher. However, the
-public web resources and personal home page is not stable. Too many factors
-like the termination of one web site, the graduation of the home page's author,
-would result in the failure of resource access. CMSSW, which seems to be
-stable, in fact, also involves stability problems. CMSSW provides different
-collections of accessible versions to different architectures. Transformation
-from one architecture to another may result in the failure of accessing one
-certain CMSSW version. At the beginning of our reseach, we can use the cvs command to
-check out packages from CMSSW anonymously. However, this anonymous access has
-been cancelled now.
+\if 0
 
 \begin{table}
     \centering
@@ -490,6 +484,7 @@ been cancelled now.
 \caption{Version Evolution}
 \label{fig:version-evolution}
 \end{figure*}
+\fi
 
 \section{Preservation Strategies}
 
