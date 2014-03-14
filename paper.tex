@@ -3,7 +3,7 @@
 \usepackage[flushleft]{threeparttable}
 \begin{document}
 
-\title{A Case Study in Preserving a High Energy Physics Application}
+\title{A Case Study in Preserving a\\High Energy Physics Application}
 \author{
 Haiyan Meng, Matthias Wolf, Peter Ivie, Anna Woodard, Michael Hildreth, and Douglas Thain\\
 \affaddr{Department of Physics and Department of Computer Science and Engineering}\\
@@ -487,99 +487,47 @@ external service, even one that may appear to be highly stable.
 
 \fi
 
-\section{Preservation Strategies}
+\section{Evolving the Artifact}
 
-Figure~\ref{fig:version-evolution} illustrates the evolution history of
-different preservation strategies. First, an email depicting how to repeat the
-experiment is used. Then, all the necessary steps to reproduce the experiment
-mentioned in the mail are collected into one shell script. In order to decouple
-data sources and data references, one formulated script is introduced
-to express all the dependencies at the beginning of the script in the form of
-environment variables. Finally, this decoupling idea is further extended into
-one map file which keeps the relationship between the data reference in the
-script and the actual storage location. One independent package containing all
-the data and software dependencies is generated to make the reproduction
-process more easier.  
+It is clear that the artifact, as provided, is not in a suitable form
+for preservation.  While it might be technically possible to automatically
+capture the entire virtual machine and all of the connected filesystems,
+doing so would be wasteful and prohibitively expensive.  Further, if multiple
+similar applications are preserved, we would miss the opportunity to identify
+common dependencies and store them once for multiple artifacts.
 
-\subsection{Solution 1: Email}
+Figure~\ref{fig:version-evolution} shows how we have evolved this artifact
+through several stages which make it more suitable for preservation.
+In each step of evolution, we make the dependencies of the artifact
+more explicit and available for analysis and automated processing.
+As noted in the previous section, the original author provided us with
+prose instructions by email which we translated into an
+executable script.  The executable script has embedded in it
+a number of external identifiers such as URLs pointing to repositories
+and paths to networked filesystems.  As a general programming practice,
+embedding such constants into the middle of a program is unwise, and so
+we extract all of those identifiers and place them at the beginning
+of the script in the form of variable substitutions.  This makes
+it readily apparent to the reader what the dependencies are.
 
-In order to repeat Matthais's example, we consulted the original
-author by email about the necessary work for the experiment. In response,
-the original author introduced the general workflow of his tau roast program through one long
-email including notes, linux shell commands, web linksi, as illustrated by the Version 1 of
-Table~\ref{table:scripts}.
+Form 4 goes a step further and takes all of the dependencies \emph{out}
+of the script itself and places them in a \emph{dependency map}.
+The dependency map lists all of the external dependencies of the application, indicating
+the type, how they are accessed, and where they are currently located.
+The resulting script then simply refers to abstract file locations such
+as \verb!$CMSSW!, while the map file indicates where they are located.
+If properly constructed, the script should not refer to any external
+resource unless it is indicated in the dependency map.
 
-However, this solution to repeat one experiment has three potential drawbacks.
-Firstly, the experience of repeating one tau roast program through emails is
-chaotic. You need to constantly jump around multiple web links. There are overlap
-between the content of the email and the content of web links, which needs the
-new user to merge them. Multiple communication through emails is necessary to
-ensure the successful reproduction of the whole analysis. For example, the original
-email refers to one environment variable called CMSSW\_base without clear
-declaration, the new user needs to send one email to the original writer to
-obtain its accurate value. Secondly, the necessary procedures to repeat the
-experiment, including software acquisition from different sources, is complex
-for the new user. In the example, the sources of software includes
-CMSSW, Git, HTTP. The access of CMSSW requires the new user to be an authorized
-user of CMSSW. What's more, some parts of the workflow are unrepeatable. The
-third step of this experiment requires the new user to own the access authority
-of the Grid and involves the analysis of AOD data with the size of about 400TB.
-
-Implication: Directly repeating the experiment using the workflow description and results provided by the original author is complex and difficult. Some extra work must be done to make the reproduction process easier.
-
-\subsection{Solution 2: Script} One possible solution for the access authority
-problem of Grid data is to grant the new user the authority to access gird data
-directly. Another possible solution is let the new user directly operate on the
-machine the original author used. As for the complexity of jumping between
-multiple web links, people may suggest that the original author
-should generate one script including all the contents from different web links.
-
-To test out these possible solutions, we integrate the content of all the notes, commands and web links involved in the emails into one neat, complete shell script, which begins with the definition of environment variables, software acquisition from CMSSW, Git and other web resources, and software installation, ends with the execution of the actual analysis program. Version 2 of Table~\ref{table:scripts} illstrates the merged script. As for the data acquisition from the Grid, we directly use the local copy in HDFS to avoid requiring the new user to obtain a Grid certification.
+By extracting the dependencies into the external dependency map,
+we introduce great freedom for the curator to move, transform, and otherwise
+manipulate the dependencies of the artifact without damaging the artifact itself.
+For example, it is straightforward for an automated tool to examine
+all of the dependencies in the map, download those that are missing,
+and then modifiy the map to point to the local copies of the dependencies.
 
 
-%*****hmeng-doult: the size of hadoop need to reconsidered. how to correctly illustrate the data size of this example?
-
-Because the script includes all the necessary procedures for the reproduction
-of one analysis program, the readability and friendliness of this solution is
-higher than that of the email format. 
-
-
-\subsection{Solution 3: Formulated Script}
-%%
-
-The script can reduce the complexity of repeating one experiment through the integration of all the necessary procedures. However, the data and software dependencies are still randomly distributed across the whole script, which requires one complete scan of the script to obtain the  dependency list. 
-
-To decouple data sources and data references and make the data dependencies clear, Version 2 of Table~\ref{table:scripts} is formulated into one new version, as shown in
-the Version 3 of Table~\ref{table:scripts}. Each new environment variable at the beginning part of
-the script is corresponding to one dependency. All the following access to data
-or software dependency will refer to its corresponding environment variable.
-All the environment variables of dependencies form one map, which maintains the
-target address of each dependency.
-
-This script style may function as one new guideline to the original author of
-one experiment, which expresses the dependencies more clearly and expedites the
-preparation process to repeat one experiment. The introduction of the map file
-also reduces the workload of changing one dependency. For example, if we want
-to utilize one new git package to analyze the same dataset, only the modification of
-environment variable corresponding to the original git package is necessary.
-Without the map mechanism, the whole script needs to be scanned to figure out and
-replace all the references of the original git package.
-
-So far, the data access authority is ignored and
-the reproduction of the experiment is on the machine the original author used. 
-As for Grid data, using the data
-copy stored in the machine where the original author executed the experiment requires the
-new user to have the authority to access the machine, which complicates the
-management of the original machine, even is impossible if the original machine
-executes rigid user access control. Granting everyone who wants to repeat the
-analysis the access authority for Grid is unacceptable to system administrator. 
-
-Implication: All the data and software involved in the experiment should be
-provided to the new user in the format of one self-contained package so that
-the new user can avoid 
-access authority problems.
-In addition, the requirements of the underlying
-OS and hardware should also be figured out and provided to the new user.
+\section{Fine Grained Dependency Management}
 
 \subsection{Solution 4: Fine-Grained Toolkit - Package}
 The difficulty of data access authority acquisition enforces us to find out one
