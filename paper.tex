@@ -919,12 +919,8 @@ Both the local VM and EC2 VM repeat the experiment with the help of the package 
     \label{table:config-vm}
 \end{table}
 
+\subsection{Execution Time Comparison of Solution 2 and 4 on the Original Machine}
 
-
-The configuration of earth machine. The configuration of our virtual machine. The configuration of amazon ec2.
-each vm: data download time; untar time; script execution time;
-
-\subsection{Evaluation of Solution 2}
 The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-2nd}. About 40\%  of the total execution time is consumed to prepare relevant software environment. The cvs command is called to check out 23 packages from CMSSW and three git repositories are cloned.
 
 \begin{table}
@@ -943,10 +939,6 @@ The breakdown of execution time of Solution 2 is shown in Table~\ref{table:time-
     \caption{Breakdown of Execution Time of Solution 2}
     \label{table:time-2nd}
 \end{table}
-
-This solution does not support mining of implicit dependencies.
-
-\subsection{Evaluation of Solution 4} 
 
 The breakdown of execution time of the
 Solution 4 is illustrated in Table~\ref{table:time-3rd}. The time used to
@@ -969,22 +961,6 @@ separately.
     \label{table:time-3rd}
 \end{table}
 
-The data size of Solution 4 is shown in Table~\ref{table:datasize-3rd}. The
-data categories are more complex than our imagination. Except the data stored in
-Hadoop and the necessary set of software, files from local filesystem and several remote filesystems, such as PanFS, CVMFS, NFS, and AFS, are also necessary for the reproduction of the program.
-
-\subsection{ Data size Comparison of Solution 2 and 4}
-
-The packaging utility checks the system call of each file within the namelist,
-and maintains the minimum dataset, which makes the size of the final package 
-as small as possible. The total size of Hadoop under Solution 2 is astonishing,
-while the size of Hadoop under the package is decreased to 20GB. 
-The total size of PanFS is 155TB, however, the size of the really used data of PanFS is only 1.6MB.
-Table~\ref{table:datasize-2nd3rd} compares the original size and the really used size of each data source.
-Solution 4 reduces the total size of all data sources from 156TB to 21GB.
-
-\subsection{Execution Time Comparison of Solution 2 and 4}
-
 Table~\ref{table:time-2nd3rd} shows the execution time comparison between
 Solution 2 and 4. The time consumption of the reproduction of one program from
 different scholars kept the same under Solution 2, including software and data
@@ -1006,6 +982,20 @@ Data is obtained through accessing HDFS in Solution 2, but is copied into the pa
     \caption{Execution Time Comparison between Solution 2 and 4}
     \label{table:time-2nd3rd}
 \end{table}    
+
+\subsection{Data Size Comparison of Solution 2 and 4 on the Original Machine}
+
+Table~\ref{table:size-original-real} illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
+The third column is corresponding to the data size of Solution 4. 
+Solution 2 does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. Howerver, it is hard to figure out the named size of each local source. 
+
+The packaging utility checks the system call of each file within the namelist,
+and maintains the minimum dataset, which makes the size of the final package 
+as small as possible. The total size of Hadoop under Solution 2 is astonishing,
+while the size of Hadoop under the package is decreased to 20GB. 
+The total size of PanFS is 155TB, however, the size of the really used data of PanFS is only 1.6MB.
+Table~\ref{table:datasize-2nd3rd} compares the original size and the really used size of each data source.
+Solution 4 reduces the total size of all data sources from 156TB to 21GB.
 
 \subsection{Excution Time on Different Machines}
 Table~\ref{table:time-vm} shows the execution time of the experiment on different machines - the original machine, local VM and EC2 VM. 
