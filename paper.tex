@@ -355,7 +355,7 @@ While, at some level, the authors and users of these software know of these depe
 informal communications or forgotten once the dependency is install.
 However, once known, they are at least expressed explicitly within the script.
 
-{\bf Many Implicit Local Dependencies.} A much harder problem is that the
+\item {\bf Many Implicit Local Dependencies.} A much harder problem is that the
 application assumed the presence of many different components in the local
 filesystem view.  It would be tempting to capture all of these by simply
 storing a virtual machine image containing the local filesystem.  However,
@@ -383,7 +383,14 @@ repeatedly looking up metadata.  In our example, the time to perform this config
 with a cold cache is about 14 minutes, which is almost as large as the actual analysis
 run, which takes 20 minutes.
 
-{\bf High Selectivity.}  Although the total size of the resources accessed by this
+\begin{figure*}[t]
+\centering
+\includegraphics[width=1.6\columnwidth]{version-evolution.eps}
+\caption{Version Evolution}
+\label{fig:version-evolution}
+\end{figure*}
+
+\item {\bf High Selectivity.}  Although the total size of the resources accessed by this
 program is very large, the size of the data and software actually used are much smaller.
 Often, an entire repository or data source is named within the script, but the program
 only needs a handful of items from that source.  For example, the data is stored on an
@@ -478,12 +485,6 @@ external service, even one that may appear to be highly stable.
     \label{table:scripts}
 \end{table}
 
-\begin{figure*}
-\centering
-\includegraphics[width=1.6\columnwidth]{version-evolution.eps}
-\caption{Version Evolution}
-\label{fig:version-evolution}
-\end{figure*}
 \fi
 
 \section{Preservation Strategies}
