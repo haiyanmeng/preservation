@@ -831,22 +831,20 @@ Packaging utlity maintains one list of common dependencies and first judges whet
 
 %*****hmeng-doubt: in the fourth version, let user to mark whether they change the data and software. if changed, one new package is generated to avoid data overlap and pollution. otherwise, directly starts packaging process based on the current target package. 
 \section{Evaluation}
-The section evaluated the connectness and overhead of the packaging utility of Solution 4.
+We evaluated the connectness and overhead of the packaging utility of Solution 4.
 To do it, the experiment was repeated using Solution 2 and 4 on the original machine.
-Then, two different virtual machines (VM) - one VM from Notre Dame Cloud Platform based on KVM and one VM from amazon EC2 Platform based on Xen, were employed to further verify the correctness of Solution 4.
+Then, two different virtual machines (VM) - one VM from Notre Dame Cloud Platform based on KVM and one VM from Amazon EC2 Platform based on Xen, were employed to further verify the correctness of Solution 4.
 
 We first repeated the example from scratch using Solution 2 on the the original machine and counted the time consumption and data size. 
 Then based on the successful execution of Solution 2, Solution 4 is evaluated - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
 
-As for time consumption, we counted the time used to obtain remote software dependencies, build environment, and analyze the dataset respectively. Solution 4 also counted the time used to obtain the file namelist and generate the package. 
-
-As for data size, we can easily figure out the size of each data and code source easily inside the package under Solution 4.
-Solution 2 does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. Howerver, it is hard to figure out the named size of each local source. 
+To measure time consumption, we counted the time used to obtain remote software dependencies, build environment, and analyze the dataset respectively. Solution 4 also counted the time used to obtain the file namelist and generate the package. To measure data size, we can easily figure out the size of each data and code source easily inside the package under Solution 4.
+Solution 2 does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
 Instead, we only knew that total size of each file system is very large.
 
 Table~\ref{table:time-2nd3rd} shows the execution time comparison between
 Solution 2 and 4.
-Solution 4 is faster than Solution 2, because all the software copied into the pacakge has been compiled and the Software Acquisition stage is not necessray.
+Solution 4 is faster than Solution 2, because all the software copied into the package has been compiled and the Software Acquisition stage is not necessary.
 and all the environment building only takes 3s.
 We were suprised that Solution 4 even reduces the actual analysis time. 
 The reason for this is that data is obtained through accessing HDFS in Solution 2, but is copied into the package in Solution 4. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
@@ -867,12 +865,11 @@ The reason for this is that data is obtained through accessing HDFS in Solution 
 
 Table~\ref{table:time-3rd} illustrates the time used to
 obtain the filename list and generate the package. 
-The time used for these two steps is greatly longer than the execution time
-within the new package. 
-Because each filename of the list, together with its system call type, needs to be checked, and the structure of each directory item must be maintained.
+The time used for these two steps is longer than the execution time,
+because each filename of the list, together with its system call type, needs to be checked, and the structure of each directory item must be maintained.
 However, 
 this is only done once.
-That is, once the package is
+Once the package is
 generated, many users can directly obtain the package and repeat the experiment
 separately. 
 
@@ -889,13 +886,13 @@ separately.
 \end{table}
 
 Table~\ref{table:size-original-real} illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
-The third column is corresponding to the data size of Solution 4 and can be easily figured out, because all the necessary data has been copies into the package.
-Solution 2 does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. Howerver, it is hard to figure out the named size of each local source. 
+The third column corresponds to the data size of Solution 4 and can be easily figured out, because all the necessary data has been copied into the package.
+Solution 2 does not support measuring implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
 Instead, we only knew that total size of each file system is very large.
 
-To further verify the correctness of Solution 4 on other machines, two different virtual machines are employed -
+To further verify the correctness of Solution 4 on other machines, two different machines are employed -
 one virtual
-machine ~\cite{goldberg1974survey} from Notre Dame Clou Platform based on KVM sharing the same kernel version with the original machine,
+machine ~\cite{goldberg1974survey} from Notre Dame Cloud Platform based on KVM sharing the same kernel version with the original machine,
 and one virtual machine from amazon EC2 ~\cite{amazon2010amazon} based on Xen.
 
 Table~\ref{table:config-vm} illustrates the configuration of 
@@ -921,6 +918,7 @@ The execution time on one machine greatly depends on its hardware configuration.
     \label{table:config-vm}
 \end{table}
 
+Regardless, we demonstrate that the application runs correctly in a completely different environment.
 %*****hmeng-doubt:Another reason for the packaging utility is that not all the data and software generated by the second version script is used during the the actual data analysis. The packaging utility can help us find out the optimal subset of data and software involved in one actual data analysis. 
 %*****hmeng-doubt: this point is not the motivation. but one achievement comes together. out of imagination.
 
