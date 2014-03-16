@@ -534,7 +534,6 @@ the map file could continue to point to the original source.)
 
 \section{Fine Grained Dependency Management}
 
-\subsection{Solution 4: Fine-Grained Toolkit - Package}
 The difficulty of data access authority acquisition enforces us to find out one
 solution, in which the reproduction of the original analysis can be done
 without any external dependency. That is, one independent and self-contained
@@ -627,99 +626,53 @@ itself will be responsible for the data maintenance and relevant authority
 access problem. The new user can repeat one experiment through the
 interaction with the archive.
 
-\section{One Implemention of Fine-Grained Toolkit Using Parrot}
+\section{One Implementation of Fine-Grained Toolkit Using Parrot}
 
-The section introduces our implementation of one fine-grained packaging utility based on Solution 4. With the help of one
+\begin{figure*}
+\centering
+\includegraphics[width=1.6\columnwidth]{workflow-parrot.eps}
+\caption{Workflow of The Fine-Grained Dependency Management Toolkit Based on Parrot}
+\label{fig:workflow-parrot}
+\end{figure*}
+
+With the help of one
 virtual filesystem access tool, Parrot ~\cite{thain2005parrot}, we trap all system calls of one
 program through ptrace debugging interface, and collect all the names of accessed files. 
 Then one self-contained package containing all the accessed files is generated to help others repeat the experiment.
-
-\subsection{Working principle of Packaging Utility} 
 
 Parrot is a virtual filesystem access tool which attaching existing programs to
 a variety of remote {\tt I/O} systems including 
 HTTP, FTP, GridFTP, iRODS, HDFS, XRootD, GROW, and Chirp. It traps all system calls of one program through ptrace
 debugging interface, and replaces them with remote {\tt I/O} operations as desired.
-Through executing one program under Parrot, all the paths of files involved in
-this program can be recorded.  
 
-With the help of Parrot, one packaging utility which generates one independent
-package for one program to make the reproduction of the program convenient can
-be deployed. The starting point of the packaging utility is one successful execution
-sandbox (the data from Grid has been preserved in HDFS and the software from
-CMSSW, Git and HTTP has been on the local machine.). We re-execute the actual
-data analysis code under Parrot and get the name list of all the files actually
-accessed during the execution process of the actual data analysis. Then,
+Figure~\ref{fig:workflow-parrot} illustrates the workflow of the fine-grained dependency management toolkit based on Parrot.
+The starting point of this toolkit is one successful execution of the application on the native machine.
+First, re-execute the actual
+data analysis script under Parrot and get the name list of all the files actually
+accessed during the data analysis process. Then,
 according to the filename list, one package containing all the necessary data
-and software for one analysis program is generated. Next time, when another
+and software for one analysis program is generated. When another
 scholar wants to repeat the program, he only needs to obtain the package and
-directly execute the actual analysis program inside the package. 
-Figure~\ref{fig:solution3} illustrates the working principle of the packaging utility.
+execute the actual analysis program inside the package. 
 
-\begin{table}
-    \centering
-    \begin{tabular}{|l|}
-        \hline
-        {\tt set CMSSW\_BASE = (CMSSW\_5\_3\_11\_patch3)} \\
-        {\tt cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10}\\
-        {\tt cmsenv} \\
-        {\tt python setup.py install --user} \\
-        {\tt cd \$HOME/\$CMSSW\_BASE/src/ttH/TauRoast}\\
-        {\tt scripts/roaster data/generic\_ttl.yaml} \\
-        \hline
-    \end{tabular}
-    \caption{Script of Fine-Grained Toolkit using Parrot}
-    \label{table:parrot-script}
-\end{table}
+The filename list contains the names of 132,047 accessed file, together with the access type of each file, such as
+open, stat, read and write. 
+We noticed that some files appeared multiple times in the filename list. 
+De-duplication and sorting techoniques are used to deal with the original filename list, generating one smaller list containing 67,168 items.
 
-Table~\ref{table:parrot-script} illustrates
-the simplified script, which
-only contains the necessary environment variables and the
-actual analysis command.
-
-\subsection{Workflow of Packaging Utility}
-\begin{figure*}
-\centering
-\includegraphics[width=1.6\columnwidth]{workflow-parrot.eps}
-\caption{Workflow of Solution 4}
-\label{fig:workflow-parrot}
-\end{figure*}
-
-Figure~\ref{fig:workflow-parrot} illustrates the workflow of this solution. Firstly, execute the analysis program under Parrot and obtain one filename list containing all the accessed files. Then generate one package containing all the files included in the filename list. Finally, rerun the program with the help of the package. Each step will be examined in details.
-
-{\bf(1)} Execute one analysis program under Parrot and obtain filename list (L1) of it
-
-Parrot is one virtual file system that can support user access to multiple
-underlying file systems. Parrot traps each system call involved in the process
-of data access, figures out the type of file system and redirects it into
-corresponding operations to the accessed file system. During this process, each
-accessed file, together with the access type, such as
-open, stat, read and write, is recorded into one file.
-
-The command used to generate the filename list is as follows. The {\tt name-list} parameter refers to the path of the file containing all the accessed file name of the experiment.
-
-{\tt parrot\_run \texttt{-{}-}name-list namelist /bin/tcsh script\_v4.sh}
-
-The original ouput of this command is one namelist file with the size of 6.6MB
-and 132,047 lines, each of which corresponds to one one accessed file of the
-program. We noticed that some items appeared multiple times in the filename list. To reduce the
-packaging time, de-duplication and sorting techoniques are used for the
-namelist file, generating one smaller file with the size of 3.2MB and 67,168 lines.
-
-{\bf (2)} Generate one package containing the files of L1 
-
-The packaging utility iterates each filename inside L1 and copies it into the
-target package. Finally, the target package
-together with its description information, and one map file, which redirects
-the access of files from different file systems into the files inside the target package, will be
-generated as the output of this step. The packaging process also runs within Parrot environment to
-access data from different file systems.
-
-The command used to generate the package is as follows. 
-{\tt package-utility.sh} is a bash script which iterates each line of L1 and
-determines the behavior according to the file type (common files, directories,
-symbolic link files) and the system call type.
-The package description information is shown in Table~\ref{table:package-info}.
+The toolkit iterates each item of the filename list, determines the process
+mode and replication degree according to the file type (common files,
+directories, symbolic links) and the system call type, generates one package
+containing all the necessray file dependnencies, and returns the description
+information of the package, as shown in Table~\ref{table:package-info}.  To
+ensure the successful reproduction, the filesystem structure of the original
+execution environment should be preserved as completely as possible. However,
+attempting to copy the whole content of one directory or one file is
+space-consuming and time-consuming, because the original program may only
+access the metadata of one file with the size of 200GB.  Our solution is to
+determine the replication degree of one directory or one file according to the
+system call type. The step also runs under Parrot to access data from
+different file systems.
 
 \begin{table}
     \centering
@@ -734,27 +687,22 @@ The package description information is shown in Table~\ref{table:package-info}.
     \label{table:package-info}
 \end{table}
 
-{\tt parrot\_run /bin/bash package-utility.sh -L namelist}
+The package, the Parrot executable program, together with the environment description information of the application, such as hardware platform, OS version and kernel version, will be published.
 
-%*****lack: file content + metadata; only file metadata; different process
-%solutions
-Each file inside L1 except for common dependencies is copied into the package, the final path of the file
-becomes the path of the package, followed by the original file path. In this
-program, the path of the package is {\tt /tmp/package-hep}, so the final path of one
-file with the original path path1 is {\tt /tmp/package-hep/path1}.
-
-The map relationship between the file access path used in the actual analysis
-program and the actual file location used during the reproduction process is
-kept inside the map file, as illustrated in Table~\ref{table:map-file}.
-
-To ensure the successful reproduction, the filesystem structure of the original
-execution environment should be preserved as completely as possible. However,
-attempting to copy the whole content of one directory or one file is
-space-consuming and time-consuming, because the original program may only
-access the metadata of one file with the size of 200GB. Our solution is to
-determine the copy degree of one directory or one common file according to the
-type of the system call.
-
+When another scholar wants to repeat the analysis program,
+one map file, which maintains the relationship between the file access path referred in the program of the application and the actual file location 
+, will be generated, as shown in Table~\ref{table:map-file}.
+The path of the package is {\tt /tmp/package-hep}, so the actual location of one file with the original path {\tt path1} will be {\tt /tmp/package-hep/path1}.
+However, 
+it is impossible to copy the files under certain directories, such as  {\tt /dev}, which can halt the packaging process.
+It is meaningless to copy the file under the directory {\tt /proc}, because the process id of one program is random and depends on the
+current allocation of process ID.
+As for these special file paths, letting
+the program directly utilize the files on the new machine, where the new user
+repeats the program, is a better choice. 
+The item {\tt /dev /dev} of Table~\ref{table:map-file}
+illustrates this semantics.
+With the help of the map file and the package, the application can be repeated on one new machine. 
 
 \begin{table}
     \centering
@@ -770,70 +718,6 @@ type of the system call.
     \label{table:map-file}
 \end{table}
 
-%*****lack: re-execute process: re-execution process will redirect all the data access into the package except for data under proc sys dev selinux
-{\bf (3)} Repeat the analysis program using the package
-
-When another scholar wants to repeat the analysis program, 
-the description of the exepriment environment is firstly referred to build the underlying OS and basic software environment. In this example, the only necessary software basis is Parrot. Then the scholar can obtain one copy of the package and its map file, and rerun the program using the following command. The {\tt m} parameter can be used to refer to the path of map file, which will be explained in the next part.
-
-{\tt parrot\_run -m /tmp/mountlist /bin/tcsh script\_v4.sh}
-
-\subsection{Structure of Map File} 
-
-The map file of one package supports pattern matching semantics,
-which greatly reduces the scale of the map file and improves the efficiency of file path redirection. 
-For example,
-one item inside the map file is {\tt /dir1 /package-dir1} means that the access to each file and
-subdirectory under {\tt /dir1} will be redirected into {\tt /package-dir1}.
-If the semantics of the map file do not support pattern matching, the size of the map file will become astonishing. 
-{\tt /dir1} may contain thousands of files, which will generate thousands of map items and take more time to redirect file paths.
-
-During the packaging process, we notice
-that it is impossible to copy the files under certain directories.
-For example, during namelist acquisition process, three special files under {\tt /dev} directory were recorded into the namelist: tty, null and urandom, which are used for input and output.
-Trying to copy these files into the new package would cause the packaging utility halt.
-We also notice that copying the files under directories like {\tt /proc} is
-meaningless. Because the process id of one program is random and depends on the
-current allocation of process ID. 
-
-As for these special file paths, letting
-the program directly utilize the files on the new machine, where the new user
-repeats the program, is a better choice. The semantics is implemented by
-setting the target path of one file equal to the origin file path inside the
-map file. For example, {\tt /dev /dev} means that when the program needs to access
-files under {\tt /dev} directory, it will directly use the file under {\tt /dev} on the new machine, which is
-independent from the namespace of the package. This semantics also make the
-reference of files outside the package possible. If the new user wants to
-expand the analysis of one program to his own data with the path of {\tt /A}, he can add the analysis
-code into the analysis script and add one item {\tt /A /A} into the map file.
-
-
-\subsection{Discussion of Solution 4} 
-
-Under Solution 4, the reproduction of one analysis program becomes easier.
-Rethink the example, the reproduction only needs
-to set necessary environment variables, the actual analysis command
-and the package. If different scholars want to repeat one analysis program,
-what they need to do is to obtain the package and rerun the actual analysis
-program. Under Solution 2, each scholar needs to get the necessary data and
-software, and then prepare software environment. 
-
-%here is the new content-hmeng
-The starting point of Solution 4 is one successful execution on the original machine. 
-Parrot traps all the system calls and copies each accessed file (except for common dependencies) into one package.
-The necessary scientific data and software dependencies will be copied into the target package.
-Strictly speaking, the concept of software and the concept of the scientific data are lost in Solution 4, because
-the granularity of parrot is file.
-The same thing happens to networked resources.
-Packaging utlity maintains one list of common dependencies and first judges whether the file belongs to this list before trying to copy one file into the package.
-%the following subsection belongs to the "discussion of data and software
-%preservation" section
-
-%The fourth solution should be based on the third solution. during the packaging process, packaging utility first checks whether the file has been inside the target package, (if exists, whether it is the latest version). only if the file does not exist in the target package or the file in the target package is not the latest version, the packaging utility copies the file into the target package.
-
-%*****hmeng-doubt: potential risk: different analysis programs share some common file names, but with different file contents. we should analyze the possibility of conflict: data.
-
-%*****hmeng-doubt: in the fourth version, let user to mark whether they change the data and software. if changed, one new package is generated to avoid data overlap and pollution. otherwise, directly starts packaging process based on the current target package. 
 \section{Evaluation}
 We evaluated the connectness and overhead of the packaging utility of Solution 4.
 To do it, the experiment was repeated using Solution 2 and 4 on the original machine.
