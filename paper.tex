@@ -575,54 +575,19 @@ To do this, the file access details of the application should be tracked and uti
 \end{figure}
 
 The relationship of different roles involved in the experiment preservation and
-reproduction is shown in Figure~\ref{fig:solution3}.  The original author is
-responsible for generating one package with the help of the packaging utility. Then the package, together with
-its map file and description file will be uploaded into the archive. When
-another scholar wants to repeat the experiment, one copy of the package and its
-corresponding map file will be downloaded into the new machine.
+reproduction is shown in Figure~\ref{fig:solution3}.  The original author uses the packaging utility to generate the package for one application.
+Then the package, together with
+its map file and description file will be published. When
+another researcher wants to repeat the experiment, one copy of the package will be downloaded into the new machine and the application can be repeated.
 
-\begin{table}
-    \centering
-    \begin{tabular}{|l|l|}
-        \hline
-        \bf Archive Path & \bf Service Description \\ \hline
-        {\tt /archive/OS/path} & OS Image \\ \hline
-        {\tt /archive/software/path} & Common Software Library \\ \hline
-        {\tt /archive/CMSSW/path} & CMS Software Library \\ \hline
-        {\tt /archive/git/path} & Git Software Library \\ \hline
-        {\tt /archive/http/path} & HTTP resources \\ \hline
-        {\tt /archive/experiment/path} & experiment private files \\ \hline
-        {\tt /archive/grid-data/path} & data from the Grid \\ \hline
-    \end{tabular}
-    \caption{Structure Organization of the Archive}
-    \label{table:archive-map}
-\end{table}
-
-Table~\ref{table:archive-map} illustrates the structure of the remote archive.
-To multiplex the common data which is involved in different experiments, such as OS images and common software libraries, the data of different packages will be rearranged and categorized in the archive.
-Item {\tt /archive/OS} includes the images of different Operating Systems.
-Item {\tt /archive/software} integrates all the commonly used software, such as git,
-python, perl. The archive also organizes the data from CMSSW, Git, HTTP and the
-Grid. Item {\tt /archive/experiment} includes the all the experiments submitted into the
-archive, each sub-item should include the private files and description files of each experiment.
-
-One map file is necessary for the relocation of the data access targets, as
+When we try to repeat one application on one new machine, one map file is necessary for the relocation of the data access targets, as
 show in Figure~\ref{fig:version-evolution}. 
-The map file redirects the git access path into {\tt /archive/git} from the original path (\path{http://github.com}) referred in the script.
+The map file clearly defines the real location of each dependency in the format of dependency variables - the real location of dependency variable {\tt GIT} is \path{http://github.com} and the real location of dependency variable {\tt CVMFS}
+is {\tt /tmp/package-hep/cvmfs}.
+The script only refers to the dependency variables defined in the map file.
 This design decouples the experiment script and the actual data access targets, which minimizes the impact of the evolution of different data dependencies
 and ensures the transparent access.
-The modification of the archive only introduces the minimal changes of the map file on the client side.
-
-The archive supports two different data preservation models: Internal and External. Internal method will preserve the data in the archive. External method refuses to preserve the content of data, but only preserve the reference to the actual storage place of data. For example, the size of experiment data from the Grid is extremely large, and storing the same data in the archive is time-consuming and space-consuming. Through External method, the archive only preserves one reference to the data inside the remote Grid.
-
-This solution tries to create one self-contained and independent package for
-each experiment and integrate different packages for different experiments into
-one archive to multiplex common data. One packaging utility, which can figure out all the really used data of one program  will be provided
-to help the original author to generate the package. The archive can maintain
-the experiment dependencies through Internal or External method. The archive
-itself will be responsible for the data maintenance and relevant authority
-access problem. The new user can repeat one experiment through the
-interaction with the archive.
+The modification of the package only introduces the minimal changes of the map file on the client side.
 
 \section{One Fine Grained Dependency Management Toolkit Based on Parrot}
 
@@ -661,15 +626,20 @@ De-duplication and sorting techoniques are used to deal with the original filena
 The toolkit iterates each item of the filename list, determines the process
 mode and replication degree according to the file type (common files,
 directories, symbolic links) and the system call type, generates one package
-containing all the necessray file dependnencies, and returns the description
+containing all the necessary file dependencies, and returns the description
 information of the package, as shown in Table~\ref{table:package-info}.  To
 ensure the successful reproduction, the filesystem structure of the original
 execution environment should be preserved as completely as possible. However,
 attempting to copy the whole content of one directory or one file is
-space-consuming and time-consuming, because the original program may only
-access the metadata of one file with the size of 200GB.  Our solution is to
+space-consuming and time-consuming, because the original program may 
+only need to know how many items one directory contains and not need the content of the sub-dirctories or the sub-files.
+Our solution is to
 determine the replication degree of one directory or one file according to the
-system call type. The step also runs under Parrot to access data from
+system call type. 
+If one file is accessed through system calls like {\tt open}, {\tt read} and {\tt write}, the whole content of the file will be copied into the package.
+However, if the application only needs to check the existence of one file through {\tt stat} system call, we only create an empty file in the package.
+As for a directory item, the sub-items under it will be copied into the package if their contents are necessary. Otherwise, we only create empty sub-items in the package to maintain the directory structure.
+The step also runs under Parrot to access data from
 different file systems.
 
 \begin{table}
@@ -687,14 +657,17 @@ different file systems.
 
 The package, the Parrot executable program, together with the environment description information of the application, such as hardware platform, OS version and kernel version, will be published.
 
-When another scholar wants to repeat the analysis program,
+When another researcher wants to repeat the analysis program,
 one map file, which maintains the relationship between the file access path referred in the program of the application and the actual file location 
 , will be generated, as shown in Table~\ref{table:map-file}.
 The path of the package is {\tt /tmp/package-hep}, so the actual location of one file with the original path {\tt path1} will be {\tt /tmp/package-hep/path1}.
 However, 
-it is impossible to copy the files under certain directories, such as  {\tt /dev}, which can halt the packaging process.
-It is meaningless to copy the file under the directory {\tt /proc}, because the process id of one program is random and depends on the
-current allocation of process ID.
+it is impossible to copy the files under certain directories, such as  {\tt /dev}, which contains all the device files.
+Each device file is either a block file or a character file. 
+The new machine may not share the same device configuration with the original machine, so copying block files into the package is meaningless.
+Copying character files such as /dev/tty and /dev/urandom is also meaningless because of their dynamic nature.
+It is meaningless to copy the file under the directory {\tt /proc}, 
+because OS may allocate different process IDs for multiple executions of one application.
 As for these special file paths, letting
 the program directly utilize the files on the new machine, where the new user
 repeats the program, is a better choice. 
@@ -741,6 +714,8 @@ The reason for this is that data is obtained through accessing HDFS in Solution 
     \hline
     \bf Task & \bf Solution 2& \bf Solution 4\\ 
     \bf Category & \bf Time & \bf Time \\ \hline
+    Obtain filename list & N/A & 28min 23s \\ \hline
+    Generate package & N/A & 85min 51s \\ \hline
     Software Acquisition & 8min 11s & N/A \\ \hline
     Environment Build & 5min 49s  & 3s \\ \hline
     Actual Analysis & 20min 31s & 13min 04s \\ \hline
@@ -749,7 +724,7 @@ The reason for this is that data is obtained through accessing HDFS in Solution 
     \label{table:time-2nd3rd}
 \end{table}    
 
-Table~\ref{table:time-3rd} illustrates the time used to
+Table~\ref{table:time-2nd3rd} also illustrates the time used to
 obtain the filename list and generate the package. 
 The time used for these two steps is longer than the execution time,
 because each filename of the list, together with its system call type, needs to be checked, and the structure of each directory item must be maintained.
@@ -758,18 +733,6 @@ this is only done once.
 Once the package is
 generated, many users can directly obtain the package and repeat the experiment
 separately. 
-
-\begin{table}
-    \centering
-    \begin{tabular}{|l|r|}
-    \hline
-    \bf Sub-Task &\bf Time \\ \hline
-    Obtain filename list & 28min 23s \\ \hline
-    Generate package & 85min 51s \\ \hline
-    \end{tabular}
-    \caption{Time Used to Obtain Filename List and Generate Package}
-    \label{table:time-3rd}
-\end{table}
 
 Table~\ref{table:size-original-real} illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
 The third column corresponds to the data size of Solution 4 and can be easily figured out, because all the necessary data has been copied into the package.
@@ -818,7 +781,7 @@ Regardless, we demonstrate that the application runs correctly in a completely d
 \section{Open Problems}
 
 Figure~\ref{fig:Preservation integration} shows the rough information
-architecture of the curation environment that we imagine for complex
+architecture of the archive that we imagine for complex
 scientific software like TauRoast.
 Each artifact to be preserved is a package that consists of a top-level
 script to invoke the software, a dependency map, and the dependencies
