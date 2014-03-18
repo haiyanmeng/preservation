@@ -365,8 +365,8 @@ filesystem view. It would be tempting to capture all of these by simply
 storing a virtual machine image containing the local filesystem. However,
 the application depended on no less than {\bf six} networked filesystems
 available on a particular machine available to the author:
-the data to be analyzed was stored on an HDFS~\cite{hadoop} cluster,
-some configuration data was stored on a CVMFS~\cite{cvmfs} filesystem,
+the data to be analyzed was stored on a HDFS~\cite{borthakur2008hdfs} cluster,
+some configuration data was stored on a CVMFS~\cite{blomer2011cernvm} filesystem,
 and a variety of software tools were on an NFS~\cite{howard1988scale},
 PanFS~\cite{welch2008scalable} and AFS~\cite{sandberg1985design} systems.
 The original authors were not aware of many of these dependencies,
