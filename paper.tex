@@ -227,7 +227,7 @@ top quarks.  As the Higgs boson is to short-lived to be detected
 itself, it has to be reconstructed from its decay products.
 
 The application which is the study of this paper is called \emph{TauRoast}
-It searches for cases where the the Higgs boson decays to two tau leptons.
+It searches for cases where the Higgs boson decays to two tau leptons.
 The leptons are not observed directly, but by the particle showers
 that they generate.  So, the analysis must search for detector
 events that show a signature of decay products compatible with both hadronic tau and top decays.  Properties of such events are used to distinguish
@@ -410,7 +410,7 @@ whether it is needed or not.
 between collecting the initial email, analyzing the program, and writing this
 paper, the computing environment was under continuous change.  The CMSSW software
 distribution released a new version, the target execution environment was upgraded
-to a new operating system, and the experiment deprecated the use of CVS for obtaining
+to a new operating system, and the application deprecated the use of CVS for obtaining
 the software.  While the users of this software seem be accustomed to constant change,
 any preservation technique will have to be very cautious about relying upon an
 external service, even one that may appear to be highly stable.
@@ -546,7 +546,7 @@ to generate the required package. However, letting the original author provide
 the package is unrealistic. 
 Figuring out the underlying dependencies of
 each software is complex and time-consuming and even impossible for the
-original author. In this experiment, the machine used for the experiment is one
+original author. In this application, the machine used for the application is one
 public machine of physics department, and the original author is one common user without
 root authority. The underlying OS and supporting softwares are installed and
 maintained by the IT department of the university. On the other hand, the
@@ -574,18 +574,18 @@ To do this, the file access details of the application should be tracked and uti
 \label{fig:solution3}
 \end{figure}
 
-The relationship of different roles involved in the experiment preservation and
+The relationship of different roles involved in the application preservation and
 reproduction is shown in Figure~\ref{fig:solution3}.  The original author uses the packaging utility to generate the package for one application.
 Then the package, together with
 its map file and description file will be published. When
-another researcher wants to repeat the experiment, one copy of the package will be downloaded into the new machine and the application can be repeated.
+another researcher wants to repeat the application, one copy of the package will be downloaded into the new machine and the application can be repeated.
 
 When we try to repeat one application on one new machine, one map file is necessary for the relocation of the data access targets, as
 show in Figure~\ref{fig:version-evolution}. 
 The map file clearly defines the real location of each dependency in the format of dependency variables - the real location of dependency variable {\tt GIT} is \path{http://github.com} and the real location of dependency variable {\tt CVMFS}
 is {\tt /tmp/package-hep/cvmfs}.
 The script only refers to the dependency variables defined in the map file.
-This design decouples the experiment script and the actual data access targets, which minimizes the impact of the evolution of different data dependencies
+This design decouples the application script and the actual data access targets, which minimizes the impact of the evolution of different data dependencies
 and ensures the transparent access.
 The modification of the package only introduces the minimal changes of the map file on the client side.
 
@@ -601,7 +601,7 @@ The modification of the package only introduces the minimal changes of the map f
 With the help of one
 virtual filesystem access tool, Parrot~\cite{thain2005parrot}, we trap all system calls of one
 program through ptrace debugging interface, and collect all the names of accessed files. 
-Then one self-contained package containing all the accessed files is generated to help others repeat the experiment.
+Then one self-contained package containing all the accessed files is generated to help others repeat the application.
 
 Parrot is a virtual filesystem access tool which attaching existing programs to
 a variety of remote {\tt I/O} systems including 
@@ -692,7 +692,7 @@ With the help of the map file and the package, the application can be repeated o
 
 \section{Evaluation}
 We evaluated the correctness and overhead of the packaging utility of Solution 4.
-To do it, the experiment was repeated using Solution 2 and 4 on the original machine.
+To do it, the application was repeated using Solution 2 and 4 on the original machine.
 Then, two different virtual machines (VM) - one VM from Notre Dame Cloud Platform based on KVM and one VM from Amazon EC2 Platform based on Xen, were employed to further verify the correctness of Solution 4.
 
 We first repeated the example from scratch using Solution 2 on the original machine and counted the time consumption and data size. 
@@ -732,7 +732,7 @@ because each filename of the list, together with its system call type, needs to 
 However, 
 this is only done once.
 Once the package is
-generated, many users can directly obtain the package and repeat the experiment
+generated, many users can directly obtain the package and repeat the application 
 separately. 
 
 Table~\ref{table:size-original-real} illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
@@ -746,9 +746,9 @@ machine~\cite{goldberg1974survey} from Notre Dame Cloud Platform based on KVM sh
 and one virtual machine from amazon EC2~\cite{amazon2010amazon} based on Xen.
 
 Table~\ref{table:config-vm} illustrates the configuration of 
-each machine and the execution time of the experiment on each machine.
+each machine and the execution time of the application on each machine.
 All the machines adopt x86\_64 hardware platform and Linux OS.
-Both of the two VMs repeated the experiment with the help of the package generated on the original machine successfully.
+Both of the two VMs repeated the application with the help of the package generated on the original machine successfully.
 The execution time on one machine greatly depends on its hardware configuration.
 
 \begin{table}
