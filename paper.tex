@@ -40,7 +40,7 @@ future work in application preservation.
 
 \section{Introduction}
 
-Reproducibility is a cornerstone of the scientific process ~\cite{borgman2012data}.
+Reproducibility is a cornerstone of the scientific process~\cite{borgman2012data}.
 In order to understand, verify, and build upon previous work,
 one must be able to first recreate previous results by applying
 the same methods. Historically, reproducibility this has been
@@ -48,7 +48,7 @@ accomplished through painstaking detailed documentation recorded
 in lab notebooks, which are then summarized in peer-reviewed publications.
 But as science increasingly depends on computation,
 reproducibility must also encompass the environments, data, and software
-involved in each result ~\cite{zabolitzky2002preserving}. It is widely recognized that informal
+involved in each result~\cite{zabolitzky2002preserving}. It is widely recognized that informal
 descriptions of software and systems -- although common -- are insufficient
 for reproducing a computational result accurately.
 A more automated and comprehensive approach is required.
@@ -57,7 +57,7 @@ The overall reproduction of a computation has three broad components,
 each of which suggests somewhat different approaches:
 
 \begin{itemize}
-\item The {\bf computing environment}, consisting of the basic hardware and the operating system can be preserved as physical artifacts or as a combination of virtual machine monitor (hardware) and virtual machine image (operating system) ~\cite{matthews2009towards}.
+\item The {\bf computing environment}, consisting of the basic hardware and the operating system can be preserved as physical artifacts or as a combination of virtual machine monitor (hardware) and virtual machine image (operating system)~\cite{matthews2009towards}.
 \item The {\bf scientific data} to be analyzed has historically received the most attention for curation.  In a large, well-organized project, it may be stored in a  data repository or database management system, with associated documentation and a curation strategy.  In a small effort, it could simply be a handful of files.
 \item The {\bf software environment} includes the source code, binaries, scripts, configuration files, and everything else needed to execute the desired code.  As with data, the software could be drawn from a well-managed software repository, or it could be a handful custom scripts that exist in the user's home directory.
 \end{itemize}
@@ -73,7 +73,7 @@ and then depositing the virtual
 it into a curated environment.  The publication could
 then simply refer to the identifier of the image, which the
 interested reader can obtain and re-use. This approach has
-been used to some success with systems like JVM ~\cite{barthe2008preservation}.
+been used to some success with systems like JVM~\cite{barthe2008preservation}.
 \footnote{Of course, we are glossing over the problem that hardware
 architectures and virtual machines also change, so one must also
 preserve the VMM software necessary to run the image.  The VMM itself
@@ -103,11 +103,11 @@ whole collection
 
 \item There may be dependencies upon {\bf networked resources} that
 are inherently external to the system, such as a database, a code
-repository ~\cite{cms2006cmssw}, or a scalable filesystem ~\cite{blomer2011cernvm}.  For such resources, it
+repository~\cite{cms2006cmssw}, or a scalable filesystem~\cite{blomer2011cernvm}.  For such resources, it
 must be decided whether the dependency will simply be noted, or if it
 must be incorporated whole or in part.
 
-\item Where {\bf common dependencies} are widely used, it may be ineffecient or
+\item Where {\bf common dependencies} are widely used, it may be inefficient or
 impossible to store one copy of each dependency for each archived object.
 Some form of sharing or de-duplication is necessary in order to keep
 the archive to a reasonable size.
@@ -203,7 +203,7 @@ Section 4: Evaluation
         Ntuples data    & HDFS& 11.6TB & 43.3GB & 20GB \\ \hline
         Configuration & CVMFS & 7.4GB & N/A & 103MB \\ \hline
         Linux commands & localFS & 110GB &  N/A & 68.4MB \\ \hline     
-        HOME dir& AFS &10.2GB & N/A & 32MB\\ \hline
+        HOME dir& AFS &12GB & N/A & 32MB\\ \hline
         Misc commands & PanFS & 155TB & N/A  & 1.6MB \\ \hline
         Total      &    & 166.8TB            & N/A & 21GB \\ \hline
     \end{tabular}
@@ -211,7 +211,7 @@ Section 4: Evaluation
       \small
       \item The first column illustrates the total size of each data and software source; 
             the second column illustrates the size of the named files from each source;
-            the third column illustrates the size of acutally used data from each source.
+            the third column illustrates the size of actually used data from each source.
             N/A denotes it is hard to figure out the named size of implicit dependencies directly.        
     \end{tablenotes}
     \caption{Data and Code Used by Tau Roast}
@@ -221,7 +221,7 @@ Section 4: Evaluation
 \section{Overview of Tau Analysis}
 
 Within the ongoing investigation of the Higgs boson at the CMS
-detector, part of the LHC at CERN ~\cite{collaboration2008cms}, the Higgs production in association
+detector, part of the LHC at CERN~\cite{collaboration2008cms}, the Higgs production in association
 with two top quarks allows to measure the Higgs coupling strength to
 top quarks.  As the Higgs boson is to short-lived to be detected
 itself, it has to be reconstructed from its decay products.
@@ -240,7 +240,7 @@ multiple steps of reduction.
 
 {\bf Data Sources.}
 The CMS collaboration provides analysis end-users with a pre-processed
-and reduced data format, AOD ~\cite{holtman2001cms}, containing information for events, i.e.,
+and reduced data format, AOD~\cite{holtman2001cms}, containing information for events, i.e.,
 proton-proton collisions with a signature of interest, in the form of
 reconstructed particles.  This format is based on the RAW output of
 the CMS detector readout electronics and reconstructed world-wide.
@@ -255,7 +255,7 @@ containing only trivial data containers packed in vectors.  This step
 is time and CPU intensive and its output contains data of 11.6$\,$TB to be
 analyzed by the tau analysis.
 It is performed by a small custom code framework,
-which is built on top of the CMS software stack, CMSSW ~\cite{cms2006cmssw},
+which is built on top of the CMS software stack, CMSSW~\cite{cms2006cmssw},
 and uses packages provided by several other special interest groups within CMS.
 While the CMSSW framework is installed locally,
 the various packages used are checked out from CVS,
@@ -361,14 +361,14 @@ However, once known, they are at least expressed explicitly within the script.
 
 \item {\bf Many Implicit Local Dependencies.} A much harder problem is that the
 application assumed the presence of many different components in the local
-filesystem view.  It would be tempting to capture all of these by simply
-storing a virtual machine image containing the local filesystem.  However,
-the application dependend on no less than {\bf six} networked filesystems
+filesystem view. It would be tempting to capture all of these by simply
+storing a virtual machine image containing the local filesystem. However,
+the application depended on no less than {\bf six} networked filesystems
 available on a particular machine available to the author:
 the data to be analyzed was stored on an HDFS~\cite{hadoop} cluster,
 some configuration data was stored on a CVMFS~\cite{cvmfs} filesystem,
 and a variety of software tools were on an NFS~\cite{howard1988scale},
-pNFS~\cite{welch2008scalable} and AFS~\cite{sandberg1985design} systems.
+PanFS~\cite{welch2008scalable} and AFS~\cite{sandberg1985design} systems.
 The original authors were not aware of many of these dependencies,
 because they simply relied on local administrators to configure the
 software and make it available.
@@ -528,7 +528,7 @@ we introduce great freedom for the curator to move, transform, and otherwise
 manipulate the dependencies of the artifact without damaging the artifact itself.
 For example, it is straightforward for an automated tool to examine
 all of the dependencies in the map, download those that are missing,
-and then modifiy the map to point to the local copies of the dependencies.
+and then modify the map to point to the local copies of the dependencies.
 (Or, in the case of a dependency upon a reliable external archive,
 the map file could continue to point to the original source.)
 
@@ -551,14 +551,14 @@ public machine of physics department, and the original author is one common user
 root authority. The underlying OS and supporting softwares are installed and
 maintained by the IT department of the university. On the other hand, the
 architecture design of the required package including all the data and software
-dependencies is not under the research field of physists.
+dependencies is not under the research field of physicists.
 Therefore, one packaging utility is necessary to help the original author to generate the package.
 
 {\bf Second, how to figure out the implicit dependencies?}
 With the help of the formulated script, we can easily figure out the explicit dependencies.
 The requirements of the underlying OS and hardware
-architecture can be easily found with system tools such as uname or
-lsb\_release.
+architecture can be easily found with system tools such as {\tt uname} or
+{\tt lsb\_release}.
 However, how to figure out the implicit dependencies needs more concerns, because
 directly preserving the whole OS together with the data
 stored on the disk of the original machine or the data from other filesystems
@@ -599,7 +599,7 @@ The modification of the package only introduces the minimal changes of the map f
 \end{figure*}
 
 With the help of one
-virtual filesystem access tool, Parrot ~\cite{thain2005parrot}, we trap all system calls of one
+virtual filesystem access tool, Parrot~\cite{thain2005parrot}, we trap all system calls of one
 program through ptrace debugging interface, and collect all the names of accessed files. 
 Then one self-contained package containing all the accessed files is generated to help others repeat the experiment.
 
@@ -621,7 +621,7 @@ execute the actual analysis program inside the package.
 The filename list contains the names of 132,047 accessed file, together with the access type of each file, such as
 open, stat, read and write. 
 We noticed that some files appeared multiple times in the filename list. 
-De-duplication and sorting techoniques are used to deal with the original filename list, generating one smaller list containing 67,168 items.
+De-duplication and sorting techniques are used to deal with the original filename list, generating one smaller list containing 67,168 items.
 The total size of each involved directory and file is 900.3GB.
 
 The toolkit iterates each item of the filename list, determines the process
@@ -633,7 +633,7 @@ ensure the successful reproduction, the filesystem structure of the original
 execution environment should be preserved as completely as possible. However,
 attempting to copy the whole content of one directory or one file is
 space-consuming and time-consuming, because the original program may 
-only need to know how many items one directory contains and not need the content of the sub-dirctories or the sub-files.
+only need to know how many items one directory contains and not need the content of the sub-directories or the sub-files.
 Our solution is to
 determine the replication degree of one directory or one file according to the
 system call type. 
@@ -652,7 +652,7 @@ different file systems.
     the total number of directory: 1549\\ 
     the total number of symbolic link: 4614 \\ \hline 
     \end{tabular}
-    \caption{Package Infomation}
+    \caption{Package Information}
     \label{table:package-info}
 \end{table}
 
@@ -691,22 +691,22 @@ With the help of the map file and the package, the application can be repeated o
 \end{table}
 
 \section{Evaluation}
-We evaluated the connectness and overhead of the packaging utility of Solution 4.
+We evaluated the correctness and overhead of the packaging utility of Solution 4.
 To do it, the experiment was repeated using Solution 2 and 4 on the original machine.
 Then, two different virtual machines (VM) - one VM from Notre Dame Cloud Platform based on KVM and one VM from Amazon EC2 Platform based on Xen, were employed to further verify the correctness of Solution 4.
 
-We first repeated the example from scratch using Solution 2 on the the original machine and counted the time consumption and data size. 
+We first repeated the example from scratch using Solution 2 on the original machine and counted the time consumption and data size. 
 Then based on the successful execution of Solution 2, Solution 4 is evaluated - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
 
-To measure time consumption, we counted the time used to obtain remote software dependencies, build environment, and analyze the dataset respectively. Solution 4 also counted the time used to obtain the file namelist and generate the package. To measure data size, we can easily figure out the size of each data and code source easily inside the package under Solution 4.
+To measure time consumption, we counted the time used to obtain remote software dependencies, build environment, and analyze the dataset respectively. Solution 4 also counted the time used to obtain the filename list and generate the package. To measure data size, we can easily figure out the size of each data and code source easily inside the package under Solution 4.
 Solution 2 does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
 Instead, we only knew that total size of each file system is very large.
 
 Table~\ref{table:time-2nd3rd} shows the execution time comparison between
 Solution 2 and 4.
 Solution 4 is faster than Solution 2, because all the software copied into the package has been compiled and the Software Acquisition stage is not necessary.
-and all the environment building only takes 3s.
-We were suprised that Solution 4 even reduces the actual analysis time. 
+and all the environment building only takes 4 seconds.
+We were surprised that Solution 4 even reduces the actual analysis time. 
 The reason for this is that data is obtained through accessing HDFS in Solution 2, but is copied into the package in Solution 4. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
 
 \begin{table}
@@ -715,10 +715,10 @@ The reason for this is that data is obtained through accessing HDFS in Solution 
     \hline
     \bf Task & \bf Solution 2& \bf Solution 4\\ 
     \bf Category & \bf Time & \bf Time \\ \hline
-    Obtain filename list & N/A & 28min 23s \\ \hline
+    Obtain filename list & N/A & 28min 28s \\ \hline
     Generate package & N/A & 85min 51s \\ \hline
     Software Acquisition & 8min 11s & N/A \\ \hline
-    Environment Build & 5min 49s  & 3s \\ \hline
+    Environment Build & 5min 49s  & 4s \\ \hline
     Actual Analysis & 20min 31s & 13min 04s \\ \hline
     \end{tabular}
     \caption{Execution Time Comparison between Solution 2 and 4}
@@ -742,12 +742,12 @@ Instead, we only knew that total size of each file system is very large.
 
 To further verify the correctness of Solution 4 on other machines, two different machines are employed -
 one virtual
-machine ~\cite{goldberg1974survey} from Notre Dame Cloud Platform based on KVM sharing the same kernel version with the original machine,
-and one virtual machine from amazon EC2 ~\cite{amazon2010amazon} based on Xen.
+machine~\cite{goldberg1974survey} from Notre Dame Cloud Platform based on KVM sharing the same kernel version with the original machine,
+and one virtual machine from amazon EC2~\cite{amazon2010amazon} based on Xen.
 
 Table~\ref{table:config-vm} illustrates the configuration of 
 each machine and the execution time of the experiment on each machine.
-All the machines adopt x86\_64 hardware platform and linux OS.
+All the machines adopt x86\_64 hardware platform and Linux OS.
 Both of the two VMs repeated the experiment with the help of the package generated on the original machine successfully.
 The execution time on one machine greatly depends on its hardware configuration.
 
@@ -757,11 +757,11 @@ The execution time on one machine greatly depends on its hardware configuration.
     \hline
     \bf Machine & \bf Distro & \bf CPU & \bf Mem & \bf Execution\\ 
     \bf Type   &\bf Version&\bf Cores & (\bf GB) & \bf Time\\ \hline
-    Native &  RedHat  & 64 & 125 & 13min 04s\\  
+    Native &  Red Hat  & 64 & 125 & 13min 04s\\  
     Machine& 5.10 &&&\\ \hline
     KVM & CentOS & 4 & 2 & 21min 38s\\
     (Notre Dame)&5.10 &&&\\ \hline
-    Xen & RedHat & 16 & 60.5 & 13min 30s\\ 
+    Xen & Red Hat & 16 & 60.5 & 13min 30s\\ 
     (EC2) &5.9 &&&\\ \hline
     \end{tabular}
     \caption{Evaluation of Different Machines}
@@ -790,7 +790,7 @@ themselves, which may be external to the original program.  The artifacts
 are then ingested into the archive, where shared dependencies are stored
 only once.  In cases where an artifact has a dependency on a trusted
 (or very large) remote archive, the dependency may simply be tracked
-instead of ingested. A reearcher that wishes to reproduce a given
+instead of ingested. A researcher that wishes to reproduce a given
 result need only refer to the unique identifier of the artifact, and will
 be able to automatically extract all of the dependent components of
 that artifact.
@@ -799,7 +799,7 @@ For example, in Figure~\ref{fig:Preservation integration} Script 1 depends on it
 
 As simple as that picture appears, there are a number of problems that must be solved to get there:
 
-{\bf Measure the Mess or Force Cleanliness?}  Two radically different approachs to dependency tracking are possible.  The first is to allow end users complete freedom to construct their environment as desired, then \emph{measure} what items were actually used.  As we have shown, this is possible, but has significant overheads and does not fully preserve the structure or intent of the end user.   The second approach is to \emph{force} users to work in a clean environment in which no resource can be used until a proper dependency has been declared.  This ensures that all dependencies are known in advance (and made explicit to the end user) but places a variety of restrictions on the user's daily work, and may prevent creative approaches that do not fit within the curator's view of how programs should be structured.  Whether end users will accept the inconvenience of forced cleanliness for the benefits of reproducibility can only be discovered through experiment.
+{\bf Measure the Mess or Force Cleanliness?}  Two radically different approaches to dependency tracking are possible.  The first is to allow end users complete freedom to construct their environment as desired, then \emph{measure} what items were actually used.  As we have shown, this is possible, but has significant overheads and does not fully preserve the structure or intent of the end user.   The second approach is to \emph{force} users to work in a clean environment in which no resource can be used until a proper dependency has been declared.  This ensures that all dependencies are known in advance (and made explicit to the end user) but places a variety of restrictions on the user's daily work, and may prevent creative approaches that do not fit within the curator's view of how programs should be structured.  Whether end users will accept the inconvenience of forced cleanliness for the benefits of reproducibility can only be discovered through experiment.
 
 {\bf Granularity of Dependencies.}  Dependencies could be handled
 at many different levels of granularity.  In this work, we have shown
@@ -850,7 +850,7 @@ Generally, there are three approaches to preserve software environment:
 hardware preservation, migration and emulation.  Hardware
 preservation preserves the original software and its original operating
 environment. 
-Software migration technique \cite{cifuentes1996binary,mancl2001refactoring} was used to facilitate running software on new machines.
+Software migration technique~\cite{cifuentes1996binary,mancl2001refactoring} was used to facilitate running software on new machines.
 However, migration often involves the re-compiling and re-configuring
 the source code to accustom a new hardware platform and software environment.
 Emulation recreates the original software and hardware environment by
@@ -859,37 +859,37 @@ virtual machine. According to the usage and emulation degree of the real
 machine, virtual machine can be divided into system virtual machine and process
 virtual machine. 
 The working principle, design principle and
-performance evaluation of system virtual machine were illustrated in \cite{goldberg1974survey, smith2005architecture}. 
+performance evaluation of system virtual machine were illustrated in~\cite{goldberg1974survey, smith2005architecture}. 
 The
-functionality of system VM to support different guest operating systems was illustrated in \cite{barham2003xen,kivity2007kvm,rosenblum1999vmware}.
-F. Esquembre \cite{esquembre2004easy} illustrated how JVM, one process virtual machine, can expedite the creation of
+functionality of system VM to support different guest operating systems was illustrated in~\cite{barham2003xen,kivity2007kvm,rosenblum1999vmware}.
+F. Esquembre~\cite{esquembre2004easy} illustrated how JVM, one process virtual machine, can expedite the creation of
 scientific simulations in Java. 
-The pros and cons of these three approaches were discussed in \cite{matthews2009towards,phelps2005no,hong2010software}.
+The pros and cons of these three approaches were discussed in~\cite{matthews2009towards,phelps2005no,hong2010software}.
 
-The preservation of computing environment and software environment was treated as one entirety in \cite{matthews2009towards,phelps2005no,hong2010software}. However, frequently changing experiment software makes the maintenance of the preserved experimental environment very complex. 
-CernVM \cite{buncic2010cernvm} treated them as two different categories. The preservation of computing environment is implemented with CernVM, and the preservation of software environment is based on a CernVM filesystem(CVMFS) specifically designed for efficient software distribution.
+The preservation of computing environment and software environment was treated as one entirety in~\cite{matthews2009towards,phelps2005no,hong2010software}. However, frequently changing experiment software makes the maintenance of the preserved experimental environment very complex. 
+CernVM~\cite{buncic2010cernvm} treated them as two different categories. The preservation of computing environment is implemented with CernVM, and the preservation of software environment is based on a CernVM filesystem(CVMFS) specifically designed for efficient software distribution.
 
-The importance of preserving software in source code format was emphasized in \cite{zabolitzky2002preserving,castagne2013consider}. 
-However, CVMFS \cite{buncic2010cernvm} published pre-built and configured experiment software releases to avoid repeating the time-consuming software building procedure. 
+The importance of preserving software in source code format was emphasized in~\cite{zabolitzky2002preserving,castagne2013consider}. 
+However, CVMFS~\cite{buncic2010cernvm} published pre-built and configured experiment software releases to avoid repeating the time-consuming software building procedure. 
 
 Attempts from different perspectives to facilitate the reproduction of scientific experiments utilizing preserved software library has been made. 
-The software distribution mechanism over network was discussed in \cite{compostella2010cdf, blomer2011cernvm}.
-J. R. Rice et al. \cite{rice1996scientific} made the reproduction process easier through the integration of user interface, scientific software libraries, knowledge base into problem-solving environment.
-S. R. Kohn et al. \cite{kohn2001divorcing} tried to enable the creation and distribution of language-independent software library by addressing language interoperability.
-a scalable, distributed and dynamic workflow system for digitization processes was proposed in \cite{schoneberg2013scalable}.
-A distributed archival network was designed in \cite{subotic2013distributed} to facilitate process-oriented automatic long-term digital preservation.
-M. Agosti et al. \cite{agosti2012envisage} aimed to help non-domain users to utilize the digital archive system developed for domain experts.
+The software distribution mechanism over network was discussed in~\cite{compostella2010cdf, blomer2011cernvm}.
+J. R. Rice et al.~\cite{rice1996scientific} made the reproduction process easier through the integration of user interface, scientific software libraries, knowledge base into problem-solving environment.
+S. R. Kohn et al.~\cite{kohn2001divorcing} tried to enable the creation and distribution of language-independent software library by addressing language interoperability.
+a scalable, distributed and dynamic workflow system for digitization processes was proposed in~\cite{schoneberg2013scalable}.
+A distributed archival network was designed in~\cite{subotic2013distributed} to facilitate process-oriented automatic long-term digital preservation.
+M. Agosti et al.~\cite{agosti2012envisage} aimed to help non-domain users to utilize the digital archive system developed for domain experts.
 
 Current mechanisms of preserving scientific experiments assume that all the data and software mentioned in the experiments are necessary for the reproduction of the experiments. However, this is not always right. In some cases, the original author may leave additional code referring to irrelative data and software in the experiment programs. One mechanism, which can figure out the absolutely relevant data and software of one experiment, is important for both the preservation and reproduction of scientific experiments.
 
-B. Matthews et al. \cite{matthews2008significant} introduced one conceptual framework for software preservation from several case studies of software preservation.
-One tool to capture software preservation properties within a software environment was designed in \cite{matthews2010framework} through a series of case studies conducted to evaluate the software preservation framework.
-L. R. Johnston et al. \cite{johnston2014workflow} proposed one overall data curation workflow for 3-5 case studies of preserving research data.
-Two case studies \cite{borgman2012data} were conducted to figure out the properties of data to be reused in the future, including type, purpose, new users.
+B. Matthews et al.~\cite{matthews2008significant} introduced one conceptual framework for software preservation from several case studies of software preservation.
+One tool to capture software preservation properties within a software environment was designed in~\cite{matthews2010framework} through a series of case studies conducted to evaluate the software preservation framework.
+L. R. Johnston et al.~\cite{johnston2014workflow} proposed one overall data curation workflow for 3-5 case studies of preserving research data.
+Two case studies~\cite{borgman2012data} were conducted to figure out the properties of data to be reused in the future, including type, purpose, new users.
 To figure out how to preserve HEP applications, this paper studies one case of preserving one representative HEP application.
 
 \section{Postscript}
-By the way, at the beginnig of our case study, we generated one package for the
+By the way, at the beginning of our case study, we generated one package for the
 example based on Solution 4. Several months later, the original machine met
 some problems and the access model of CMSSW was also modified. In this case, if
 you want to repeat the example on the original machine, different 
