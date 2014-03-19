@@ -356,18 +356,18 @@ a CVS server at CERN for some configuration information, a public web page
 for the PyYAML library, and the public home page of a Notre Dame student
 for one missing header file.  (The latter is particularly troubling!)
 While, at some level, the authors and users of these software know of these dependencies, they are often missing in
-informal communications or forgotten once the dependency is install.
+informal communications or forgotten once the dependency is installed.
 However, once known, they are at least expressed explicitly within the script.
 
 \item {\bf Many Implicit Local Dependencies.} A much harder problem is that the
 application assumed the presence of many different components in the local
 filesystem view. It would be tempting to capture all of these by simply
 storing a virtual machine image containing the local filesystem. However,
-the application depended on no less than {\bf six} networked filesystems
+the application depended on no less than {\bf five} networked filesystems
 available on a particular machine available to the author:
 the data to be analyzed was stored on a HDFS~\cite{borthakur2008hdfs} cluster,
 some configuration data was stored on a CVMFS~\cite{blomer2011cernvm} filesystem,
-and a variety of software tools were on an NFS~\cite{howard1988scale},
+and a variety of software tools were on a NFS~\cite{howard1988scale},
 PanFS~\cite{welch2008scalable} and AFS~\cite{sandberg1985design} systems.
 The original authors were not aware of many of these dependencies,
 because they simply relied on local administrators to configure the
@@ -398,9 +398,9 @@ run, which takes 20 minutes.
 program is very large, the size of the data and software actually used are much smaller.
 Often, an entire repository or data source is named within the script, but the program
 only needs a handful of items from that source.  For example, the data is stored on an
-HDFS filesystem with 24TB of data, but only 43GB of that are the input Ntuples,
-and of those only 20GB are actually consumed by the program. The CMSSW repository is 88GB in total
-but only 448MB in source are checked out, and the software actually used only
+HDFS filesystem with 11.6TB of data, but only 43.3GB of that are the input Ntuples,
+and of those only 20GB are actually consumed by the program. The CMSSW repository is 88.1GB in total
+but only 448.3MB in source are checked out, and the software actually used only
 measured 6.3MB.  In a few cases, a source of software is named but never actually accessed.
 (For example, our original script includes the Open Science Grid software stack in the PATH, but does not actually use it.)
 We suspect that end users are accustomed to missing dependencies and thus get in the habit of adding commonly used software,
