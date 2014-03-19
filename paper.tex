@@ -531,6 +531,9 @@ stability of said repositories.
 
 However, only having the package and the dependency map is not enough. The successful execution of the application on the original machine also relies on the configuration of environment variables.
 We collected the environment variables of the original machine and transformed it into one executable script. If another researcher wants to repeat the application, this executable script will be first executed. 
+The environment variables refer to the dynamic named values defined in the range of one computer, like \verb!$PATH! and \verb!$PYTHONPATH!.
+However, the dependency map refers to the actual storage location of path variables used in one abstract script. For example, the actual storage location of the path variable \verb!CVMFS! 
+is {\tt /data/cvmfs/grid.cern.ch}.
 
 \begin{figure}
 \centering
@@ -679,23 +682,23 @@ are not incorporated into the package but are instead accessed natively.
 \section{Evaluation}
 
 We evaluated the correctness of the reduced package and the overhead of generating the package.
-To do it, the application was repeated with the help of Script (as shown in Figure~\ref{fig:version-evolution}) on the original machine, mentioned as {\bf Script-Solution} in the following part, 
-one reduced package was generated and verified with the help of Parrot on the original machine, which will be mentioned as {\bf Package-Solution}.
+To do it, the application was repeated with the help of Original Script (as shown in Figure~\ref{fig:version-evolution}) on the original machine, mentioned as {\bf Original-Script} in the following part, 
+one reduced package was generated and verified with the help of Parrot on the original machine, which will be mentioned as {\bf Reduced-Package}.
 Then, two different virtual machines (VM) - one VM from Notre Dame Cloud Platform based on KVM and one VM from Amazon EC2 Platform based on Xen, were employed to further verify the correctness of the reduced package.
 
 We first repeated the example from scratch using the Script translated from the original email on the original machine and counted the time consumption and data size. 
-Then based on the successful execution of Script-Solution, Package-Solution is evaluated - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
+Then based on the successful execution of Original-Script, Reduced-Package is evaluated - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
 
-To measure time consumption, we counted the time used to obtain remote software dependencies, build environment, and analyze the dataset respectively. We also counted the time used to obtain the filename list and generate the package. To measure data size, we can easily figure out the size of each data and code source inside the package under Package-Solution.
-Script-Solution does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
+To measure time consumption, we counted the time used to obtain remote software dependencies, build environment, and analyze the dataset respectively. We also counted the time used to obtain the filename list and generate the package. To measure data size, we can easily figure out the size of each data and code source inside the package under Reduced-Package.
+Original-Script does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
 Instead, we only knew that total size of each file system is very large.
 
 Table~\ref{table:time-2nd3rd} shows the execution time comparison between
-Script-Solution and Package-Solution.
-Package-Solution is faster than Script-Solution, because all the software copied into the package has been compiled and the Software Acquisition stage is not necessary.
-and all the environment building only takes 4 seconds.
-We were surprised that Package-Solution even reduces the actual analysis time. 
-The reason for this is that data is obtained through accessing HDFS in Script-Solution, but is copied into the package in Package-Solution. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
+Original-Script and Reduced-Package.
+Reduced-Package is faster than Original-Script, because all the software copied into the package has been compiled and the Software Acquisition stage is not necessary.
+and all the environment building only takes 4 seconds,
+We were surprised that Reduced-Package even reduces the actual analysis time. 
+The reason for this is that data is obtained through accessing HDFS in Original-Script, but is copied into the package in Reduced-Package. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
 
 \begin{table}
     \centering
@@ -709,7 +712,7 @@ The reason for this is that data is obtained through accessing HDFS in Script-So
     Environment Build & 5min 49s  & 4s \\ \hline
     Analysis Code & 20min 31s & 13min 04s \\ \hline
     \end{tabular}
-    \caption{Execution Time Comparison between Script-Solution and Package-Solution}
+    \caption{Execution Time Comparison between Original-Script and Reduced-Package}
     \label{table:time-2nd3rd}
 \end{table}    
 
@@ -724,11 +727,11 @@ generated, many users can directly obtain the package and repeat the application
 separately. 
 
 Table~\ref{table:size-original-real} illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
-The third column corresponds to the data size of Package-Solution and can be easily figured out, because all the necessary data has been copied into the package.
-Script-Solution does not support measuring implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
+The third column corresponds to the data size of Reduced-Package and can be easily figured out, because all the necessary data has been copied into the package.
+Original-Script does not support measuring implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
 Instead, we only knew that total size of each file system is very large.
 
-To further verify the correctness of Package-Solution on other machines, two different machines are employed -
+To further verify the correctness of Reduced-Package on other machines, two different machines are employed -
 one virtual
 machine~\cite{goldberg1974survey} from Notre Dame Cloud Platform based on KVM sharing the same kernel version with the original machine,
 and one virtual machine from amazon EC2~\cite{amazon2010amazon} based on Xen.
