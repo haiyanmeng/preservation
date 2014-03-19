@@ -200,7 +200,7 @@ Section 4: Evaluation
         Tau source       & Git & 73.7MB & 73.7MB & 6.7MB \\ \hline
         PyYAML binaries    & HTTP & 52MB & 52MB & 0KB \\ \hline
         .h file       & HTTP& 41KB & 41KB & 0KB \\ \hline \hline
-        Ntuples data    & HDFS& 11.6TB & 43.3GB & 20GB \\ \hline
+        Ntuples data    & HDFS& 11.6TB & N/A& 20GB \\ \hline
         Configuration & CVMFS & 7.4GB & N/A & 103MB \\ \hline
         Linux commands & localFS & 110GB &  N/A & 68.4MB \\ \hline     
         HOME dir& AFS &12GB & N/A & 32MB\\ \hline
@@ -392,8 +392,7 @@ run, which takes 20 minutes.
 program is very large, the size of the data and software actually used are much smaller.
 Often, an entire repository or data source is named within the script, but the program
 only needs a handful of items from that source.  For example, the data is stored on an
-HDFS filesystem with 11.6TB of data, but only 43.3GB of that are the input Ntuples,
-and of those only 20GB are actually consumed by the program. The CMSSW repository is 88.1GB in total
+HDFS filesystem with 11.6TB of data, but only 20GB are actually consumed by the program. The CMSSW repository is 88.1GB in total
 but only 448.3MB in source are checked out, and the software actually used only
 measured 6.3MB.  In a few cases, a source of software is named but never actually accessed.
 (For example, our original script includes the Open Science Grid software stack in the PATH, but does not actually use it.)
@@ -511,7 +510,7 @@ script in a \emph{dependency map} or just \emph{map} for short.
 The dependency map lists all of the external dependencies of the application, indicating
 the type, how they are accessed, and where they are currently located.
 The resulting script then simply refers to abstract file locations such
-as \verb$GIT$ and \verb!$CMSSW!, while the map file indicates where they
+as \verb$GIT$ and \verb$CVMFS$, while the map file indicates where they
 are currently located. If properly constructed, the script should not refer to any external
 resource unless it is indicated in the dependency map.  We call this idealized
 artifact an \emph{abstract script}.
@@ -526,9 +525,12 @@ and then modify the map to point to the local copies of the dependencies.
 If we group the script, dependency map, and dependencies into a \emph{package},
 we now have a self-contained artifact that can be moved from place to place.
 In some cases, it may be safe to allow the dependency map to refer to 
-trusted remote repositories.  Whether this is advisable is a judgement that
+trusted remote repositories.  Whether this is advisable is a judgment that
 must be made by the user or the curator, taking into account the long-term
 stability of said repositories.
+
+However, only having the package and the dependency map is not enough. The successful execution of the application on the original machine also relies on the configuration of environment variables.
+We collected the environment variables of the original machine and transformed it into one executable script. If another researcher wants to repeat the application, this executable script will be first executed. 
 
 \begin{figure}
 \centering
@@ -545,12 +547,12 @@ another researcher wants to repeat the application, one copy of the package will
 
 When we try to repeat one application on one new machine, one map file is necessary for the relocation of the data access targets, as
 show in Figure~\ref{fig:version-evolution}. 
-The map file clearly defines the real location of each dependency in the format of dependency variables - the real location of dependency variable {\tt GIT} is \path{http://github.com} and the real location of dependency variable {\tt CVMFS}
-is {\tt /tmp/package-hep/cvmfs}.
+The map file clearly defines the real location of each dependency in the format of dependency variables - the real location of dependency variable {\tt GIT} is \path{/data/git/cms-ttH} and the real location of dependency variable {\tt CVMFS}
+is {\tt /data/cvmfs/grid.cern.ch}.
 The script only refers to the dependency variables defined in the map file.
 This design decouples the application script and the actual data access targets, which minimizes the impact of the evolution of different data dependencies
 and ensures the transparent access.
-he modification of the package only introduces the minimal changes of the map file on the client side.
+The modification of the package only introduces the minimal changes of the map file on the client side.
 
 This basic approach to dependency management is a step in the right direction
 for dependencies that are \emph{explicit} and \emph{external} to the
@@ -589,7 +591,7 @@ Using this information, we create a \emph{reduced package} which contains
 only the files actually used by the application.
 
 Parrot is a virtual filesystem access tool which has previously been used to attach
-exisiting programs to a variety of remote I/O systems, such as HTTP, FTP, and CVMFS.
+existing programs to a variety of remote I/O systems, such as HTTP, FTP, and CVMFS.
 It works by trapping an application's system calls through the {\tt ptrace} debugging
 interface, and then replacing them with the desired I/O operations.  Parrot is already used
 in the high energy physics community with applications like TauRoast specifically to 
@@ -664,7 +666,7 @@ are not incorporated into the package but are instead accessed natively.
 \hline
     Directories:    & 1549         & 1549\\ 
 \hline
-    Symbolic Links: & 4614         & ??? \\
+    Symbolic Links: & 4614         & 4614 \\
 \hline
     \bf Total Size: & \bf 21GB     & \bf 28GB \\ 
 \hline
@@ -676,23 +678,24 @@ are not incorporated into the package but are instead accessed natively.
 
 \section{Evaluation}
 
-We evaluated the correctness and overhead of the packaging utility of Solution 4.
-To do it, the application was repeated using Solution 2 and 4 on the original machine.
-Then, two different virtual machines (VM) - one VM from Notre Dame Cloud Platform based on KVM and one VM from Amazon EC2 Platform based on Xen, were employed to further verify the correctness of Solution 4.
+We evaluated the correctness of the reduced package and the overhead of generating the package.
+To do it, the application was repeated with the help of Script (as shown in Figure~\ref{fig:version-evolution}) on the original machine, mentioned as {\bf Script-Solution} in the following part, 
+one reduced package was generated and verified with the help of Parrot on the original machine, which will be mentioned as {\bf Package-Solution}.
+Then, two different virtual machines (VM) - one VM from Notre Dame Cloud Platform based on KVM and one VM from Amazon EC2 Platform based on Xen, were employed to further verify the correctness of the reduced package.
 
-We first repeated the example from scratch using Solution 2 on the original machine and counted the time consumption and data size. 
-Then based on the successful execution of Solution 2, Solution 4 is evaluated - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
+We first repeated the example from scratch using the Script translated from the original email on the original machine and counted the time consumption and data size. 
+Then based on the successful execution of Script-Solution, Package-Solution is evaluated - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
 
-To measure time consumption, we counted the time used to obtain remote software dependencies, build environment, and analyze the dataset respectively. Solution 4 also counted the time used to obtain the filename list and generate the package. To measure data size, we can easily figure out the size of each data and code source easily inside the package under Solution 4.
-Solution 2 does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
+To measure time consumption, we counted the time used to obtain remote software dependencies, build environment, and analyze the dataset respectively. We also counted the time used to obtain the filename list and generate the package. To measure data size, we can easily figure out the size of each data and code source inside the package under Package-Solution.
+Script-Solution does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
 Instead, we only knew that total size of each file system is very large.
 
 Table~\ref{table:time-2nd3rd} shows the execution time comparison between
-Solution 2 and 4.
-Solution 4 is faster than Solution 2, because all the software copied into the package has been compiled and the Software Acquisition stage is not necessary.
+Script-Solution and Package-Solution.
+Package-Solution is faster than Script-Solution, because all the software copied into the package has been compiled and the Software Acquisition stage is not necessary.
 and all the environment building only takes 4 seconds.
-We were surprised that Solution 4 even reduces the actual analysis time. 
-The reason for this is that data is obtained through accessing HDFS in Solution 2, but is copied into the package in Solution 4. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
+We were surprised that Package-Solution even reduces the actual analysis time. 
+The reason for this is that data is obtained through accessing HDFS in Script-Solution, but is copied into the package in Package-Solution. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
 
 \begin{table}
     \centering
@@ -706,7 +709,7 @@ The reason for this is that data is obtained through accessing HDFS in Solution 
     Environment Build & 5min 49s  & 4s \\ \hline
     Analysis Code & 20min 31s & 13min 04s \\ \hline
     \end{tabular}
-    \caption{Execution Time Comparison between Solution 2 and 4}
+    \caption{Execution Time Comparison between Script-Solution and Package-Solution}
     \label{table:time-2nd3rd}
 \end{table}    
 
@@ -721,11 +724,11 @@ generated, many users can directly obtain the package and repeat the application
 separately. 
 
 Table~\ref{table:size-original-real} illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
-The third column corresponds to the data size of Solution 4 and can be easily figured out, because all the necessary data has been copied into the package.
-Solution 2 does not support measuring implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
+The third column corresponds to the data size of Package-Solution and can be easily figured out, because all the necessary data has been copied into the package.
+Script-Solution does not support measuring implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
 Instead, we only knew that total size of each file system is very large.
 
-To further verify the correctness of Solution 4 on other machines, two different machines are employed -
+To further verify the correctness of Package-Solution on other machines, two different machines are employed -
 one virtual
 machine~\cite{goldberg1974survey} from Notre Dame Cloud Platform based on KVM sharing the same kernel version with the original machine,
 and one virtual machine from amazon EC2~\cite{amazon2010amazon} based on Xen.
