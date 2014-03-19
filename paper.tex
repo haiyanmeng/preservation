@@ -873,13 +873,16 @@ L. R. Johnston et al.~\cite{johnston2014workflow} proposed one overall data cura
 Two case studies~\cite{borgman2012data} were conducted to figure out the properties of data to be reused in the future, including type, purpose, new users.
 To figure out how to preserve HEP applications, this paper studies one case of preserving one representative HEP application.
 
-\section{Postscript}
-By the way, at the beginning of our case study, we generated one package for the
-example based on Solution 4. Several months later, the original machine met
-some problems and the access model of CMSSW was also modified. In this case, if
-you want to repeat the example on the original machine, different 
-configurations, including CMSSW\_ARCH, environment variables and CVS access
-authority need to be modified. However, with the generated package and its map file, we can repeat the experiment directly on the same machine without any modification.
+\section{Conclusion}
+
+We began this work in late 2013, generating a reduced package for \emph{TauRoast} based
+on the configuration of a standard machine at Notre Dame at the time.  In the course
+of writing this paper in spring 2014, almost everything about the computing environment
+changed: the operating system was upgraded, a new version of CMSSW was released, and
+our local HEP users switched from using CVS to CVMFS for accessing CMSSW.
+The original script provided by the author failed to run on the same machine.
+But, the reduced package we created three months earlier in the old environment
+worked just fine on the new machine.
 
 \bibliographystyle{abbrv}
 \bibliography{cclpapers,this}
