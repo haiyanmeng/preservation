@@ -290,17 +290,17 @@ consisting of up to a few dozen contributors.
 
 In the second step, the data are reduced to the ``Ntuple'' format,
 which contains only events matching basic quality criteria and
-fields relevant to \emph{TauRoast}. This results in
-a dataset of 43.3$\,$GB.  Again, the Notre Dame CMS groups cluster
+fields relevant to \emph{TauRoast}.
+Again, the Notre Dame CMS groups cluster
 resources are used to perform this reduction and selection,
 running highly customized software,
 built on CMSSW and the BEAN framework,
 with code written and maintained by a small group.
 
 Once the data has been reduced to Ntuples, TauRoast can be run as a single
-process, and contains a stringent event selection to keep only high
-quality candidate events for the underlying physical process (using
-about 20$\,$MB of space).  Quantities from the selected events can be
+process, and contains a stringent event selection to look only at high
+quality candidate events for the underlying physical process.
+Quantities from the relevant events can be
 both plotted and used in multivariate analysis to determine the level
 of expected signal in real data.
 This package is written using the CMSSW build framework,
