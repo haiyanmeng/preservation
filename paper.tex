@@ -1,6 +1,10 @@
 \documentclass{sig-alternate}
 \usepackage{url}
 \usepackage[flushleft]{threeparttable}
+\hyphenation{resour-ces}
+\hyphenation{approac-hes}
+\hyphenation{har-der}
+\hyphenation{spe-cifically}
 \begin{document}
 
 \title{A Case Study in Preserving a\\High Energy Physics Application}
@@ -57,7 +61,7 @@ The reproduction of a computation has three broad components,
 each of which suggests somewhat different approaches:
 
 \begin{itemize}
-\item The {\bf computing environment}, consisting of the basic hardware and the operating system can be preserved as physical artifacts or as a combination of virtual machine monitor (hardware) and virtual machine image (operating system)~\cite{matthews2009towards}.
+\item The {\bf computing environment}, consisting of the basic hardware and the operating system which can be preserved as physical artifacts or as a combination of virtual machine monitors (hardware) and virtual machine images (operating system)~\cite{matthews2009towards}.
 \item The {\bf scientific data} to be analyzed has historically received the most attention for curation.  In a large, well-organized project, it may be stored in a  data repository or database management system, with associated documentation and a curation strategy.  In a small effort, it could simply be a handful of files.
 \item The {\bf software environment} includes the source code, binaries, scripts, configuration files, and everything else needed to execute the desired code.  As with data, the software could be drawn from a well-managed software repository, or it could be a handful custom scripts that exist in the user's home directory.
 \end{itemize}
@@ -222,7 +226,7 @@ Section 4: Evaluation
 
 Within the ongoing investigation of the Higgs boson at the CMS
 detector, part of the LHC at CERN~\cite{collaboration2008cms}, the Higgs production in association
-with two top quarks allows to measure the Higgs coupling strength to
+with two top quarks allows measuring the Higgs coupling strength to
 top quarks~\cite{chatrchyan2013search}.  As the Higgs boson is too short-lived to be detected
 itself, it has to be reconstructed from its decay products.
 
@@ -266,11 +270,11 @@ operate indefinitely.
 CMSSW contains many different tools, libraries, and utilities.  No single code uses anywhere close to all of these.  But, because it is widely used within the experimental researchers, it is common for users to simply expect that a particular version of the entire repository is available.
  
 {\bf Data Sources.}
-The CMS collaboration provides analysis end-users with a pre-processed
+The CMS collaboration provides end-users with a pre-processed
 and reduced data format, AOD~\cite{holtman2001cms}, containing information for events, i.e.,
 proton-proton collisions with a signature of interest, in the form of
 reconstructed particles.  This format is based on the RAW output of
-the CMS detector readout electronics and reconstructed world-wide, which is then processed through various algorithms derive signatures of individual particles.
+the CMS detector readout electronics and reconstructed world-wide, which is then processed through various algorithms which derive signatures of individual particles.
 Both real and simulated data are available for examination.
 
 As AOD data are too large to be iteratively processed repetitively in
@@ -372,7 +376,7 @@ of dependent software packages, the high energy physics community has developed
 a number of tools that perform run-time configuration and consistency checks
 of the available software.  {\tt scram} is the software management tool used
 by the CMS experiment.  Before running any code, {\tt scram} is used to locate
-the appropriate version software,  set environment variables such as the PATH, run any
+the appropriate version of software,  set environment variables such as the PATH, run any
 tool-specific configuration, and do the same for all software on which it depends.
 If the correct versions are not available, {\tt scram} halts and emits an error.
 While this procedure has great value for consistency, it also introduces a significant cost
@@ -395,7 +399,7 @@ only needs a handful of items from that source.  For example, the data is stored
 HDFS filesystem with 11.6TB of data, but only 20GB are actually consumed by the program. 
 The reason for this great reduction is at first each BEAN event contains a large amount of information, and the TauAnalysis throws away a lot of the irrelevant event information, keeping only the relevant bits.
 The CMSSW repository is 88.1GB in total
-but only 448.3MB in source are checked out, and the software actually used only
+but only 448.3MB of source is checked out, and the actually used software only
 measured 6.3MB.  In a few cases, a source of software is named but never actually accessed.
 (For example, our original script includes the Open Science Grid software stack in the PATH, but does not actually use it.)
 We suspect that end users are accustomed to missing dependencies and thus get in the habit of adding commonly used software,
@@ -403,7 +407,7 @@ whether it is needed or not.
 
 \item {\bf Rapid Changes in Dependencies.}  Over the course of three months
 between collecting the initial email, analyzing the program, and writing this
-paper, the computing environment was under continuous change.  The CMSSW software
+paper, the computing environment continuously changed.  The CMSSW software
 distribution released a new version, the target execution environment was upgraded
 to a new operating system, and the application deprecated the use of CVS for obtaining
 the software.  While the users of this software seem be accustomed to constant change,
@@ -492,7 +496,7 @@ It is clear that the artifact, as provided, is not in a suitable form
 for preservation.  While it might be technically possible to automatically
 capture the entire virtual machine and all of the connected filesystems,
 it would require 166.8TB of storage, which would be prohibitively expensive
-for capturing this one application is alone.  Further, if multiple
+for capturing this one application alone.  Further, if multiple
 similar applications are preserved, we would miss the opportunity to identify
 common dependencies and store them once for multiple artifacts.
 A more structured approach to dependency management is needed.
@@ -597,7 +601,7 @@ only the files actually used by the application.
 
 Parrot is a virtual filesystem access tool which has been used to attach
 existing programs to a variety of remote I/O systems, such as HTTP, FTP, and CVMFS.
-It works by trapping an application's system calls through the {\tt ptrace} debugging
+It works by trapping an application's system calls through the Linux {\tt ptrace} debugging
 interface, and then replacing them with the desired I/O operations.  Parrot is already used
 in the high energy physics community with applications like TauRoast specifically to 
 provide access to the CMSSW software distribution via the CVMFS distributed file system.
@@ -612,8 +616,8 @@ and software for one analysis program. When another
 researcher wants to repeat the program, he only needs to obtain the package and
 execute the actual analysis program inside the package. 
 
-For one execution of \emph{TauRoast}, the namelist 132,047 accessed filenames,
-along with the operation used to access the file, such as {\tt open}, {\tt stat}, {\tt read}, etc.
+For one execution of \emph{TauRoast}, the generated namelist includes 132,047 accessed filenames,
+along with the system calls used to access the file, such as {\tt open}, {\tt stat}, {\tt read}, etc.
 With duplicate filenames removed, the list is reduced to 67,168 files.
 Many of those entries do not exist, because they reflect attempts
 by the application to search for programs and libraries in multiple places.
@@ -684,24 +688,24 @@ are not incorporated into the package but are instead accessed natively.
 \section{Evaluation}
 
 We evaluated the correctness of the reduced package and the overhead of generating the package.
-To do this, the application was repeated with the help of Original Script (as shown in Figure~\ref{fig:version-evolution}) on the original machine. 
-Then one reduced package was generated and verified with the help of Parrot on the original machine.
+To do this, the application was repeated with the help of \emph{Original Script} (as shown in Figure~\ref{fig:version-evolution}) on the original machine. 
+Then one \emph{reduced package} was generated and verified with the help of Parrot on the original machine.
 
 Then, two different virtual machines (VM) - one VM from the Notre Dame Cloud Platform based on KVM and one VM from the Amazon EC2 Platform based on Xen, were employed to further verify the correctness of the reduced package.
 
 We first repeated the example from scratch using the Script translated from the original email on the original machine and counted the time consumption and data size. 
-Then based on the successful execution of Original-Script, Reduced-Package is evaluated - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
+Then based on the successful execution of Original Script, we evaluated Reduced Package - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
 
-To measure time consumption, we counted the time used to obtain remote software dependencies, build the environment, and analyze the dataset. We also counted the time used to obtain the filename list and generate the package. To measure data size, we can easily figure out the size of each data and code source inside the package under Reduced-Package.
-Original-Script does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
+To measure time consumption, we counted the time used to obtain remote software dependencies, build the environment, and analyze the dataset. We also counted the time used to obtain the namelist and to generate the package. To measure data size, we can easily figure out the size of each data and code source inside the package under Reduced Package.
+Original Script does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
 Instead, we only knew that total size of each file system is very large.
 
 Table~\ref{table:time-2nd3rd} shows the execution time comparison between
-Original-Script and Reduced-Package.
-Reduced-Package is faster than Original-Script, because all the software copied into the package has been compiled and the Software Acquisition stage is not necessary.
+Original Script and Reduced Package.
+Reduced Package is faster than Original Script, because all the software copied into the package has been compiled and the Software Acquisition stage is not necessary.
 and all the environment building only takes 4 seconds,
-We were surprised that Reduced-Package even reduces the actual analysis time. 
-The reason for this is that data is obtained through accessing HDFS in Original-Script, but is copied into the package in Reduced-Package. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
+We were surprised that Reduced Package even reduces the actual analysis time. 
+The reason for this is that data is obtained through accessing HDFS in Original Script, but is copied into the package in Reduced Package. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
 
 \begin{table}
     \centering
@@ -715,12 +719,12 @@ The reason for this is that data is obtained through accessing HDFS in Original-
     Environment Build & 5min 49s  & 4s \\ \hline
     Analysis Code & 20min 31s & 13min 04s \\ \hline
     \end{tabular}
-    \caption{Execution Time Comparison between Original-Script and Reduced-Package}
+    \caption{Execution Time Comparison between Original Script and Reduced Package}
     \label{table:time-2nd3rd}
 \end{table}    
 
 Table~\ref{table:time-2nd3rd} also illustrates the time used to
-obtain the filename list and generate the package. 
+obtain the namelist and to generate the package. 
 The time used for these two steps is longer than the execution time,
 because each filename of the list, together with its system call type, needs to be checked, and the structure of each directory item must be maintained.
 However, 
@@ -729,19 +733,19 @@ Once the package is
 generated, many users can directly obtain the package and repeat the application 
 separately. 
 
-Table~\ref{table:size-original-real} illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
-The third column corresponds to the data size of Reduced-Package and can be easily figured out, because all the necessary data has been copied into the package.
-Original-Script does not support measuring implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
+Table~\ref{table:size-original-real} on page 2 illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
+The third column corresponds to the data size of Reduced Package and can be easily figured out, because all the necessary data has been copied into the package.
+Original Script does not support measuring implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
 Instead, we only knew that total size of each file system is very large.
 
-To further verify the correctness of Reduced-Package on other machines, two different machines are employed -
+To further verify the correctness of Reduced Package on other machines, two different machines are employed -
 one virtual
-machine~\cite{goldberg1974survey} from Notre Dame Cloud Platform based on KVM sharing the same kernel version with the original machine,
-and one virtual machine from amazon EC2~\cite{amazon2010amazon} based on Xen.
+machine~\cite{goldberg1974survey} from the Notre Dame Cloud Platform based on KVM sharing the same kernel version with the original machine,
+and one virtual machine from  the Amazon EC2~\cite{amazon2010amazon} Platform based on Xen.
 
 Table~\ref{table:config-vm} illustrates the configuration of 
 each machine and the execution time of the application on each machine.
-All the machines adopt the x86\_64 hardware platform and Linux OS.
+All the machines adopt the x86\_64 hardware platform and Linux kernel.
 Both of the two VMs repeated the application with the help of the package generated on the original machine successfully.
 The execution time on one machine greatly depends on its hardware configuration.
 
@@ -751,7 +755,7 @@ The execution time on one machine greatly depends on its hardware configuration.
     \hline
     \bf Machine & \bf Distro & \bf CPU & \bf Mem & \bf Execution\\ 
     \bf Type   &\bf Version&\bf Cores & (\bf GB) & \bf Time\\ \hline
-    Native &  Red Hat  & 64 & 125 & 13min 04s\\  
+    Original &  Red Hat  & 64 & 125 & 13min 04s\\  
     Machine& 5.10 &&&\\ \hline
     KVM & CentOS & 4 & 2 & 21min 38s\\
     (Notre Dame)&5.10 &&&\\ \hline
@@ -762,7 +766,7 @@ The execution time on one machine greatly depends on its hardware configuration.
     \label{table:config-vm}
 \end{table}
 
-Regardless, we demonstrate that the application can be repeated with the help of the reduced package on one different machine with the required hardware architecture and OS distribution version.
+In summary, we demonstrate that the application can be repeated with the help of the reduced package on one different machine with the required hardware architecture and OS kernel version.
 %*****hmeng-doubt:Another reason for the packaging utility is that not all the data and software generated by the second version script is used during the the actual data analysis. The packaging utility can help us find out the optimal subset of data and software involved in one actual data analysis. 
 %*****hmeng-doubt: this point is not the motivation. but one achievement comes together. out of imagination.
 
@@ -846,7 +850,7 @@ preservation preserves the original software and its original operating
 environment. 
 Software migration technique~\cite{cifuentes1996binary,mancl2001refactoring} was used to facilitate running software on new machines.
 However, migration often involves the re-compiling and re-configuring
-the source code to accustom a new hardware platform and software environment.
+the source code to accommodate a new hardware platform and software environment.
 Emulation recreates the original software and hardware environment by
 programming future platforms and OSs. One common solution to implement this is
 virtual machine. According to the usage and emulation degree of the real
@@ -866,7 +870,7 @@ CernVM~\cite{buncic2010cernvm} treated them as two different categories. The pre
 The importance of preserving software in source code format was emphasized in~\cite{zabolitzky2002preserving,castagne2013consider}. 
 However, CVMFS~\cite{buncic2010cernvm} published pre-built and configured experiment software releases to avoid the time-consuming software building procedure. 
 
-Attempts from different perspectives to facilitate the reproduction of scientific experiments utilizing preserved software library has been made. 
+Attempts from different perspectives to facilitate the reproduction of scientific experiments utilizing a preserved software library have been made. 
 The software distribution mechanism over network was discussed in~\cite{compostella2010cdf, blomer2011cernvm}.
 J. R. Rice et al.~\cite{rice1996scientific} made the reproduction process easier through the integration of user interface, scientific software libraries, knowledge base into problem-solving environment.
 S. R. Kohn et al.~\cite{kohn2001divorcing} tried to enable the creation and distribution of language-independent software library by addressing language interoperability.
@@ -880,7 +884,6 @@ B. Matthews et al.~\cite{matthews2008significant} introduced one conceptual fram
 One tool to capture software preservation properties within a software environment was designed in~\cite{matthews2010framework} through a series of case studies conducted to evaluate the software preservation framework.
 L. R. Johnston et al.~\cite{johnston2014workflow} proposed one overall data curation workflow for 3-5 case studies of preserving research data.
 Two case studies~\cite{borgman2012data} were conducted to figure out the properties of data to be reused in the future.
-To figure out how to preserve HEP applications, this paper studies one case of preserving one representative HEP application.
 
 \section{Postscript}
 
