@@ -31,4 +31,4 @@ $(NAME).dvi: $(NAME).tex ${FIGURES} ${GRAPHS} ${IMAGES} ${BIBLIOGRAPHIES}
 	inkscape -z -E$@ $^
 
 clean:
-	rm -f *~ $(NAME).aux $(NAME).bbl $(NAME).blg $(NAME).dvi $(NAME).ps $(NAME).pdf $(NAME).log  $(NAME).eps *.eps *.bak 
+	rm -f *~ $(NAME).aux $(NAME).bbl $(NAME).blg $(NAME).dvi $(NAME).ps $(NAME).pdf $(NAME).log *.bak 
