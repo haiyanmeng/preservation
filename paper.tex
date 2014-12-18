@@ -1,4 +1,4 @@
-\documentclass{sig-alternate}
+\documentclass[procedia]{easychair}
 \usepackage{url}
 \usepackage[flushleft]{threeparttable}
 \hyphenation{resour-ces}
@@ -8,18 +8,52 @@
 \makeatletter
 \def\@copyrightspace{\relax}
 \makeatother
+
+\title{A Case Study in Preserving a High Energy Physics Application}
+
+% \titlerunning{} has to be set to either the main title or its shorter
+% version for the running heads. When processed by
+% EasyChair, this command is mandatory: a document without \titlerunning
+% will be rejected by EasyChair
+
+\titlerunning{A Case Study in Preserving a High Energy Physics Application}
+
+\author{
+	Haiyan Meng\inst{1}
+\and
+	Matthias Wolf\inst{2}
+\and
+	Douglas Thain\inst{3}
+}
+\institute{
+	Department of Computer Science and Engineering,
+	University of Notre Dame,
+	Notre Dame, Indiana, USA
+	\email{hmeng@nd.edu}
+\and
+	Department of Physics,
+	University of Notre Dame,
+	Notre Dame, Indiana, USA
+	\email{mwolf3@nd.edu}
+\and
+	Department of Computer Science and Engineering,
+	University of Notre Dame,
+	Notre Dame, Indiana, USA
+	\email{dthain@nd.edu}
+}
+
+%  \authorrunning{} has to be set for the shorter version of the authors' names;
+% otherwise a warning will be rendered in the running heads. When processed by
+% EasyChair, this command is mandatory: a document without \authorrunning
+% will be rejected by EasyChair
+
+\authorrunning{Meng, Wolf and Thain}
+
 \begin{document}
 
-\title{A Case Study in Preserving a\\High Energy Physics Application}
-\subtitle{DASPOS Technical Report \#2}
-\author{
-Haiyan Meng, Matthias Wolf, Peter Ivie, Anna Woodard, Michael Hildreth, and Douglas Thain\\
-\affaddr{Department of Physics and Department of Computer Science and Engineering}\\
-\affaddr{University of Notre Dame}\\
-\affaddr{\{hmeng|mwolf3|pivie|awoodard|mhildret|dthain\}@nd.edu}
-}
-\date{15 January 2014}
 \maketitle
+
+\keywords{}
 
 \begin{abstract}
 \it The reproducibility of scientific results increasingly
@@ -192,39 +226,11 @@ Section 4: Evaluation
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=.8\columnwidth]{data-code-size.eps}
+\includegraphics[width=.5\textwidth]{data-code-size.eps}
 \caption{Inputs to Tau Roast}
 \label{fig:data-code-size}
 \end{figure}
 
-\begin{table}[t]
-    \centering
-    \small
-    \begin{tabular}{|l|l|r|r|r|}
-        \hline
-        \bf Name & \bf Location & \bf Total & \bf Named & \bf Used \\ 
-        \hline
-        CMSSW code     & CVS & 88.1GB & 448.3MB & 6.3MB\\ \hline
-        Tau source       & Git & 73.7MB & 73.7MB & 6.7MB \\ \hline
-        PyYAML binaries    & HTTP & 52MB & 52MB & 0KB \\ \hline
-        .h file       & HTTP& 41KB & 41KB & 0KB \\ \hline \hline
-        Ntuples data    & HDFS& 11.6TB & N/A& 20GB \\ \hline
-        Configuration & CVMFS & 7.4GB & N/A & 103MB \\ \hline
-        Linux commands & localFS & 110GB &  N/A & 68.4MB \\ \hline     
-        HOME dir& AFS &12GB & N/A & 32MB\\ \hline
-        Misc commands & PanFS & 155TB & N/A  & 1.6MB \\ \hline
-        Total      &    & 166.8TB            & N/A & 21GB \\ \hline
-    \end{tabular}
-    \begin{tablenotes}
-      \small
-      \item The first column illustrates the total size of each data and software source; 
-            the second column illustrates the size of the named files from each source;
-            the third column illustrates the size of actually used data from each source.
-            N/A denotes it is hard to figure out the named size of implicit dependencies directly.        
-    \end{tablenotes}
-    \caption{Data and Code Used by Tau Roast}
-    \label{table:size-original-real}
-\end{table}
 
 \section{Overview of Tau Roast}
 
@@ -391,7 +397,7 @@ run, which takes 20 minutes.
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=1.6\columnwidth]{version-evolution.eps}
+\includegraphics[width=.8\textwidth]{version-evolution.eps}
 \caption{Version Evolution}
 \label{fig:version-evolution}
 \end{figure*}
@@ -547,7 +553,7 @@ is {\tt /data/cvmfs/grid.cern.ch}.
 
 \begin{figure}
 \centering
-\includegraphics[width=.8\columnwidth]{solution3.eps}
+\includegraphics[width=.5\textwidth]{solution3.eps}
 \caption{Relationship of Roles}
 \label{fig:solution3}
 \end{figure}
@@ -590,7 +596,7 @@ facilitate automatic and efficient preservation.
 
 \begin{figure*}
 \centering
-\includegraphics[width=1.6\columnwidth]{workflow-parrot.eps}
+\includegraphics[width=.8\textwidth]{workflow-parrot.eps}
 \caption{Workflow of The Fine-Grained Dependency Management Toolkit Based on Parrot}
 \label{fig:workflow-parrot}
 \end{figure*}
@@ -655,7 +661,7 @@ are not incorporated into the package but are instead accessed natively.
 
 \begin{table}
     \centering
-    \begin{tabular}{|l|l|}
+    \begin{tabular}{ll}
     \hline
     \bf Path used in Program & \bf Actual Location \\ \hline
     {\tt /} & {\tt /tmp/package-hep} \\ \hline
@@ -669,7 +675,7 @@ are not incorporated into the package but are instead accessed natively.
 
 \begin{table}
     \centering
-    \begin{tabular}{|r|r|r|}
+    \begin{tabular}{rrr}
 \hline
                     & \bf Shallow Copy & \bf Medium Copy\\
 \hline
@@ -692,21 +698,21 @@ are not incorporated into the package but are instead accessed natively.
 
 \begin{figure}
 \centering
-\includegraphics[width=1\columnwidth]{git-syscall.eps}
+\includegraphics[width=.6\textwidth]{git-syscall.eps}
 \caption{Exec Syscalls of a git command}
 \label{fig:git-syscall}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=1\columnwidth]{http_packet.eps}
+\includegraphics[width=.6\textwidth]{http_packet.eps}
 \caption{HTTP Request and Response}
 \label{fig:http_packet}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=1\columnwidth]{url_redirection.eps}
+\includegraphics[width=.6\textwidth]{url_redirection.eps}
 \caption{An Example of URL Redirection}
 \label{fig:url_redirection}
 \end{figure}
@@ -758,10 +764,9 @@ The reason for this is that data is obtained through accessing HDFS in Original 
 
 \begin{table}
     \centering
-    \begin{tabular}{|l|r|r|}
+    \begin{tabular}{lrr}
     \hline
-    \bf Task & \bf Original& \bf Reduced\\ 
-    \bf Category & \bf Script & \bf Package\\ \hline
+    \bf Task Category & \bf Original Script & \bf Reduced Package \\ \hline
     Obtain Namelist & N/A & 28min 28s \\ \hline
     Generate Package & N/A & 85min 51s \\ \hline
     Software Acquisition & 8min 11s & N/A \\ \hline
@@ -787,6 +792,34 @@ The third column corresponds to the data size of Reduced Package and can be easi
 Original Script does not support measuring implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
 Instead, we only knew that total size of each file system is very large.
 
+\begin{table}
+	\centering
+	    \begin{tabular}{llrrr}
+	        \hline
+	        \bf Name & \bf Location & \bf Total & \bf Named & \bf Used \\ 
+	        \hline
+	        CMSSW code     & CVS & 88.1GB & 448.3MB & 6.3MB\\ \hline
+	        Tau source       & Git & 73.7MB & 73.7MB & 6.7MB \\ \hline
+	        PyYAML binaries    & HTTP & 52MB & 52MB & 0KB \\ \hline
+	        .h file       & HTTP& 41KB & 41KB & 0KB \\ \hline \hline
+	        Ntuples data    & HDFS& 11.6TB & N/A& 20GB \\ \hline
+	        Configuration & CVMFS & 7.4GB & N/A & 103MB \\ \hline
+	        Linux commands & localFS & 110GB &  N/A & 68.4MB \\ \hline     
+	        HOME dir& AFS &12GB & N/A & 32MB\\ \hline
+	        Misc commands & PanFS & 155TB & N/A  & 1.6MB \\ \hline
+	        Total      &    & 166.8TB            & N/A & 21GB \\ \hline
+	    \end{tabular}
+	    \caption{Data and Code Used by Tau Roast}
+	    \label{table:size-original-real}
+\end{table}
+%	\begin{tablenotes}
+%	      \small
+%	      \item The first column illustrates the total size of each data and software source; 
+%	            the second column illustrates the size of the named files from each source;
+%	            the third column illustrates the size of actually used data from each source.
+%	            N/A denotes it is hard to figure out the named size of implicit dependencies directly.        
+%	    \end{tablenotes}
+	    
 To further verify the correctness of Reduced Package on other machines, two different machines are employed -
 one virtual
 machine~\cite{goldberg1974survey} from the Notre Dame Cloud Platform based on KVM sharing the same kernel version with the original machine,
@@ -800,16 +833,12 @@ The execution time on one machine greatly depends on its hardware configuration.
 
 \begin{table}
     \centering
-    \begin{tabular}{|l|r|r|r|r|}
+    \begin{tabular}{lrrrr}
     \hline
-    \bf Machine & \bf Distro & \bf CPU & \bf Mem & \bf Execution\\ 
-    \bf Type   &\bf Version&\bf Cores & (\bf GB) & \bf Time\\ \hline
-    Original &  Red Hat  & 64 & 125 & 13min 04s\\  
-    Machine& 5.10 &&&\\ \hline
-    KVM & CentOS & 4 & 2 & 21min 38s\\
-    (Notre Dame)&5.10 &&&\\ \hline
-    Xen & Red Hat & 16 & 60.5 & 13min 30s\\ 
-    (EC2) &5.9 &&&\\ \hline
+    \bf Machine Type & \bf Distro Version & \bf CPU Cores & \bf Mem (GB) & \bf Execution Time \\ \hline 
+    Original Machine &  Red Hat 5.10 & 64 & 125 & 13min 04s\\  \hline
+    KVM (Notre Dame) & CentOS 5.10 & 4 & 2 & 21min 38s\\ \hline
+    Xen (EC2) & Red Hat 5.9 & 16 & 60.5 & 13min 30s\\ \hline
     \end{tabular}
     \caption{Evaluation of Different Machines}
     \label{table:config-vm}
@@ -821,7 +850,7 @@ In summary, we demonstrate that the application can be repeated with the help of
 
 \begin{figure}
 \centering
-\includegraphics[width=1\columnwidth]{preservation-integration.eps}
+\includegraphics[width=.6\textwidth]{preservation-integration.eps}
 \caption{Preserving Multiple Artifacts}
 \label{fig:Preservation integration}
 \end{figure}
@@ -955,7 +984,7 @@ Copyright (C) 2014 The University of Notre Dame
 
 This work is licensed under the Creative Commons Attribution 4.0 License.
 
-\bibliographystyle{abbrv}
+\bibliographystyle{plain}
 \bibliography{cclpapers,this}
 
 \end{document}
