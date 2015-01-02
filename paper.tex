@@ -56,21 +56,19 @@
 \keywords{}
 
 \begin{abstract}
-\it The reproducibility of scientific results increasingly
-depends upon the preservation of computational artifacts.
-Although preserving a computation to be used later sounds
-easy, it is surprisingly difficult due to the complexity
-of existing software and systems.  Implicit dependencies,
-networked resources, and shifting compatibility all conspire
-to break applications that appear to work well.  To investigate
-these issues, we present a case study of a complex high energy
-physics application.  We analyze the application and attempt
-several methods at extracting its dependencies for the purposes
-of preservation. 
-We propose one fine-grained dependency management toolkit to preserve the application and demonstrate its correctness in two different environments - one virtual machine from the Notre Dame Cloud Platform and one virtual machine from the Amazon EC2 Platform. 
+\it Computational reproducibility depends on being able to isolate necessary and sufficient computational artifacts and preserve them for later re-execution.
+Both isolation and preservation of artifacts can be challenging due to the complexity
+of existing software and systems and the resulting implicit dependencies, resource distribution, and shifting compatibility of systems---all conspiring
+to break the reproducibility of an application. Sandboxing is a technique
+that has been used extensively in OS environments for isolation of computational artifacts.
+Several tools were proposed recently that employ sandboxing as a mechanism to ensure reproducibility.
+However, none of these tools preserve the sandboxed application for re-distribution
+to a larger scientific community---aspects that are equally crucial for ensuring reproducibility as sandboxing itself.
+In this paper, we describe a combined sandboxing and preservation framework, which is efficient and practical and
+useful for large-scale reproducibility. We present a case study of a complex high energy
+physics application and show how the framework can be useful for sandboxing and preserving.
 We report on the completeness, performance,
-and efficiency of each technique, and offer some guidance for
-future work in application preservation.
+and efficiency of the framework, and suggest possible standardization approaches.
 \end{abstract}
 
 % A category with the (minimum) three required fields
