@@ -9,14 +9,14 @@
 \def\@copyrightspace{\relax}
 \makeatother
 
-\title{A Case Study in Preserving a High Energy Physics Application}
+\title{An Invariant Framework for Conducting Reproducible Computational Science}
 
 % \titlerunning{} has to be set to either the main title or its shorter
 % version for the running heads. When processed by
 % EasyChair, this command is mandatory: a document without \titlerunning
 % will be rejected by EasyChair
 
-\titlerunning{A Case Study in Preserving a High Energy Physics Application}
+\titlerunning{An invariant framework for conducting reproducible computational science}
 
 \author{
 	Haiyan Meng\inst{1}
@@ -58,7 +58,7 @@
 \begin{abstract}
 \it Computational reproducibility depends on being able to isolate necessary and sufficient computational artifacts and preserve them for later re-execution.
 Both isolation and preservation of artifacts can be challenging due to the complexity
-of existing software and systems and the resulting implicit dependencies, resource distribution, and shifting compatibility of systems---all conspiring
+of existing software and systems and the resulting implicit dependencies, resource distribution, and shifting compatibility of systems as time progresses---all conspiring
 to break the reproducibility of an application. Sandboxing is a technique
 that has been used extensively in OS environments for isolation of computational artifacts.
 Several tools were proposed recently that employ sandboxing as a mechanism to ensure reproducibility.
@@ -79,6 +79,32 @@ and efficiency of the framework, and suggest possible standardization approaches
 %\terms{Theory}
 
 \section{Introduction}
+
+% Reproducibility
+Reproducibility is a cornerstone of the scientific method~\cite{borgman2012data}. 
+Its importance is underscored by its ability to advance science---reproducing by verifying and validating a scientific result leads to improved understanding, thus increasing possibilities of reusing or extending the result. 
+Ensuring reproducibility of a scientific result, however, often entails detailed documentation and specification of the involved scientific method. Historically, this has been achieved through text and proofs in a publication. 
+As computation pervades the sciences and transforms the scientific method, mere text is considered insufficient. 
+In particular, apart from textual descriptions describing the result, a reproducible result must also include several computational artifacts, such as software, data,  environment variables, and state of computation that are involved in the adopted scientific method.  By including computational artifacts, the scientific result can be obtained again at a later time. 
+
+Virtualization has emerged as a promising approach for reproducing computational scientific results. One approach is to conduct the entire computation relating to a scientific result within a virtual machine image, and then share the resulting image. This way VMIS become an authoritative, encapsulated and executable records of computations, especially computations whose results are destined for publication and/or re-use, and this can be shared easily. 
+With this approach, oftentimes, the resulting image is too big in size for share-ability purposes. An alternative light-weight form of virtualization allows encapsulating just the application software, along with all its necessary dependencies into a self contained package, thus separating , and not including, the underlying operating system on which it is executed. This encapsulation is achieved by interposing application system calls, and copying necessary dependencies (data, libraries, code) into a layered filesystem. While both forms of virtualization provides an excellent mechanism for sandboxing the computations associated with a scientific result, neither form of virtualization provides any guarantee that the included pieces of software will indeed reproduce the associated scientific result. 
+
+Since reproducibility is significantly about comprehensive documentation, virtualization approaches in its current form only make it easy to capture the computations, but not preserve the computation so that it is easy to understand, install, or alter the implicit dependencies that are part of computation, especially as dependencies and external software components evolve or become deprecated.
+Software delivery mechanisms, such as Linux Containers and Docker have recently emerged that address several of the reproducible challenges that arise due to use of virtualization approaches. 
+
+In this paper, we examine how software delivery mechanisms can be combined with traditional virtualization approaches for reproducibility, especially light-weight virtualization approaches. To conduct a thorough examination, we consider a real-world complex high energy physics application, independently developed by a group, but must be reproduced  so that the entire high energy physics community can benefit from the analysis obtained from the application. 
+We describe challenges in reproducing this application, and consider the extent to which reproducibility can be satisfied with light-weight virtualization approaches and software delivery mechanisms. We then propose an invariant framework for computational reproducibility that combines light-weight virtualization with software delivery mechanisms. The framework uses light-weight virtualization for capturing a computational environment, but preserves the environment using a software delivery approach, so it can be re-executed later. By using standardized delivery mechanisms and expanding the application for future uses, the framework makes it invariant to temporal software changes that may occur in near future. We measure the performance overhead of combining light-weight virtualization with software delivery approaches. The combination imposes additional overhead due to double virtualization, but saves on context switches, since every system call is not interposed. 
+
+The rest of the paper is organized as follows. Section \ref{} describes the high energy physics application and the challenges involved in reproducing it. 
+Section \ref{} describes the light-weight virtualization and software delivery mechanisms, such as linux containers and dockers. 
+In Section \ref{} we describe the combined invariant framework, consisting of capture and preservation phases. 
+Section \ref{} describes how to employ capture, preserve, and distribute phases to reproduce the high-energy physics application.
+Section \ref{} provides the experimental results. Finally, we conclude in Section \ref{}. 
+
+
+-----
+OLD TEXT
 
 Reproducibility is a cornerstone of the scientific process~\cite{borgman2012data}.
 In order to understand, verify, and build upon previous work,
