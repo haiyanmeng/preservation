@@ -1,0 +1,108 @@
+\section{Evaluation}
+
+We evaluated the correctness of the reduced package and the overhead of generating the package.
+To do this, the application was repeated with the help of \emph{Original Script} (as shown in Figure~\ref{fig:version-evolution}) on the original machine. 
+Then one \emph{reduced package} was generated and verified with the help of Parrot on the original machine.
+
+Then, two different virtual machines (VM) - one VM from the Notre Dame Cloud Platform based on KVM and one VM from the Amazon EC2 Platform based on Xen, were employed to further verify the correctness of the reduced package.
+
+We first repeated the example from scratch using the Script translated from the original email on the original machine and counted the time consumption and data size. 
+Then based on the successful execution of Original Script, we evaluated Reduced Package - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
+
+To measure time consumption, we counted the time used to obtain remote software dependencies, build the environment, and analyze the dataset. We also counted the time used to obtain the namelist and to generate the package. To measure data size, we can easily figure out the size of each data and code source inside the package under Reduced Package.
+Original Script does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
+Instead, we only knew that total size of each file system is very large.
+
+Table~\ref{table:time-2nd3rd} shows the execution time comparison between
+Original Script and Reduced Package.
+Reduced Package is faster than Original Script, because all the software copied into the package has been compiled and the Software Acquisition stage is not necessary.
+and all the environment building only takes 4 seconds,
+We were surprised that Reduced Package even reduces the actual analysis time. 
+The reason for this is that data is obtained through accessing HDFS in Original Script, but is copied into the package in Reduced Package. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
+
+\begin{table}
+    \centering
+    \begin{tabular}{lrr}
+    \hline
+    \bf Task Category & \bf Original Script & \bf Reduced Package \\ \hline
+    Obtain Namelist & N/A & 28min 28s \\ \hline
+    Generate Package & N/A & 85min 51s \\ \hline
+    Software Acquisition & 8min 11s & N/A \\ \hline
+    Environment Build & 5min 49s  & 4s \\ \hline
+    Analysis Code & 20min 31s & 13min 04s \\ \hline
+    \end{tabular}
+    \caption{Execution Time Comparison between Original Script and Reduced Package}
+    \label{table:time-2nd3rd}
+\end{table}    
+
+Table~\ref{table:time-2nd3rd} also illustrates the time used to
+obtain the namelist and to generate the package. 
+The time used for these two steps is longer than the execution time,
+because each filename of the list, together with its system call type, needs to be checked, and the structure of each directory item must be maintained.
+However, 
+this is only done once.
+Once the package is
+generated, many users can directly obtain the package and repeat the application 
+separately. 
+
+Table~\ref{table:size-original-real} on page 2 illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
+The third column corresponds to the data size of Reduced Package and can be easily figured out, because all the necessary data has been copied into the package.
+Original Script does not support measuring implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
+Instead, we only knew that total size of each file system is very large.
+
+\begin{table}
+	\centering
+	    \begin{tabular}{llrrr}
+	        \hline
+	        \bf Name & \bf Location & \bf Total & \bf Named & \bf Used \\ 
+	        \hline
+	        CMSSW code     & CVS & 88.1GB & 448.3MB & 6.3MB\\ \hline
+	        Tau source       & Git & 73.7MB & 73.7MB & 6.7MB \\ \hline
+	        PyYAML binaries    & HTTP & 52MB & 52MB & 0KB \\ \hline
+	        .h file       & HTTP& 41KB & 41KB & 0KB \\ \hline \hline
+	        Ntuples data    & HDFS& 11.6TB & N/A& 20GB \\ \hline
+	        Configuration & CVMFS & 7.4GB & N/A & 103MB \\ \hline
+	        Linux commands & localFS & 110GB &  N/A & 68.4MB \\ \hline     
+	        HOME dir& AFS &12GB & N/A & 32MB\\ \hline
+	        Misc commands & PanFS & 155TB & N/A  & 1.6MB \\ \hline
+	        Total      &    & 166.8TB            & N/A & 21GB \\ \hline
+	    \end{tabular}
+	    \caption{Data and Code Used by Tau Roast}
+	    \label{table:size-original-real}
+\end{table}
+%	\begin{tablenotes}
+%	      \small
+%	      \item The first column illustrates the total size of each data and software source; 
+%	            the second column illustrates the size of the named files from each source;
+%	            the third column illustrates the size of actually used data from each source.
+%	            N/A denotes it is hard to figure out the named size of implicit dependencies directly.        
+%	    \end{tablenotes}
+	    
+To further verify the correctness of Reduced Package on other machines, two different machines are employed -
+one virtual
+machine~\cite{goldberg1974survey} from the Notre Dame Cloud Platform based on KVM sharing the same kernel version with the original machine,
+and one virtual machine from  the Amazon EC2~\cite{amazon2010amazon} Platform based on Xen.
+
+Table~\ref{table:config-vm} illustrates the configuration of 
+each machine and the execution time of the application on each machine.
+All the machines adopt the x86\_64 hardware platform and Linux kernel.
+Both of the two VMs repeated the application with the help of the package generated on the original machine successfully.
+The execution time on one machine greatly depends on its hardware configuration.
+
+\begin{table}
+    \centering
+    \begin{tabular}{lrrrr}
+    \hline
+    \bf Machine Type & \bf Distro Version & \bf CPU Cores & \bf Mem (GB) & \bf Execution Time \\ \hline 
+    Original Machine &  Red Hat 5.10 & 64 & 125 & 13min 04s\\  \hline
+    KVM (Notre Dame) & CentOS 5.10 & 4 & 2 & 21min 38s\\ \hline
+    Xen (EC2) & Red Hat 5.9 & 16 & 60.5 & 13min 30s\\ \hline
+    \end{tabular}
+    \caption{Evaluation of Different Machines}
+    \label{table:config-vm}
+\end{table}
+
+In summary, we demonstrate that the application can be repeated with the help of the reduced package on one different machine with the required hardware architecture and OS kernel version.
+%*****hmeng-doubt:Another reason for the packaging utility is that not all the data and software generated by the second version script is used during the the actual data analysis. The packaging utility can help us find out the optimal subset of data and software involved in one actual data analysis. 
+%*****hmeng-doubt: this point is not the motivation. but one achievement comes together. out of imagination.
+
