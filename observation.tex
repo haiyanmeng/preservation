@@ -33,7 +33,7 @@ We provide the challenges we faced in capturing the application details in a rep
 
 \begin{itemize}
 
-\item {\bf Many Explicit External Dependencies.}  Due to the distributed nature of HEP applications, the applications typically depend on a large number of networked external resources. 
+\item {\bf Explicit External Dependencies.}  Due to the distributed nature of HEP applications, the applications typically depend on a large number of networked external resources. 
 Capturing these dependencies is straightforward if they are static in nature and the resources can be accessed without secure cryptographic functions. 
 For instance, in TauRaoast some source code external dependencies can be obtained by simply downloading the specific libraries from a web page. 
 However, other static dependencies require making secure connections to Github resources, and CVS servers for downloading source. 
@@ -52,7 +52,7 @@ While TauRoast is completely local in its execution, dynamic remote dependencies
 %However, once known, they are at least expressed explicitly within the script.
 %\end{TM}
 
-\item {\bf Many Implicit Local Dependencies.} The application data and code is distributed on five networked filesystems, which are 
+\item {\bf Implicit Local Dependencies.} The application data and code is distributed on five networked filesystems, which are 
 typically mounted on a particular machine that is made accessible to the application developer. In TauRoast the a large amount of data to be analyzed was stored on an HDFS~\cite{borthakur2008hdfs} cluster,
 some configuration data was stored on a CVMFS~\cite{blomer2011cernvm} filesystem,
 and a variety of software tools were on an NFS~\cite{howard1988scale},
@@ -99,11 +99,11 @@ programs is very large, the size of the data and software actually used are much
 Often, an entire repository or data source is named within the script, but the program
 only needs a handful of items from that source.  For example, the data is stored on an
 HDFS filesystem with 11.6TB of data, but only 20GB are actually consumed by the program. 
-The reason for this great reduction is at first each BEAN event contains a large amount of information, and the TauAnalysis throws away a lot of the irrelevant event information, keeping only the relevant bits.
-The CMSSW repository is 88.1GB in total
-but only 448.3MB of source is checked out, and the actually used software only
-measured 6.3MB.  In a few cases, a source of software is named but never actually accessed.
-(For example, our original script includes the Open Science Grid software stack in the PATH, but does not actually use it.)
+%The reason for this great reduction is at first each BEAN event contains a large amount of information, and the TauAnalysis throws away a lot of the irrelevant event information, keeping only the relevant bits.
+%The CMSSW repository is 88.1GB in total
+%but only 448.3MB of source is checked out, and the actually used software only
+%measured 6.3MB.  In a few cases, a source of software is named but never actually accessed.
+%(For example, our original script includes the Open Science Grid software stack in the PATH, but does not actually use it.)
 %We suspect that end users are accustomed to missing dependencies and thus get in the habit of adding commonly used software,
 %whether it is needed or not. 
 Thus there is a size tradeoff of capturing dependencies mentioned in the program and dependencies actually used in the program.
@@ -119,7 +119,7 @@ While the users of this software seem be accustomed to constant change,
 any preservation technique will have to be very cautious about relying upon an
 external service, even one that may appear to be highly stable.
 
-\item {\bf Additional Dependencies.} Capturing the necessary and sufficient dependencies that are part of an application is sufficient for repeatability, but possibly for not reproducibility, where is different additional modules
+\item {\bf Dependencies for Reproducible Execution.} Capturing the necessary and sufficient dependencies that are part of an application is sufficient for repeatability, but possibly for not reproducibility, where is different additional modules
 must also be preserved so that the resulting application can be extended properly. In Athena framework, for instance, the software library needed to include basic software programs such as make, awk, sed that can aid further development. 
 \end{itemize}
 

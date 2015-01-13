@@ -1,5 +1,55 @@
 \section{Component Tools for Reproducible Research}
 
+We describe some tools that can be used as part of the reproducible framework, and ensure invariance:
+
+\subsection{Capture tools} For capture we focus on automated tools for capturing dependencies (both software and data) instead of manual tools such as makefiles and configuration scripts, since the latter cannot ensure invariance. 
+%Parrot
+
+\vspace{5pt}
+\noindent {\bf Parrot} Parrot is a virtual filesystem access tool which has been used to attach
+existing programs to a variety of remote I/O systems, such as HTTP, FTP, and CVMFS.
+It works by trapping an application's system calls through the Linux {\tt ptrace} debugging
+interface, and then replacing them with the desired I/O operations. 
+To capture dependencies, Parrot records a \emph{namelist} which lists all 
+of the files that an application actually accesses. Using the namelist, Parrot creates a \emph{reduced package} which contains
+only the files actually used by the application.
+
+Being tightly integrated with I/O systems, the Parrot virtual filesystem is required to be installed for both audit and execution to allow for reproducibility.
+In the high energy physics community, Parrot is already used to 
+provide access to the CMSSW software distribution via the CVMFS distributed file system.
+and is thus invariant for applications like TauRoast. However, unless installed, Parrot cannot ensure invariance for general applications. 
+
+% PTU
+\vspace{5pt}
+\noindent{\bf CDE} CDE creates a package of an application by recording program binaries, libraries, scripts, data files, and environment variables, etc. It also uses the UNIX ptrace system call interposition to identify the code and data used by the running application. The original CDE as available through [13,12] was limited to major Linux kernel versions (e.g. 2.6.x), but we have removed that restriction by adapting it for the newly released Linux kernel 3.0 as well as for Mac OS X \cite{}. Thus CDE, unlike Parrot, provides OS invariance and does not require installation and configuration. 
+
+\subsection{Preservation tools}
+
+% Parrot package
+\vspace{5pt}
+\noindent{\bf Parrot:} In Parrot, the package is preserved based on user option.  
+In a {\bf shallow copy}, only individual files in the namelist are copied,
+creating only parent directories for each.  Where a directory was listed,
+a directory is created and populated with empty files as placeholders
+to facilitate a directory listing.  In a {\bf medium copy}, 
+individual files are copied as before and directory contents, one level deep are copied. A {\bf deep copy}, which can duplicate all directories recursively,
+resulting in TB-sized packages, is not allowed. 
+
+
+% PTU package
+\vspace{5pt}
+\noindent{\bf CDE:} In CDE, the complete package is preserved, consisting of all code and data files, however deep the data path is present. 
+However, a CDE binary only captures a single execution path, which is the execution path taken during run-time. If different execution paths need different types of dependencies, some dependencies may be left out. To preserve these dependencies, we have added addition functionality to CDE. In particular, information about other static binaries and required static shared libraries, such as version number, released version of shared libraries, and associated kernel distribution, is preserved using UNIX commands file, ldd, strings, and objdump. We also have added a provenance wrapper over CDE. This provenance wrapper documents all the dependencies, and provides information about process execution times and memory consumption. It creates a graph of the reference execution providing details about how data was created and transformed as part of the execution. Thus instead of a PLU, a description of the PLU exists in the package. 
+
+Neither the Parrot packages or extended CDE package provide a literate programming environment or a continuous integration environment for changes in software. Thus they are partially preserved but not completely. 
+
+% Docker images
+
+
+\subsection{Deployment  Repositories}
+image can be stored and distributed in a repository like Docker Hub. 
+The Hub also provides a convenient dis- tribution service, freely storing the pre-built images, along with their metadata, for download and reuse by others. 
+   The Docker Hub is a free service and an open source software product so that users can run their own private versions of the Hub on their own servers, for instance, if security of the data or the longevity of the public platform is a concern.
 
 \section{Measuring Dependencies}
 
@@ -10,98 +60,98 @@
 \label{fig:workflow-parrot}
 \end{figure*}
 
-We have developed a prototype tool to assist in the measurement and preservation
-of implicit dependencies for complex applications.
-We use Parrot~\cite{thain2005parrot} to explicitly record all
-of the files accessed by our example application, allowing us to observe how
-much of each external dependencies is used, and what local resources are implicitly used.
-Using this information, we create a \emph{reduced package} which contains
-only the files actually used by the application.
-
-Parrot is a virtual filesystem access tool which has been used to attach
-existing programs to a variety of remote I/O systems, such as HTTP, FTP, and CVMFS.
-It works by trapping an application's system calls through the Linux {\tt ptrace} debugging
-interface, and then replacing them with the desired I/O operations.  Parrot is already used
-in the high energy physics community with applications like TauRoast specifically to 
-provide access to the CMSSW software distribution via the CVMFS distributed file system.
-We made small modifications to Parrot to record a \emph{namelist} which lists all 
-of the files that an application actually accesses.
-
-Figure~\ref{fig:workflow-parrot} illustrates the measurement process.
-The starting point of this toolkit is one successful execution of the application on the native machine.
-First, we execute the actual data analysis script under Parrot to generate the namelist.
-Then, using the namelist, we generate a package containing all the necessary data
-and software for one analysis program. When another
-researcher wants to repeat the program, he only needs to obtain the package and
-execute the actual analysis program inside the package. 
-
-For one execution of \emph{TauRoast}, the generated namelist includes 132,047 accessed filenames,
-along with the system calls used to access the file, such as {\tt open}, {\tt stat}, {\tt read}, etc.
-With duplicate filenames removed, the list is reduced to 67,168 files.
-Many of those entries do not exist, because they reflect attempts
-by the application to search for programs and libraries in multiple places.
-Only 22,068 entries reflect existing files or directories.
-
-The packaging tool iterates over each item of the filename list, determines the process
-mode and replication degree according to the file type (common files,
-directories, symbolic links) and the system call type, generates one package
-containing the dependencies, and summarizes the contents of the package
-as shown in Table~\ref{table:package-info}.  To the extent possible,
-the filesystem structure of the original environment is preserved.
-
-We considered several approaches to constructing the package.
-In a {\bf shallow copy}, we only copied the individual files in the namelist,
-creating only parent directories for each.  Where a directory was listed,
-we created the directory and populated it with empty files as placeholders
-to facilitate a directory listing.  In a {\bf medium copy}, we copied the
-individual files as before.  Where a directory was listed, we created
-the directories and copied the contents of the files in that directory,
-one level deep.  A {\bf deep copy} would duplicate all directories recursively,
-but this would have resulted in TB-sized packages, so we did not consider
-it further.
-
-Parrot is required to re-run the packaged artifact, in order to force
-the packaged files to appear to exist in their original locations.
-To this end, the packaging tool creates a \emph{file map} which maps
-the logical names of the files to their current physical locations, as shown in Table~\ref{table:map-file}.
-Parrot reads the file map and redirects system calls at run-time to achieve the desired effect.
-As the example suggests, special device files such as {\tt /proc} and {\tt /dev}
-are not incorporated into the package but are instead accessed natively.
-
-\begin{table}
-    \centering
-    \begin{tabular}{ll}
-    \hline
-    \bf Path used in Program & \bf Actual Location \\ \hline
-    {\tt /} & {\tt /tmp/package-hep} \\ \hline
-    {\tt /tmp/package-hep} & {\tt /tmp/package-hep} \\ \hline
-    {\tt /dev} & {\tt /dev} \\ \hline
-    {\tt ...} & {\tt ...}\\ \hline
-    \end{tabular}
-    \caption{Structure of Map File}
-    \label{table:map-file}
-\end{table}
-
-\begin{table}
-    \centering
-    \begin{tabular}{rrr}
-\hline
-                    & \bf Shallow Copy & \bf Medium Copy\\
-\hline
-    Whole Files    & 1632         & 15642\\ 
-\hline
-    Empty Files    & 14273        & 263\\
-\hline
-    Directories    & 1549         & 1549\\ 
-\hline
-    Symbolic Links & 4614         & 4614 \\
-\hline
-    \bf Total Size & \bf 21GB     & \bf 28GB \\ 
-\hline
-    \end{tabular}
-    \caption{Package Information}
-    \label{table:package-info}
-\end{table}
+%We have developed a prototype tool to assist in the measurement and preservation
+%of implicit dependencies for complex applications.
+%We use Parrot~\cite{thain2005parrot} to explicitly record all
+%of the files accessed by our example application, allowing us to observe how
+%much of each external dependencies is used, and what local resources are implicitly used.
+%Using this information, we create a \emph{reduced package} which contains
+%only the files actually used by the application.
+%
+%Parrot is a virtual filesystem access tool which has been used to attach
+%existing programs to a variety of remote I/O systems, such as HTTP, FTP, and CVMFS.
+%It works by trapping an application's system calls through the Linux {\tt ptrace} debugging
+%interface, and then replacing them with the desired I/O operations.  Parrot is already used
+%in the high energy physics community with applications like TauRoast specifically to 
+%provide access to the CMSSW software distribution via the CVMFS distributed file system.
+%We made small modifications to Parrot to record a \emph{namelist} which lists all 
+%of the files that an application actually accesses.
+%
+%Figure~\ref{fig:workflow-parrot} illustrates the measurement process.
+%The starting point of this toolkit is one successful execution of the application on the native machine.
+%First, we execute the actual data analysis script under Parrot to generate the namelist.
+%Then, using the namelist, we generate a package containing all the necessary data
+%and software for one analysis program. When another
+%researcher wants to repeat the program, he only needs to obtain the package and
+%execute the actual analysis program inside the package. 
+%
+%For one execution of \emph{TauRoast}, the generated namelist includes 132,047 accessed filenames,
+%along with the system calls used to access the file, such as {\tt open}, {\tt stat}, {\tt read}, etc.
+%With duplicate filenames removed, the list is reduced to 67,168 files.
+%Many of those entries do not exist, because they reflect attempts
+%by the application to search for programs and libraries in multiple places.
+%Only 22,068 entries reflect existing files or directories.
+%
+%The packaging tool iterates over each item of the filename list, determines the process
+%mode and replication degree according to the file type (common files,
+%directories, symbolic links) and the system call type, generates one package
+%containing the dependencies, and summarizes the contents of the package
+%as shown in Table~\ref{table:package-info}.  To the extent possible,
+%the filesystem structure of the original environment is preserved.
+%
+%We considered several approaches to constructing the package.
+%In a {\bf shallow copy}, we only copied the individual files in the namelist,
+%creating only parent directories for each.  Where a directory was listed,
+%we created the directory and populated it with empty files as placeholders
+%to facilitate a directory listing.  In a {\bf medium copy}, we copied the
+%individual files as before.  Where a directory was listed, we created
+%the directories and copied the contents of the files in that directory,
+%one level deep.  A {\bf deep copy} would duplicate all directories recursively,
+%but this would have resulted in TB-sized packages, so we did not consider
+%it further.
+%
+%Parrot is required to re-run the packaged artifact, in order to force
+%the packaged files to appear to exist in their original locations.
+%To this end, the packaging tool creates a \emph{file map} which maps
+%the logical names of the files to their current physical locations, as shown in Table~\ref{table:map-file}.
+%Parrot reads the file map and redirects system calls at run-time to achieve the desired effect.
+%As the example suggests, special device files such as {\tt /proc} and {\tt /dev}
+%are not incorporated into the package but are instead accessed natively.
+%
+%\begin{table}
+%    \centering
+%    \begin{tabular}{ll}
+%    \hline
+%    \bf Path used in Program & \bf Actual Location \\ \hline
+%    {\tt /} & {\tt /tmp/package-hep} \\ \hline
+%    {\tt /tmp/package-hep} & {\tt /tmp/package-hep} \\ \hline
+%    {\tt /dev} & {\tt /dev} \\ \hline
+%    {\tt ...} & {\tt ...}\\ \hline
+%    \end{tabular}
+%    \caption{Structure of Map File}
+%    \label{table:map-file}
+%\end{table}
+%
+%\begin{table}
+%    \centering
+%    \begin{tabular}{rrr}
+%\hline
+%                    & \bf Shallow Copy & \bf Medium Copy\\
+%\hline
+%    Whole Files    & 1632         & 15642\\ 
+%\hline
+%    Empty Files    & 14273        & 263\\
+%\hline
+%    Directories    & 1549         & 1549\\ 
+%\hline
+%    Symbolic Links & 4614         & 4614 \\
+%\hline
+%    \bf Total Size & \bf 21GB     & \bf 28GB \\ 
+%\hline
+%    \end{tabular}
+%    \caption{Package Information}
+%    \label{table:package-info}
+%\end{table}
 
 %\subsection{Tracking of Network Dependencies}
 %
