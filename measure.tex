@@ -44,16 +44,14 @@ Neither the Parrot packages or extended CDE package provide a literate programmi
  
  % Docker images
 \vspace{5pt}
-\noindent{\bf Linux Containers and Docker Images}
-
-Linux Containers provide multiple isolated execution instances on top of the same kernel through OS-level virtualization. Thus they can be used to persist the captured packages into images. Using such containers, Docker now allows to preserve the image in a more user-friendly way. In particular, apart from performing Linux container (LXC) based operating system (OS) level virtualization, docker tools provides portable deployment of containers across platforms, documentation of packages in a scriptable format, and versioning of container images. The image can be preserved along with dockerfiles, which are plain text files with a literate programming environment: the computational part is similar to shell scripts and can help provision similar to other provisioning tools (e.g. Chef, Puppet) or Continuous Integration (CI) platforms (e.g. Travis CI), and the text part is for human consumption and more suited for use with a version management system such as subversion or git, which can track any changes made to the Dockerfile. Thus dockerfiles can be used to preserve the namelist of Parrot packages and provenance description in PTU. 
+\noindent{\bf Linux Containers and Docker Images:} Linux Containers provide multiple isolated execution instances on top of the same kernel through OS-level virtualization. Thus they can be used to persist the captured packages into images. Using such containers, Docker now allows to preserve the image in a more user-friendly way. In particular, apart from performing Linux container (LXC) based operating system (OS) level virtualization, docker tools provides portable deployment of containers across platforms, documentation of packages in a scriptable format, and versioning of container images. The image can be preserved along with dockerfiles, which are plain text files with a literate programming environment: the computational part is similar to shell scripts and can help provision similar to other provisioning tools (e.g. Chef, Puppet) or Continuous Integration (CI) platforms (e.g. Travis CI), and the text part is for human consumption and more suited for use with a version management system such as subversion or git, which can track any changes made to the Dockerfile. Thus dockerfiles can be used to preserve the namelist of Parrot packages and provenance description in PTU. 
 Docker is integrated with a continuous build environment which will check and validate the version of the software being used, and use a more recent version to build application software. 
 
 
 \subsection{Deployment  Repositories}
 Deployment repositories, such as Docker Hub, are distribution service for storing the pre-built images, along with their metadata, for download and reuse by others. While the architecture of such hubs is beyond the scope of the current paper, the existence of such a repository for reproducible research is vital to ensure security and longevity of preserved packages. 
 
-\section{Measuring Dependencies}
+
 
 \begin{figure*}
 \centering
@@ -62,6 +60,7 @@ Deployment repositories, such as Docker Hub, are distribution service for storin
 \label{fig: preservation_framework}
 \end{figure*}
 
+%\section{Measuring Dependencies}
 %We have developed a prototype tool to assist in the measurement and preservation
 %of implicit dependencies for complex applications.
 %We use Parrot~\cite{thain2005parrot} to explicitly record all
