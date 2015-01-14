@@ -1,6 +1,6 @@
 NAME = paper
 FIGURES =
-IMAGES = overview-of-architecture.eps preservation-integration.eps data-process.eps solution3.eps package-info.eps data-code-size.eps version-evolution.eps dependencies.eps workflow-parrot.eps http_packet.eps url_redirection.eps git-syscall.eps
+IMAGES = overview-of-architecture.eps preservation-integration.eps data-process.eps solution3.eps package-info.eps data-code-size.eps version-evolution.eps dependencies.eps workflow-parrot.eps http_packet.eps url_redirection.eps git-syscall.eps preservation_framework.eps
 GRAPHS =
 BIBLIOGRAPHIES = cclpapers.bib this.bib 
 
