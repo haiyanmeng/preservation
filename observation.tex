@@ -98,7 +98,7 @@ Although the total size of the resources accessed by HEP
 programs is very large, the size of the data and software actually used are much smaller.
 Often, an entire repository or data source is named within the script, but the program
 only needs a handful of items from that source.  For example, the data is stored on an
-HDFS filesystem with 11.6TB of data, but only 20GB are actually consumed by the program. 
+HDFS filesystem with 11.6TB of data, but only 18GB are actually consumed by the program. 
 %The reason for this great reduction is at first each BEAN event contains a large amount of information, and the TauAnalysis throws away a lot of the irrelevant event information, keeping only the relevant bits.
 %The CMSSW repository is 88.1GB in total
 %but only 448.3MB of source is checked out, and the actually used software only

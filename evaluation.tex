@@ -1,71 +1,50 @@
 \section{Evaluation}
 
-We evaluated the correctness of the reduced package and the overhead of generating the package.
-To do this, the application was repeated with the help of \emph{Original Script} (as shown in Figure~\ref{fig:version-evolution}) on the original machine. 
-Then one \emph{reduced package} was generated and verified with the help of Parrot on the original machine.
+We evaluated and compared the correctness and performance of running, packaging, and re-running the Tauroast application using Parrot and PTU.
+To do this, the application was first executed directly, its execution time and output were recorded. Then the application was executed under Parrot and PTU, and a self-contained package was created for each case. Finally, the application was re-executed using the package. The time overhead of each execution and re-execution was collected and compared with the recorded reference.
 
-Then, two different virtual machines (VM) - one VM from the Notre Dame Cloud Platform based on KVM and one VM from the Amazon EC2 Platform based on Xen, were employed to further verify the correctness of the reduced package.
-
-We first repeated the example from scratch using the Script translated from the original email on the original machine and counted the time consumption and data size. 
-Then based on the successful execution of Original Script, we evaluated Reduced Package - one package containing necessary dependencies is generated, and then the time consumption and data size is analyzed. 
-
-To measure time consumption, we counted the time used to obtain remote software dependencies, build the environment, and analyze the dataset. We also counted the time used to obtain the namelist and to generate the package. To measure data size, we can easily figure out the size of each data and code source inside the package under Reduced Package.
-Original Script does not support mining of implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
-Instead, we only knew that total size of each file system is very large.
-
-Table~\ref{table:time-2nd3rd} shows the execution time comparison between
-Original Script and Reduced Package.
-Reduced Package is faster than Original Script, because all the software copied into the package has been compiled and the Software Acquisition stage is not necessary.
-and all the environment building only takes 4 seconds,
-We were surprised that Reduced Package even reduces the actual analysis time. 
-The reason for this is that data is obtained through accessing HDFS in Original Script, but is copied into the package in Reduced Package. This localization of experimental data speeds up the data analysis process, resulting the actual analysis time reducing from 20 minutes to 13 minutes.
+The Tauroast application checks and evaluates a dataset with the size of 18 GB stored in HDFS, and can be finished about 20 minites when running directly on a server with 64 cores and 126 GB memory. The output of the application includes the dataset analysis log and a complete statistics information, and its size is 289 KB.
 
 \begin{table}
     \centering
-    \begin{tabular}{lrr}
+    \begin{tabular}{lccc}
     \hline
-    \bf Task Category & \bf Original Script & \bf Reduced Package \\ \hline
-    Obtain Namelist & N/A & 28min 28s \\ \hline
-    Generate Package & N/A & 85min 51s \\ \hline
-    Software Acquisition & 8min 11s & N/A \\ \hline
-    Environment Build & 5min 49s  & 4s \\ \hline
-    Analysis Code & 20min 31s & 13min 04s \\ \hline
+    \bf Tool Type & \bf Package Creation Time & \bf Re-Execution Time & \bf Package Size \\ \hline
+	Parrot & 27 min 15 sec & 10 min 24 sec & 17.57 GB \\ \hline
+	PTU & 23 min 30 sec & 8 min 40 sec & 17.57 GB \\ \hline 
     \end{tabular}
-    \caption{Execution Time Comparison between Original Script and Reduced Package}
-    \label{table:time-2nd3rd}
+    \caption{Performance Comparison between Parrot and PTU}
+    \label{table:parrot_ptu}
 \end{table}    
 
-Table~\ref{table:time-2nd3rd} also illustrates the time used to
-obtain the namelist and to generate the package. 
-The time used for these two steps is longer than the execution time,
-because each filename of the list, together with its system call type, needs to be checked, and the structure of each directory item must be maintained.
-However, 
-this is only done once.
-Once the package is
-generated, many users can directly obtain the package and repeat the application 
-separately. 
+Table~\ref{table:parrot_ptu} compares the performance of preserving the Tauroast application using Parrot and PTU.
+PTU accommplishes the execution procedure and packaging procedure concurrently through multi-threading, bringing 17.5\% additional time overhead.
+Parrot splits the packaging creation procedure into two sequential steps: first, execute the application within Parrot and generate the accessed file namelist (takes 22 min 50 sec); second, traverse the namelist and copy all the accessed files into a self-contained package (takes 4 min 25 sec).
 
-Table~\ref{table:size-original-real} on page 2 illustrates the total size, named size in the example and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
-The third column corresponds to the data size of Reduced Package and can be easily figured out, because all the necessary data has been copied into the package.
-Original Script does not support measuring implicit dependencies. As for remote sources, we can figure out the named size through the analysis script. However, it is hard to figure out the named size of each local source. 
-Instead, we only knew that total size of each file system is very large.
+The re-execution time is half or less than half of the original execution time in both cases. During the original execution, the input dataset comes from HDFS, which is accessed through FUSE. During the package creation procedure, all the input dataset has been copied from HDFS into the package on the local fielsytem. So, the re-execution procedure can get its input from the local filesystem instead of obtaining the input dataset from HDFS.
+PTU re-runs the application faster than Parrot due to its efficient internal implementation.
+
+Both packages created by Parrot and PTU are a subset of the root filesystem, which only includes all the accessed files. The original relationship, such as symbolic links, between files and directories is maintained. The files from pseudo filesystems such as proc and dev, are ignored. The re-execution procedure uses these pseudo filesystems from the host machine through redirection techniques.
+The sizes of the packages created by Parrot and PTU are nearly the same. 
+Except for the accessed files, both Parrot and PTU preserve the execution environment of the application. 
+the PTU package also includes a leveldb-format provenance information of the application with the size of 3 MB.
 
 \begin{table}
 	\centering
-	    \begin{tabular}{llrrr}
+	    \begin{tabular}{lcrr}
 	        \hline
-	        \bf Name & \bf Location & \bf Total & \bf Named & \bf Used \\ 
+	        \bf Dependency Name & \bf Location & \bf Total Size &  \bf Used Size\\ 
 	        \hline
-	        CMSSW code     & CVS & 88.1GB & 448.3MB & 6.3MB\\ \hline
-	        Tau source       & Git & 73.7MB & 73.7MB & 6.7MB \\ \hline
-	        PyYAML binaries    & HTTP & 52MB & 52MB & 0KB \\ \hline
-	        .h file       & HTTP& 41KB & 41KB & 0KB \\ \hline \hline
-	        Ntuples data    & HDFS& 11.6TB & N/A& 20GB \\ \hline
-	        Configuration & CVMFS & 7.4GB & N/A & 103MB \\ \hline
-	        Linux commands & localFS & 110GB &  N/A & 68.4MB \\ \hline     
-	        HOME dir& AFS &12GB & N/A & 32MB\\ \hline
-	        Misc commands & PanFS & 155TB & N/A  & 1.6MB \\ \hline
-	        Total      &    & 166.8TB            & N/A & 21GB \\ \hline
+	        CMSSW code     & CVS & 88.1GB &  5.2MB\\ \hline
+	        Tau source       & Git & 73.7MB & 212KB \\ \hline
+	        PyYAML binaries    & HTTP & 52MB& 0KB \\ \hline
+	        .h file       & HTTP& 41KB & 0KB \\ \hline \hline
+	        Ntuples data    & HDFS& 11.6TB & 18GB \\ \hline
+	        Configuration & CVMFS & 7.4GB & 105MB \\ \hline
+	        Linux commands & localFS & 110GB & 110MB \\ \hline     
+	        HOME dir& AFS &12GB & 24MB\\ \hline
+	        Misc commands & PanFS & 155TB & 8KB \\ \hline
+	        Total      &    & 166.8TB     &  18GB \\ \hline
 	    \end{tabular}
 	    \caption{Data and Code Used by Tau Roast}
 	    \label{table:size-original-real}
@@ -77,32 +56,9 @@ Instead, we only knew that total size of each file system is very large.
 %	            the third column illustrates the size of actually used data from each source.
 %	            N/A denotes it is hard to figure out the named size of implicit dependencies directly.        
 %	    \end{tablenotes}
-	    
-To further verify the correctness of Reduced Package on other machines, two different machines are employed -
-one virtual
-machine~\cite{goldberg1974survey} from the Notre Dame Cloud Platform based on KVM sharing the same kernel version with the original machine,
-and one virtual machine from  the Amazon EC2~\cite{amazon2010amazon} Platform based on Xen.
-
-Table~\ref{table:config-vm} illustrates the configuration of 
-each machine and the execution time of the application on each machine.
-All the machines adopt the x86\_64 hardware platform and Linux kernel.
-Both of the two VMs repeated the application with the help of the package generated on the original machine successfully.
-The execution time on one machine greatly depends on its hardware configuration.
-
-\begin{table}
-    \centering
-    \begin{tabular}{lrrrr}
-    \hline
-    \bf Machine Type & \bf Distro Version & \bf CPU Cores & \bf Mem (GB) & \bf Execution Time \\ \hline 
-    Original Machine &  Red Hat 5.10 & 64 & 125 & 13min 04s\\  \hline
-    KVM (Notre Dame) & CentOS 5.10 & 4 & 2 & 21min 38s\\ \hline
-    Xen (EC2) & Red Hat 5.9 & 16 & 60.5 & 13min 30s\\ \hline
-    \end{tabular}
-    \caption{Evaluation of Different Machines}
-    \label{table:config-vm}
-\end{table}
-
-In summary, we demonstrate that the application can be repeated with the help of the reduced package on one different machine with the required hardware architecture and OS kernel version.
-%*****hmeng-doubt:Another reason for the packaging utility is that not all the data and software generated by the second version script is used during the the actual data analysis. The packaging utility can help us find out the optimal subset of data and software involved in one actual data analysis. 
-%*****hmeng-doubt: this point is not the motivation. but one achievement comes together. out of imagination.
+	   
+Table~\ref{table:size-original-real} illustrates the total size and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
+The total size is too large to be put into a separate image. However, the actually used size is greatly reduced to be 18 GB.
+Within the package, the input dataset nearly occupies the whole package. All the other libraries and software dependencies only occupies about 200 MB.
+As the input dataset grows, it can be put outside the package to reduce the shipping time of the package.
 
