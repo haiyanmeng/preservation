@@ -21,7 +21,7 @@ and is thus invariant for applications like TauRoast. However, unless installed,
 
 % PTU
 \vspace{5pt}
-\noindent{\bf CDE} CDE creates a package of an application by recording program binaries, libraries, scripts, data files, and environment variables, etc. It also uses the UNIX ptrace system call interposition to identify the code and data used by the running application. The original CDE as available through [13,12] was limited to major Linux kernel versions (e.g. 2.6.x), but we have removed that restriction by adapting it for the newly released Linux kernel 3.0 as well as for Mac OS X \cite{}. Thus CDE, unlike Parrot, provides OS invariance and does not require installation and configuration. 
+\noindent{\bf PTU} PTU creates a package of an application by recording program binaries, libraries, scripts, data files, and environment variables, etc. It also uses the UNIX \emph{ptrace} system call interposition to identify the code and data used by the running application. PTU was forked from CDE \cite{}, and was thus limited to major Linux kernel versions (e.g. 2.6.x); consequently we have removed that restriction by adapting it for the newly released Linux kernel 3.0 as well as for Mac OS X \cite{}. Thus PTU provides OS invariance and does not require installation and configuration. 
 
 \subsection{Preservation tools}
 
@@ -35,21 +35,23 @@ to facilitate a directory listing.  In a {\bf medium copy},
 individual files are copied as before and directory contents, one level deep are copied. A {\bf deep copy}, which can duplicate all directories recursively,
 resulting in TB-sized packages, is not allowed. 
 
-
 % PTU package
 \vspace{5pt}
-\noindent{\bf CDE:} In CDE, the complete package is preserved, consisting of all code and data files, however deep the data path is present. 
-However, a CDE binary only captures a single execution path, which is the execution path taken during run-time. If different execution paths need different types of dependencies, some dependencies may be left out. To preserve these dependencies, we have added addition functionality to CDE. In particular, information about other static binaries and required static shared libraries, such as version number, released version of shared libraries, and associated kernel distribution, is preserved using UNIX commands file, ldd, strings, and objdump. We also have added a provenance wrapper over CDE. This provenance wrapper documents all the dependencies, and provides information about process execution times and memory consumption. It creates a graph of the reference execution providing details about how data was created and transformed as part of the execution. Thus instead of a PLU, a description of the PLU exists in the package. 
+\noindent{\bf PTU:} Owing to CDE, in PTU, the complete package is preserved, consisting of all code and data files, however deep the data paths are. 
+In CDE a binary only captures a single execution path, which is the execution path taken during run-time. If different execution paths need different types of dependencies, some dependencies may be left out. To preserve these dependencies, we have added addition functionality in PTU. In particular, information about other static binaries and required static shared libraries, such as version number, released version of shared libraries, and associated kernel distribution, is preserved using UNIX commands file, ldd, strings, and objdump \cite{}. We also have added a provenance wrapper over CDE \cite{}. This provenance wrapper documents all the dependencies, and provides information about process execution times and memory consumption. It creates a graph of the reference execution providing details about how data was created and transformed as part of the execution. The proevenance description is analgalous to the logically preserved unit. 
 
-Neither the Parrot packages or extended CDE package provide a literate programming environment or a continuous integration environment for changes in software. Thus they are partially preserved but not completely. 
+Neither the Parrot packages or extended CDE package provide a literate programming environment or a continuous integration environment for changes in software. Thus they are preserved but make break over time as technology changes.
+ 
+ % Docker images
+\vspace{5pt}
+\noindent{\bf Linux Containers and Docker Images}
 
-% Docker images
+Linux Containers provide multiple isolated execution instances on top of the same kernel through OS-level virtualization. Thus they can be used to persist the captured packages into images. Using such containers, Docker now allows to preserve the image in a more user-friendly way. In particular, apart from performing Linux container (LXC) based operating system (OS) level virtualization, docker tools provides portable deployment of containers across platforms, documentation of packages in a scriptable format, and versioning of container images. The image can be preserved along with dockerfiles, which are plain text files with a literate programming environment: the computational part is similar to shell scripts and can help provision similar to other provisioning tools (e.g. Chef, Puppet) or Continuous Integration (CI) platforms (e.g. Travis CI), and the text part is for human consumption and more suited for use with a version management system such as subversion or git, which can track any changes made to the Dockerfile. Thus dockerfiles can be used to preserve the namelist of Parrot packages and provenance description in PTU. 
+Docker is integrated with a continuous build environment which will check and validate the version of the software being used, and use a more recent version to build application software. 
 
 
 \subsection{Deployment  Repositories}
-image can be stored and distributed in a repository like Docker Hub. 
-The Hub also provides a convenient dis- tribution service, freely storing the pre-built images, along with their metadata, for download and reuse by others. 
-   The Docker Hub is a free service and an open source software product so that users can run their own private versions of the Hub on their own servers, for instance, if security of the data or the longevity of the public platform is a concern.
+Deployment repositories, such as Docker Hub, are distribution service for storing the pre-built images, along with their metadata, for download and reuse by others. While the architecture of such hubs is beyond the scope of the current paper, the existence of such a repository for reproducible research is vital to ensure security and longevity of preserved packages. 
 
 \section{Measuring Dependencies}
 
