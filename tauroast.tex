@@ -5,7 +5,7 @@
 
 We study applications taken from two experiments of the CERN Large Hadron Collider, namely the ATLAS experiment and the CMS experiment. 
 One of the applications of the ATLAS experiment is the \emph{Athena} application, which is a general purpose processing framework including algorithms
-for event reconstruction and data reduction. The CMS experiment is conducted through an application termed  \emph{TauRoast}, which searches for specific 
+for event reconstruction and data reduction \cite{calafiura2005athena}. The CMS experiment is conducted through an application termed  \emph{TauRoast}, which searches for specific 
 cases where the Higgs boson decays to two tau leptons~\cite{chatrchyan2013search}. In LHC, the ATLAS and CMS experiments are distinct, 
 developed independently by two entirely separate physics communities. Consequently, their applications  
 have very different software distribution and data management frameworks, making it interesting to examine if common reproducibility frameworks and 
@@ -18,9 +18,10 @@ tools work across the two communities.
 %that they generate.  So, the analysis must search for detector
 %events that show a signature of decay products compatible with both hadronic tau and top decays.  
 
-Code and data in \emph{TauRoast} is available through five different networked filesystems, namely an HDFS~\cite{borthakur2008hdfs} cluster for data files, 
-some configuration files were stored on a CVMFS~\cite{blomer2011cernvm} filesystem, and a variety of software tools were on an NFS~\cite{sandberg1985design}, PanFS~\cite{welch2008scalable} and AFS~\cite{howard1988scale} systems.
-In addition, code may exist in version control systems such as Git, CVS, and CMS Software Distribution (CMSSW)~\cite{cms2006cms}. 
+Code and data in \emph{TauRoast} is available through five different networked filesystems, namely an HDFS cluster for data files, 
+%~\cite{borthakur2008hdfs},~\cite{sandberg1985design},\cite{welch2008scalable}, ~\cite{howard1988scale}
+some configuration files were stored on a CVMFS~\cite{blomer2011cernvm} filesystem, and a variety of software tools were on an NFS, PanFS and AFS systems.
+In addition, code may exist in version control systems such as Git, CVS, and CMS Software Distribution (CMSSW). %~\cite{cms2006cms}. 
 \begin{wrapfigure}{r}{0.4\textwidth}
 \small
 \centering
