@@ -18,17 +18,17 @@ tools work across the two communities.
 %that they generate.  So, the analysis must search for detector
 %events that show a signature of decay products compatible with both hadronic tau and top decays.  
 
-Code and data in \emph{TauRoast} is available through five different networked filesystems, namely an HDFS \cite{} cluster for data files, 
-some configuration files were stored on a CVMFS \cite{} filesystem, and a variety of software tools were on an NFS \cite{}, PanFS\cite{} and AFS \cite{} systems.
+Code and data in \emph{TauRoast} is available through five different networked filesystems, namely an HDFS~\cite{borthakur2008hdfs} cluster for data files, 
+some configuration files were stored on a CVMFS~\cite{blomer2011cernvm} filesystem, and a variety of software tools were on an NFS~\cite{sandberg1985design}, PanFS~\cite{welch2008scalable} and AFS~\cite{howard1988scale} systems.
 In addition, code may exist in version control systems such as Git, CVS, and CMS Software Distribution (CMSSW)~\cite{cms2006cms}. 
 \begin{wrapfigure}{r}{0.4\textwidth}
 \small
 \centering
-\includegraphics[width=.48\textwidth]{data-code-size.eps}
+\includegraphics[width=.4\textwidth]{data-code-size.eps}
 \caption{Inputs to Tau Roast}
 \label{fig:data-code-size}
 \end{wrapfigure}
-Data that is input to \emph{TauRoast} is obtained by reducing it through a pipeline, as shown in Figure \ref{fg:data-code-size}. Consequently, the real input data may 
+Data that is input to \emph{TauRoast} is obtained by reducing it through a pipeline, as shown in Figure \ref{fig:data-code-size}. Consequently, the real input data may 
 vary depending upon the science question being researched. Similarly the software may name many possible components but the used components are
 smaller than the named ones. 
 
