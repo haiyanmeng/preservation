@@ -11,7 +11,8 @@ that can implement each stage of the framework.
 allows a tracing process to observe all of the system calls performed by
 an application, inferring each of the resources upon which an application
 depends.  We have extended two existing tracing tools in order to capture
-dependency information.
+dependency information at the granularity of files and directories. 
+Dependency may refer to source code, if available, or a binary.
 
 Parrot~\cite{thain2005parrot} is a virtual filesystem access tool which
 is used to attach applications to a variety of remote I/O systems such as HTTP, FTP, and CVMFS. It works by trapping system calls through the {\tt ptrace} interface,

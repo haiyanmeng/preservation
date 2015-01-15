@@ -1,4 +1,4 @@
-\section{Reproducibility Challenges}
+\section{Challenges and Observations in Reproducing HEP Applications}
 
 The \emph{TauRoast} and \emph{Athena} application specification was provided to us in the form of an
 email which described, in prose, how to obtain the source,
@@ -33,13 +33,26 @@ We provide the challenges we faced in capturing the application details in a rep
 
 \begin{itemize}
 
-\item {\bf Explicit External Dependencies.}  Due to the distributed nature of HEP applications, the applications typically depend on a large number of networked external resources. 
-Capturing these dependencies is straightforward if they are static in nature and the resources can be accessed without secure cryptographic functions. 
-For instance, in TauRaoast some source code external dependencies can be obtained by simply downloading the specific libraries from a web page. 
-However, other static dependencies require making secure connections to Github resources, and CVS servers for downloading source. 
-While TauRoast is completely local in its execution, dynamic remote dependencies that arise in a distributed execution require auditing dependencies on all machines where execution takes place. 
+\item {\bf Identifying all dependencies.}  Due to the distributed nature of HEP applications, the applications typically depend on a large number of external and local dependencies.
+External dependencies are often explicitly stated, such as when the application makes connections to Github resources, and CVS servers for downloading source. 
+However, when the application has distributed execution then implicit network connections are present requiring us to identify dependencies on all machines where execution takes place. 
+Implicit local dependencies arise due to mounted filesystems. In TauRoast, the application data and code is distributed on five networked filesystems, and in Athena on two networked filesystems. 
+Since these filesystems appear local to the application machine, it is important to check and capture mounted filesystems and their respective mount points. 
 
-%\begin{TM} 
+%networked external resources. 
+%Capturing these dependencies is straightforward if they are static in nature and the resources can be accessed without secure cryptographic functions. 
+%For instance, in TauRaoast some source code external dependencies can be obtained by simply downloading the specific libraries from a web page. 
+%However, other static dependencies require making secure connections to Github resources, and CVS servers for downloading source. 
+%While TauRoast is completely local in its execution, dynamic remote dependencies that arise in a distributed execution 
+%
+%The application data and code is distributed on five networked filesystems, which are 
+%typically mounted on a particular machine that is made accessible to the application developer. In TauRoast the a large amount of data to be analyzed was stored on an HDFS~\cite{borthakur2008hdfs} cluster,
+%some configuration data was stored on a CVMFS~\cite{blomer2011cernvm} filesystem,
+%and a variety of software tools were on an NFS~\cite{howard1988scale},
+%PanFS~\cite{welch2008scalable} and AFS~\cite{sandberg1985design} systems. In \emph{Athena} the data and code were available through CVMFS filesystem. 
+
+
+ %\begin{TM} 
 %each with a different access method and data source.
 %While we knew in advance that it depended upon the large CMSSW distribution,
 %it was not apparent until elaborating the script that it depended upon
@@ -52,12 +65,6 @@ While TauRoast is completely local in its execution, dynamic remote dependencies
 %However, once known, they are at least expressed explicitly within the script.
 %\end{TM}
 
-\item {\bf Implicit Local Dependencies.} The application data and code is distributed on five networked filesystems, which are 
-typically mounted on a particular machine that is made accessible to the application developer. In TauRoast the a large amount of data to be analyzed was stored on an HDFS~\cite{borthakur2008hdfs} cluster,
-some configuration data was stored on a CVMFS~\cite{blomer2011cernvm} filesystem,
-and a variety of software tools were on an NFS~\cite{howard1988scale},
-PanFS~\cite{welch2008scalable} and AFS~\cite{sandberg1985design} systems. In \emph{Athena} the data and code were available through CVMFS filesystem. 
-Since these filesystems appear local to the application machine, it is important to check and capture mounted filesystems and their respective mount points. 
 
 %\begin{TM}A much harder problem is that the
 %application assumed the presence of many different components in the local
@@ -78,6 +85,16 @@ For CMS,  {\tt scram} software management tool, is used to locate
 the appropriate version of software,  set environment variables such as the PATH, run any
 tool-specific configuration, and do the same for all software on which it depends. A reproducible framework must capture the working of such software management tools so that they can conduct similar
 checks on a new machine. 
+
+%If we allow users to work in uncontrolled
+%environments, then we must have better methods for understanding the dependencies  of existing programs.  At first, we relied on an expert reader to examine
+%the user's script and extract the dependencies.  This is clearly
+%not a scalable approach.  We then demonstrated an automated method of observing
+%what individual files are accessed by a program. However, this does
+%not cover all types of dependencies, particularly those that are networked.
+%More sophisticated observation techniques could infer higher-level information,
+%such as the RPM package names of the files accessed, the URLs of remote
+%repositories named throughout the program, or even the addresses and names of networked dependencies like databases and filesystems.
 
 %\begin{TM}As a means of controlling the complexity
 %of dependent software packages, the high energy physics community has developed
@@ -119,8 +136,13 @@ While the users of this software seem be accustomed to constant change,
 any preservation technique will have to be very cautious about relying upon an
 external service, even one that may appear to be highly stable.
 
-\item {\bf Dependencies for Reproducible Execution.} Capturing the necessary and sufficient dependencies that are part of an application is sufficient for repeatability, but possibly for not reproducibility, where is different additional modules
-must also be preserved so that the resulting application can be extended properly. In Athena framework, for instance, the software library needed to include basic software programs such as make, awk, sed that can aid further development. 
+\item {\bf Dependencies for Reproducible Execution.} Capturing the necessary and sufficient dependencies that are part of an application is sufficient for repeatability, but possibly for not reproducibility, 
+Repeatability implies if a result depends on running program X, we must be able to run exactly X again. In reproducibility the goal is rarely limited to running
+\emph{precisely} what a predecessor did. Often, the objective is to
+change a parameter or a data input in order to see how the result is affected. To that end, the preservation system must capture enough of the surrounding
+material to permit modifications to succeed. In Athena framework, for instance, the software library needed to include basic software programs such as make, awk, sed that can aid further development.  
+Further, a better understanding of how end users will consume preserved software will help to shape how
+software is preserved in the first place.
 \end{itemize}
 
 \if 0
