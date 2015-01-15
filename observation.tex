@@ -36,7 +36,7 @@ We provide the challenges we faced in capturing the application details in a rep
 \item {\bf Identifying all dependencies.}  Due to the distributed nature of HEP applications, the applications typically depend on a large number of external and local dependencies.
 External dependencies are often explicitly stated, such as when the application makes connections to Github resources, and CVS servers for downloading source. 
 However, when the application has distributed execution then implicit network connections are present requiring us to identify dependencies on all machines where execution takes place. 
-Implicit local dependencies arise due to mounted filesystems. In TauRoast, the application data and code is distributed on five networked filesystems, and in Athena on two networked filesystems. 
+Implicit local dependencies arise due to mounted filesystems. In \emph{TauRoast}, the application data and code is distributed on five networked filesystems, and in \emph{Athena} on two networked filesystems. 
 Since these filesystems appear local to the application machine, it is important to check and capture mounted filesystems and their respective mount points. 
 
 %networked external resources. 
@@ -136,7 +136,7 @@ While the users of this software seem be accustomed to constant change,
 any preservation technique will have to be very cautious about relying upon an
 external service, even one that may appear to be highly stable.
 
-\item {\bf Dependencies for Reproducible Execution.} Capturing the necessary and sufficient dependencies that are part of an application is sufficient for repeatability, but possibly for not reproducibility, 
+\item {\bf Dependencies for Reproducible Execution.} Capturing the necessary and sufficient dependencies that are part of an application is sufficient for repeatability, but possibly for not reproducibility.
 Repeatability implies if a result depends on running program X, we must be able to run exactly X again. In reproducibility the goal is rarely limited to running
 \emph{precisely} what a predecessor did. Often, the objective is to
 change a parameter or a data input in order to see how the result is affected. To that end, the preservation system must capture enough of the surrounding
