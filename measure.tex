@@ -25,7 +25,7 @@ the logical name of every file accessed by an application into an external
 dependency list.  After execution is complete, a second tool is used to copy
 all of the named dependencies into a package.
 
-PTU~\cite{pham2014framework} is designed to create a package of an application by recording all of the binaries, libraries, scripts, data files, and environment variables used by a program.   PTU uses the the CDE~\cite{guo2011cde} technology to observe system calls, but takes a snapshot of every file at the point of access.  In addition to files, PTU records \emph{metadata} about the execution environment, such as kernel versions, application versions, and dynamic library versions by using standard Unix commands.  PTU also records \emph{provenance} in the form of a graph that describes how each file is created or consumed by processes within the application.  Because PTU is focused solely on the problem of preservation, it can achieve lower overhead than Parrot when remote data access is not a requirement, as we show below.
+PTU~\cite{pham2014framework} is designed to create a package of an application by recording all of the binaries, libraries, scripts, data files, and environment variables used by a program.   PTU uses the CDE~\cite{guo2011cde} technology to observe system calls, but takes a snapshot of every file at the point of access.  In addition to files, PTU records \emph{metadata} about the execution environment, such as kernel versions, application versions, and dynamic library versions by using standard Unix commands.  PTU also records \emph{provenance} in the form of a graph that describes how each file is created or consumed by processes within the application.  Because PTU is focused solely on the problem of preservation, it can achieve lower overhead than Parrot when remote data access is not a requirement, as we show below.
 
 {\bf Preservation of Dependencies.}  Both Parrot and PTU can observe the precise
 set of files accessed by an application.  If this precise list of files is preserved
@@ -53,7 +53,7 @@ and so we assume such a service will be available in the future.
 
 Of more immediate interest is the ability to deploy a preserved
 package at a desired execution site.  Again, long-term preservation
-requires artifacts that are independent of any particular technolgy,
+requires artifacts that are independent of any particular technology,
 so the package must be sufficiently self-describing
 to work with multiple technologies.  The packages produced by both Parrot and PTU
 can today be re-executed through any of the following mechanisms:

@@ -1,9 +1,9 @@
 \section{Evaluation}
 
-We evaluated the correctness and performance of running, packaging, and re-running the Tauroast application using Parrot and PTU.
+We evaluated the correctness and performance of running, packaging, and re-running the TauRoast application using Parrot and PTU.
 To do this, the application was first executed directly, its execution time and output were recorded. Then the application was executed under Parrot and PTU, and a self-contained package was created for each case. Finally, the application was re-executed using the package. The time overhead of each execution and re-execution was collected and compared with the recorded reference.
 
-The Tauroast application checks and evaluates a dataset with the size of 18 GB stored in HDFS, and can be finished in about 20 minites when running directly on a server with 64 cores and 126 GB memory. The output of the application includes an event analysis log and a statistics information, and its size is 289 KB.
+The TauRoast application checks and evaluates a dataset with the size of 18 GB stored in HDFS, and can be finished in about 20 minutes when running directly on a server with 64 cores and 126 GB memory. The output of the application includes an event analysis log and a statistics information, and its size is 289 KB.
 
 \begin{table}
 \small
@@ -19,11 +19,11 @@ The Tauroast application checks and evaluates a dataset with the size of 18 GB s
     \label{table:parrot_ptu}
 \end{table}    
 
-Table~\ref{table:parrot_ptu} compares the time overhead of preserving the Tauroast application using Parrot and PTU.
+Table~\ref{table:parrot_ptu} compares the time overhead of preserving the TauRoast application using Parrot and PTU.
 Parrot splits the packaging creation procedure into two sequential steps: first, execute the application within Parrot and generate the accessed file namelist; second, traverse the namelist and copy all the accessed files into a self-contained package.
-PTU accommplishes the execution procedure and the package creation procedure concurrently through multi-threading, bringing 17.5\% additional time overhead.
+PTU accomplishes the execution procedure and the package creation procedure concurrently through multi-threading, bringing 17.5\% additional time overhead.
 
-The re-execution time is half or less than half of the original execution time in both cases. During the original execution, the input dataset comes from HDFS, which is accessed through FUSE. During the package creation procedure, all the input dataset has been copied from HDFS into the package on the local fielsytem. So, the re-execution procedure can get its input from the local filesystem instead of obtaining the input dataset from HDFS.
+The re-execution time is half or less than half of the original execution time in both cases. During the original execution, the input dataset comes from HDFS, which is accessed through FUSE. During the package creation procedure, all the input dataset has been copied from HDFS into the package on the local filesystem. So, the re-execution procedure can get its input from the local filesystem instead of obtaining the input dataset from HDFS.
 
 Both packages created by Parrot and PTU are a subset of the root filesystem, which only includes all the accessed files. The original relationship, such as symbolic links, between files and directories is maintained. The files from pseudo filesystems such as proc and dev, are ignored. The re-execution procedure uses these pseudo filesystems from the host machine through redirection techniques.
 The sizes of the packages created by Parrot and PTU are nearly the same, 18GB. 
@@ -49,7 +49,7 @@ the PTU package also includes a leveldb-format provenance information of the app
 	        Total      &    & 166.8TB     &  18GB \\ \hline
 	    \end{tabular}
 	    \normalsize
-	    \caption{Data and Code Size Used by Tauroast}
+	    \caption{Data and Code Size Used by TauRoast}
 	    \label{table:size-original-real}
 \end{table}
 %	\begin{tablenotes}
