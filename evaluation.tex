@@ -6,6 +6,7 @@ To do this, the application was first executed directly, its execution time and 
 The Tauroast application checks and evaluates a dataset with the size of 18 GB stored in HDFS, and can be finished about 20 minites when running directly on a server with 64 cores and 126 GB memory. The output of the application includes the dataset analysis log and a complete statistics information, and its size is 289 KB.
 
 \begin{table}
+\small
     \centering
     \begin{tabular}{lccc}
     \hline
@@ -13,6 +14,7 @@ The Tauroast application checks and evaluates a dataset with the size of 18 GB s
 	Parrot & 22 min 50 sec  & 4 min 25 sec & 10 min 24 sec \\ \hline
 	PTU & --- & 23 min 30 sec & 8 min 40 sec \\ \hline 
     \end{tabular}
+    \normalsize
     \caption{Time Comparison between Parrot and PTU}
     \label{table:parrot_ptu}
 \end{table}    
@@ -30,6 +32,7 @@ Except for the accessed files, both Parrot and PTU preserve the execution enviro
 the PTU package also includes a leveldb-format provenance information of the application with the size of 3 MB.
 
 \begin{table}
+\small
 	\centering
 	    \begin{tabular}{lcrr}
 	        \hline
@@ -46,6 +49,7 @@ the PTU package also includes a leveldb-format provenance information of the app
 	        Misc commands & PanFS & 155TB & 8KB \\ \hline
 	        Total      &    & 166.8TB     &  18GB \\ \hline
 	    \end{tabular}
+	    \normalsize
 	    \caption{Data and Code Used by Tau Roast}
 	    \label{table:size-original-real}
 \end{table}
