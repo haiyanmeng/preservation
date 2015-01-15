@@ -9,17 +9,17 @@ The Tauroast application checks and evaluates a dataset with the size of 18 GB s
     \centering
     \begin{tabular}{lccc}
     \hline
-    \bf Tool Type & \bf Package Creation Time & \bf Re-Execution Time & \bf Package Size \\ \hline
-	Parrot & 27 min 15 sec & 10 min 24 sec & 17.57 GB \\ \hline
-	PTU & 23 min 30 sec & 8 min 40 sec & 17.57 GB \\ \hline 
+    \bf Tool Type & \bf Obtain Namelist & \bf Create Package & \bf Re-Execution \\ \hline
+	Parrot & 22 min 50 sec  & 4 min 25 sec & 10 min 24 sec \\ \hline
+	PTU & --- & 23 min 30 sec & 8 min 40 sec \\ \hline 
     \end{tabular}
-    \caption{Performance Comparison between Parrot and PTU}
+    \caption{Time Comparison between Parrot and PTU}
     \label{table:parrot_ptu}
 \end{table}    
 
-Table~\ref{table:parrot_ptu} compares the performance of preserving the Tauroast application using Parrot and PTU.
-PTU accommplishes the execution procedure and packaging procedure concurrently through multi-threading, bringing 17.5\% additional time overhead.
+Table~\ref{table:parrot_ptu} compares the time overhead of preserving the Tauroast application using Parrot and PTU.
 Parrot splits the packaging creation procedure into two sequential steps: first, execute the application within Parrot and generate the accessed file namelist (takes 22 min 50 sec); second, traverse the namelist and copy all the accessed files into a self-contained package (takes 4 min 25 sec).
+PTU accommplishes the execution procedure and the package creation procedure concurrently through multi-threading, bringing 17.5\% additional time overhead.
 
 The re-execution time is half or less than half of the original execution time in both cases. During the original execution, the input dataset comes from HDFS, which is accessed through FUSE. During the package creation procedure, all the input dataset has been copied from HDFS into the package on the local fielsytem. So, the re-execution procedure can get its input from the local filesystem instead of obtaining the input dataset from HDFS.
 PTU re-runs the application faster than Parrot due to its efficient internal implementation.
