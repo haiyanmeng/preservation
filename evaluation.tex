@@ -1,9 +1,9 @@
 \section{Evaluation}
 
-We evaluated and compared the correctness and performance of running, packaging, and re-running the Tauroast application using Parrot and PTU.
+We evaluated the correctness and performance of running, packaging, and re-running the Tauroast application using Parrot and PTU.
 To do this, the application was first executed directly, its execution time and output were recorded. Then the application was executed under Parrot and PTU, and a self-contained package was created for each case. Finally, the application was re-executed using the package. The time overhead of each execution and re-execution was collected and compared with the recorded reference.
 
-The Tauroast application checks and evaluates a dataset with the size of 18 GB stored in HDFS, and can be finished about 20 minites when running directly on a server with 64 cores and 126 GB memory. The output of the application includes the dataset analysis log and a complete statistics information, and its size is 289 KB.
+The Tauroast application checks and evaluates a dataset with the size of 18 GB stored in HDFS, and can be finished in about 20 minites when running directly on a server with 64 cores and 126 GB memory. The output of the application includes an event analysis log and a statistics information, and its size is 289 KB.
 
 \begin{table}
 \small
@@ -20,14 +20,13 @@ The Tauroast application checks and evaluates a dataset with the size of 18 GB s
 \end{table}    
 
 Table~\ref{table:parrot_ptu} compares the time overhead of preserving the Tauroast application using Parrot and PTU.
-Parrot splits the packaging creation procedure into two sequential steps: first, execute the application within Parrot and generate the accessed file namelist (takes 22 min 50 sec); second, traverse the namelist and copy all the accessed files into a self-contained package (takes 4 min 25 sec).
+Parrot splits the packaging creation procedure into two sequential steps: first, execute the application within Parrot and generate the accessed file namelist; second, traverse the namelist and copy all the accessed files into a self-contained package.
 PTU accommplishes the execution procedure and the package creation procedure concurrently through multi-threading, bringing 17.5\% additional time overhead.
 
 The re-execution time is half or less than half of the original execution time in both cases. During the original execution, the input dataset comes from HDFS, which is accessed through FUSE. During the package creation procedure, all the input dataset has been copied from HDFS into the package on the local fielsytem. So, the re-execution procedure can get its input from the local filesystem instead of obtaining the input dataset from HDFS.
-PTU re-runs the application faster than Parrot due to its efficient internal implementation.
 
 Both packages created by Parrot and PTU are a subset of the root filesystem, which only includes all the accessed files. The original relationship, such as symbolic links, between files and directories is maintained. The files from pseudo filesystems such as proc and dev, are ignored. The re-execution procedure uses these pseudo filesystems from the host machine through redirection techniques.
-The sizes of the packages created by Parrot and PTU are nearly the same. 
+The sizes of the packages created by Parrot and PTU are nearly the same, 18GB. 
 Except for the accessed files, both Parrot and PTU preserve the execution environment of the application. 
 the PTU package also includes a leveldb-format provenance information of the application with the size of 3 MB.
 
@@ -41,7 +40,7 @@ the PTU package also includes a leveldb-format provenance information of the app
 	        CMSSW code     & CVS & 88.1GB &  5.2MB\\ \hline
 	        Tau source       & Git & 73.7MB & 212KB \\ \hline
 	        PyYAML binaries    & HTTP & 52MB& 0KB \\ \hline
-	        .h file       & HTTP& 41KB & 0KB \\ \hline \hline
+	        .h file       & HTTP& 41KB & 0KB \\ \hline 
 	        Ntuples data    & HDFS& 11.6TB & 18GB \\ \hline
 	        Configuration & CVMFS & 7.4GB & 105MB \\ \hline
 	        Linux commands & localFS & 110GB & 110MB \\ \hline     
@@ -50,7 +49,7 @@ the PTU package also includes a leveldb-format provenance information of the app
 	        Total      &    & 166.8TB     &  18GB \\ \hline
 	    \end{tabular}
 	    \normalsize
-	    \caption{Data and Code Used by Tau Roast}
+	    \caption{Data and Code Size Used by Tauroast}
 	    \label{table:size-original-real}
 \end{table}
 %	\begin{tablenotes}
@@ -61,7 +60,7 @@ the PTU package also includes a leveldb-format provenance information of the app
 %	            N/A denotes it is hard to figure out the named size of implicit dependencies directly.        
 %	    \end{tablenotes}
 	   
-Table~\ref{table:size-original-real} illustrates the total size and actually used size of each remote source (the first 4 items) and local source (the remaining 5 items).
+Table~\ref{table:size-original-real} illustrates the total size and actually used size of each source.
 The total size is too large to be put into a separate image. However, the actually used size is greatly reduced to be 18 GB.
 Within the package, the input dataset nearly occupies the whole package. All the other libraries and software dependencies only occupies about 200 MB.
 As the input dataset grows, it can be put outside the package to reduce the shipping time of the package.
