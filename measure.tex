@@ -1,57 +1,75 @@
 \section{Component Tools for Reproducible Research}
 
-We describe some tools that can be used as part of the reproducible framework, and ensure invariance:
+We have constructed a first approximation of the invariant framework
+by using and modifying a variety of existing technologies.  Of course,
+a viable long-term strategy for reproducibility must not depend on a single
+technology, but on multiple technologies that interchange compatible artifacts.
+To this end, we have identified several technologies and techniques
+that can implement each stage of the framework.
 
-\subsection{Capture tools} For capture we focus on automated tools for capturing dependencies (both software and data) instead of manual tools such as makefiles and configuration scripts, since the latter cannot ensure invariance. 
-%Parrot
+{\bf Capturing Dependencies.}  The Unix {\tt ptrace} mechanism
+allows a tracing process to observe all of the system calls performed by
+an application, inferring each of the resources upon which an application
+depends.  We have extended two existing tracing tools in order to capture
+dependency information.
 
-\vspace{5pt}
-\noindent {\bf Parrot} Parrot is a virtual filesystem access tool which has been used to attach
-existing programs to a variety of remote I/O systems, such as HTTP, FTP, and CVMFS.
-It works by trapping an application's system calls through the Linux {\tt ptrace} debugging
-interface, and then replacing them with the desired I/O operations. 
-To capture dependencies, Parrot records a \emph{namelist} which lists all 
-of the files that an application actually accesses. Using the namelist, Parrot creates a \emph{reduced package} which contains
-only the files actually used by the application.
+Parrot~\cite{parrot-scpe} is a virtual filesystem access tool which
+is used to attach applications to a variety of remote I/O systems such as HTTP, FTP, and CVMFS. It works by trapping system calls through the {\tt ptrace} interface,
+replacing selected operations with remote accesses.  As a side-effect, Parrot is
+also able to modify the filesystem namespace in arbitrary ways according to user
+needs.  Parrot is particularly used in the high energy physics community
+to provide remote access to application software.
+To capture dependencies, we made small modifications to Parrot to record
+the logical name of every file accessed by an application into an external
+dependency list.  After execution is complete, a second tool is used to copy
+all of the named dependencies into a package.
 
-Being tightly integrated with I/O systems, the Parrot virtual filesystem is required to be installed for both audit and execution to allow for reproducibility.
-In the high energy physics community, Parrot is already used to 
-provide access to the CMSSW software distribution via the CVMFS distributed file system.
-and is thus invariant for applications like TauRoast. However, unless installed, Parrot cannot ensure invariance for general applications. 
+PTU~\cite{ptu} is designed to create a package of an application by recording all of the binaries, libraries, scripts, data files, and environment variables used by a program.   PTU uses the the CDE~\cite{cde} technology to observe system calls, but takes a snapshot of every file at the point of access.  In addition to files, PTU records \emph{metadata} about the execution environment, such as kernel versions, application versions, and dynamic library versions by using standard Unix commands.  PTU also records \emph{provenance} in the form of a graph that describes how each file is created or consumed by processes within the application.  Because PTU is focused solely on the problem of preservation, it can achieve lower overhead than Parrot when remote data access is not a requirement, as we show below.
 
-% PTU
-\vspace{5pt}
-\noindent{\bf PTU} PTU creates a package of an application by recording program binaries, libraries, scripts, data files, and environment variables, etc. It also uses the UNIX \emph{ptrace} system call interposition to identify the code and data used by the running application. PTU was forked from CDE \cite{}, and was thus limited to major Linux kernel versions (e.g. 2.6.x); consequently we have removed that restriction by adapting it for the newly released Linux kernel 3.0 as well as for Mac OS X \cite{}. Thus PTU provides OS invariance and does not require installation and configuration. 
+{\bf Preservation of Dependencies.}  Both Parrot and PTU can observe the precise
+set of files accessed by an application.  If this precise list of files is preserved
+then it should be possible to execute
+\emph{exactly} the same application on \emph{exactly} the same inputs a second
+time.  However, if the objective is to \emph{re-purpose} the application by running it in slightly different configurations, then the preserved package may need to
+be more comprehensive than the strict dependency list.
 
-\subsection{Preservation tools}
+There are many possible heuristics for creating the preserved package
+from the dependency list.  We have implemented three:
+In a {\bf shallow copy}, we simply copy only
+the exact dependencies.  Where a directory was listed, a directory is created and populated with empty files as placeholders to facilitate a directory listing.  In a {\bf medium copy},every file in every directory mentioned by the application is preserved one level deep.  In a {\bf deep copy}, every file in every directory mentioned by the application is copied recursively.  Obviously, the more aggressive the preservation, the larger the package, but the greater possibility that it can be adapted to other uses.  Other approaches to package generation might including generating the union
+of multiple dependency sets, or allowing the expert user to manually add
+and remove dependencies.
 
-% Parrot package
-\vspace{5pt}
-\noindent{\bf Parrot:} In Parrot, the package is preserved based on user option.  
-In a {\bf shallow copy}, only individual files in the namelist are copied,
-creating only parent directories for each.  Where a directory was listed,
-a directory is created and populated with empty files as placeholders
-to facilitate a directory listing.  In a {\bf medium copy}, 
-individual files are copied as before and directory contents, one level deep are copied. A {\bf deep copy}, which can duplicate all directories recursively,
-resulting in TB-sized packages, is not allowed. 
+Both Parrot and PTU generate packages that consist of plain filesystem trees representing the namespace and data of the preserved application, and can be easily transformed into whatever archive format (e.g. ZIP or TGZ) is most suitable.  This is desirable for long-term preservation that may outlive various deployment technologies.
+However, neither technology yet integrates the literate programming environment
+or the continuous integration environment envisioned above.  Without these techniques, the preserved packages will have diminishing value over time.
 
-% PTU package
-\vspace{5pt}
-\noindent{\bf PTU:} Owing to CDE, in PTU, the complete package is preserved, consisting of all code and data files, however deep the data paths are. 
-In CDE a binary only captures a single execution path, which is the execution path taken during run-time. If different execution paths need different types of dependencies, some dependencies may be left out. To preserve these dependencies, we have added addition functionality in PTU. In particular, information about other static binaries and required static shared libraries, such as version number, released version of shared libraries, and associated kernel distribution, is preserved using UNIX commands file, ldd, strings, and objdump \cite{}. We also have added a provenance wrapper over CDE \cite{}. This provenance wrapper documents all the dependencies, and provides information about process execution times and memory consumption. It creates a graph of the reference execution providing details about how data was created and transformed as part of the execution. The proevenance description is analgalous to the logically preserved unit. 
+{\bf Distribution and Deployment.}
+Once generated, application packages must be collected, curated, and made
+available through publically shared repositories.  There currently exist a
+wide variety of services and efforts to share binary objects in this way,
+and so we assume such a service will be available in the future.
 
-Neither the Parrot packages or extended CDE package provide a literate programming environment or a continuous integration environment for changes in software. Thus they are preserved but make break over time as technology changes.
- 
+Of more immediate interest is the ability to deploy a preserved
+package at a desired execution site.  Again, long-term preservation
+requires artifacts that are independent of any particular technolgy,
+so the package must be sufficiently self-describing
+to work with multiple technologies.  The packages produced by both Parrot and PTU
+can today be re-executed through any of the following mechanisms:
+
+(1) Re-running the application through Parrot, which can dynamically construct
+the desired namespace and limit file accesses to within the preserved package.
+(2) Generating a virtual machine image from the package, which can be loaded
+into a local virtual machine monitor, or transferred to a cloud service provider.
+(3) Converting the package into a Docker image format, enabling it to be
+deployed within a lightweight Linux container.
+
+The latter technology is of considerable interest today 
+
  % Docker images
 \vspace{5pt}
 \noindent{\bf Linux Containers and Docker Images:} Linux Containers provide multiple isolated execution instances on top of the same kernel through OS-level virtualization. Thus they can be used to persist the captured packages into images. Using such containers, Docker now allows to preserve the image in a more user-friendly way. In particular, apart from performing Linux container (LXC) based operating system (OS) level virtualization, docker tools provides portable deployment of containers across platforms, documentation of packages in a scriptable format, and versioning of container images. The image can be preserved along with dockerfiles, which are plain text files with a literate programming environment: the computational part is similar to shell scripts and can help provision similar to other provisioning tools (e.g. Chef, Puppet) or Continuous Integration (CI) platforms (e.g. Travis CI), and the text part is for human consumption and more suited for use with a version management system such as subversion or git, which can track any changes made to the Dockerfile. Thus dockerfiles can be used to preserve the namelist of Parrot packages and provenance description in PTU. 
 Docker is integrated with a continuous build environment which will check and validate the version of the software being used, and use a more recent version to build application software. 
-
-
-\subsection{Deployment  Repositories}
-Deployment repositories, such as Docker Hub, are distribution service for storing the pre-built images, along with their metadata, for download and reuse by others. While the architecture of such hubs is beyond the scope of the current paper, the existence of such a repository for reproducible research is vital to ensure security and longevity of preserved packages. 
-
-
 
 \begin{figure*}
 \centering
