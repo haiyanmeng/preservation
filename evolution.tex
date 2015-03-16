@@ -1,8 +1,8 @@
 \section{The Invariant Framework}
 
-Given the many challenges of reproducing HEP applications, we now describe a formal framework, which if present within large collaborations, can enable application developers to share their 
-application with other researchers, and for other researchers to reproduce the shared application. In effect, the framework itself should be 
-be invariant to changes in who owns the application (the developer or the reproducer), where it was built and compiled. To satisfy invariance, the framework must include mechanisms for:
+Given the many challenges of reproducing HEP applications, we now describe an invariant framework, which if present within large collaborations, can enable application developers to share their 
+application with other researchers, and for other researchers to reproduce the shared application. 
+To satisfy invariance, the framework must include mechanisms for:
 
 \begin{itemize}
 
@@ -12,10 +12,10 @@ be invariant to changes in who owns the application (the developer or the reprod
 \item{\bf Preservation of Captured Entities:} By preservation we imply appropriate mechanisms for (a) documentation of the application development, and (b) automation of any task that becomes inevitably 
 necessary for repeating the application in exactly the same way as the developer executed it. 
  
-Documentation and specification during application development can be a onerous. The preservation framework must make literate programming tools available that 
+Documentation and specification during application development can be an onerous one. The preservation framework must make programming tools available that 
 focus less on documentation, but script, integrate and execute the dependencies so that they are resolved as part of documentation. 
 Automation can extend to various tasks that are necessary for ensuring repeatability such as building software, provisioning of hardware, 
-validation of software against security fixes, new features, or deprecation of old software, and even monitoring the reproducibility state of a preserved application, i.e., its source code, dependencies, environment, and platform.
+validation of software against security fixes, new features, and even monitoring the reproducibility state of a preserved application, i.e., its source code, dependencies, environment, and platform.
 Automated builds and provisioning and continuous integration service can significantly lower the barrier to run the application in a new environment. 
 
 In spite of the preservation mechanisms, the application software may not run as intended. For a reproducer's understanding, it may also be useful to include 

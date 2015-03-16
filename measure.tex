@@ -3,7 +3,7 @@
 We have constructed a first approximation of the invariant framework
 by using and modifying a variety of existing technologies.  Of course,
 a viable long-term strategy for reproducibility must not depend on a single
-technology, but on multiple technologies that interchange compatible artifacts.
+technology.
 To this end, we have identified several technologies and techniques
 that can implement each stage of the framework.
 
@@ -42,8 +42,7 @@ of multiple dependency sets, or allowing the expert user to manually add
 and remove dependencies.
 
 Both Parrot and PTU generate packages that consist of plain filesystem trees representing the namespace and data of the preserved application, and can be easily transformed into whatever archive format (e.g. ZIP or TGZ) is most suitable.  This is desirable for long-term preservation that may outlive various deployment technologies.
-However, neither technology yet integrates the literate programming environment
-or the continuous integration environment envisioned above.  Without these techniques, the preserved packages will have diminishing value over time.
+However, neither technology yet integrates the programming environment envisioned above for the documentation purpose.  Without these techniques, the preserved packages will have diminishing value over time.
 
 {\bf Distribution and Deployment.}
 Once generated, application packages must be collected, curated, and made
@@ -65,11 +64,11 @@ into a local virtual machine monitor, or transferred to a cloud service provider
 (3) Converting the package into a Docker image format, enabling it to be
 deployed within a lightweight Linux container.
 
-The latter technology is of considerable interest today.
-
  % Docker images
 \vspace{5pt}
-\noindent{\bf Linux Containers and Docker Images:} Linux Containers provide multiple isolated execution instances on top of the same kernel through OS-level virtualization. Thus they can be used to persist the captured packages into images. Using such containers, Docker now allows to preserve the image in a more user-friendly way. In particular, apart from performing Linux container (LXC) based operating system (OS) level virtualization, docker tools provides portable deployment of containers across platforms, documentation of packages in a scriptable format, and versioning of container images. The image can be preserved along with dockerfiles, which are plain text files with a literate programming environment: the computational part is similar to shell scripts and can help provision similar to other provisioning tools (e.g. Chef, Puppet) or Continuous Integration (CI) platforms (e.g. Travis CI), and the text part is for human consumption and more suited for use with a version management system such as subversion or git, which can track any changes made to the Dockerfile. Thus dockerfiles can be used to preserve the namelist of Parrot packages and provenance description in PTU. 
+\noindent{\bf Linux Containers and Docker Images:} Linux Containers provide multiple isolated execution instances on top of the same kernel through OS-level virtualization. Thus they can be used to persist the captured packages into images. 
+Using such containers, Docker now allows to preserve the image in a more user-friendly way. 
+Docker also provides portable deployment of containers across platforms, documentation of packages in a scriptable format, and versioning of container images. The image can be preserved along with dockerfiles, which are text files that contain all the commands to build a Docker image: the computational part is similar to shell scripts and can help provision similar to other provisioning tools (e.g. Chef, Puppet) and the text part is for human consumption and more suited for use with a version management system such as subversion or git, which can track any changes made to the Dockerfile. Thus dockerfiles can be used to preserve the namelist of Parrot packages and provenance description in PTU. 
 Docker is integrated with a continuous build environment which will check and validate the version of the software being used, and use a more recent version to build application software. 
 
 \begin{figure*}

@@ -80,10 +80,10 @@ Since these filesystems appear local to the application machine, it is important
 %because they simply relied on local administrators to configure the
 %software and make it available.\end{TM}
 
-\item {\bf Configuration Complexity.} To correctly reproduce an application implies that run-time configurations and consistency checks on the available software are effective captured and preserved. 
+\item {\bf Configuration Complexity.} To correctly reproduce an application implies that run-time configurations and consistency checks on the available software are effectively captured and preserved. 
 For CMS,  {\tt scram} software management tool, is used to locate
 the appropriate version of software,  set environment variables such as the PATH, run any
-tool-specific configuration, and do the same for all software on which it depends. A reproducible framework must capture the working of such software management tools so that they can conduct similar
+tool-specific configuration, and do the same for all software on which it depends. A reproducible framework must capture the work of such software management tools so that they can conduct similar
 checks on a new machine. 
 
 %If we allow users to work in uncontrolled
@@ -140,9 +140,9 @@ external service, even one that may appear to be highly stable.
 Repeatability implies if a result depends on running program X, we must be able to run exactly X again. In reproducibility the goal is rarely limited to running
 \emph{precisely} what a predecessor did. Often, the objective is to
 change a parameter or a data input in order to see how the result is affected. To that end, the preservation system must capture enough of the surrounding
-material to permit modifications to succeed. In Athena framework, for instance, the software library needed to include basic software programs such as make, awk, sed that can aid further development.  
+material to permit modifications to succeed. 
 Further, a better understanding of how end users will consume preserved software will help to shape how
-software is preserved in the first place.
+software should be preserved.
 \end{itemize}
 
 \if 0
