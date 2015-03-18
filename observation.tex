@@ -7,30 +7,6 @@ machine at our home institution, with no particular guarantee that
 it will run anywhere else in the world. Such level of documentation and exchange of information about a software is typically routine in the scientific world. 
 We provide the challenges we faced in capturing the application details in a reproducible form and then preserving it for subsequent reuse:
 
-%\comment{Although this starting point may seem extreme, it is
-%perfectly natural for collaborators to share configurations
-%with each other in this form, and to rely on the presence
-%of a working environment with appropriate dependencies already
-%installed.  From this starting point, the authors played the
-%role of curators, whose job it is to prepare the application
-%for permanent archival.
-%
-%First, we elaborated the email instructions into an
-%executable script that obtains the dependencies and then
-%executes the analysis.  The script declares the necessary
-%environment variables, downloads and checks out the necessary source code,
-%builds it appropriately, calls initialization scripts in
-%the dependent software, and then runs the analysis.
-%A few rounds of correction with the original author were necessary
-%to obtain all the dependencies and run the artifact correctly.
-%(The original instructions introduced in the email also indicated how to run the application
-%within a production batch system.  For the purposes of preservation,
-%we consider the execution infrastructure to be distinct from the application,
-%and leave it out of consideration for now.)
-%
-%The process of elaborating the program into a script revealed
-%several observations about this type of application:}
-
 \begin{itemize}
 
 \item {\bf Identifying all dependencies.}  Due to the distributed nature of HEP applications, the applications typically depend on a large number of external and local dependencies.
@@ -39,76 +15,11 @@ However, when the application has distributed execution then implicit network co
 Implicit local dependencies arise due to mounted filesystems. In \emph{TauRoast}, the application data and code is distributed on five networked filesystems, and in \emph{Athena} on two networked filesystems. 
 Since these filesystems appear local to the application machine, it is important to check and capture mounted filesystems and their respective mount points. 
 
-%networked external resources. 
-%Capturing these dependencies is straightforward if they are static in nature and the resources can be accessed without secure cryptographic functions. 
-%For instance, in TauRaoast some source code external dependencies can be obtained by simply downloading the specific libraries from a web page. 
-%However, other static dependencies require making secure connections to Github resources, and CVS servers for downloading source. 
-%While TauRoast is completely local in its execution, dynamic remote dependencies that arise in a distributed execution 
-%
-%The application data and code is distributed on five networked filesystems, which are 
-%typically mounted on a particular machine that is made accessible to the application developer. In TauRoast the a large amount of data to be analyzed was stored on an HDFS~\cite{borthakur2008hdfs} cluster,
-%some configuration data was stored on a CVMFS~\cite{blomer2011cernvm} filesystem,
-%and a variety of software tools were on an NFS~\cite{howard1988scale},
-%PanFS~\cite{welch2008scalable} and AFS~\cite{sandberg1985design} systems. In \emph{Athena} the data and code were available through CVMFS filesystem. 
-
-
- %\begin{TM} 
-%each with a different access method and data source.
-%While we knew in advance that it depended upon the large CMSSW distribution,
-%it was not apparent until elaborating the script that it depended upon
-%two different Github repositories for the Tau source,
-%a CVS server at CERN for some configuration information, a public web page
-%for the PyYAML library, and the public home page of a Notre Dame student
-%for one missing header file.  (The latter is particularly troubling!)
-%While, at some level, the authors and users of these software know of these dependencies, they are often missing in
-%informal communications or forgotten once the dependency is installed.
-%However, once known, they are at least expressed explicitly within the script.
-%\end{TM}
-
-
-%\begin{TM}A much harder problem is that the
-%application assumed the presence of many different components in the local
-%filesystem view. It would be tempting to capture all of these by simply
-%storing a virtual machine image containing the local filesystem. However,
-%the application depended on no less than {\bf five} networked filesystems
-%available on a particular machine available to the author:
-%the data to be analyzed was stored on an HDFS~\cite{borthakur2008hdfs} cluster,
-%some configuration data was stored on a CVMFS~\cite{blomer2011cernvm} filesystem,
-%and a variety of software tools were on an NFS~\cite{howard1988scale},
-%PanFS~\cite{welch2008scalable} and AFS~\cite{sandberg1985design} systems.
-%The original authors were not aware of many of these dependencies,
-%because they simply relied on local administrators to configure the
-%software and make it available.\end{TM}
-
 \item {\bf Configuration Complexity.} To correctly reproduce an application implies that run-time configurations and consistency checks on the available software are effectively captured and preserved. 
 For CMS,  {\tt scram} software management tool, is used to locate
 the appropriate version of software,  set environment variables such as the PATH, run any
 tool-specific configuration, and do the same for all software on which it depends. A reproducible framework must capture the work of such software management tools so that they can conduct similar
 checks on a new machine. 
-
-%If we allow users to work in uncontrolled
-%environments, then we must have better methods for understanding the dependencies  of existing programs.  At first, we relied on an expert reader to examine
-%the user's script and extract the dependencies.  This is clearly
-%not a scalable approach.  We then demonstrated an automated method of observing
-%what individual files are accessed by a program. However, this does
-%not cover all types of dependencies, particularly those that are networked.
-%More sophisticated observation techniques could infer higher-level information,
-%such as the RPM package names of the files accessed, the URLs of remote
-%repositories named throughout the program, or even the addresses and names of networked dependencies like databases and filesystems.
-
-%\begin{TM}As a means of controlling the complexity
-%of dependent software packages, the high energy physics community has developed
-%a number of tools that perform run-time configuration and consistency checks
-%of the available software. {\tt scram} is the software management tool used
-%by the CMS experiment.  Before running any code, {\tt scram} is used to locate
-%the appropriate version of software,  set environment variables such as the PATH, run any
-%tool-specific configuration, and do the same for all software on which it depends.
-%If the correct versions are not available, {\tt scram} halts and emits an error.
-%While this procedure has great value for consistency, it also introduces a significant cost
-%because it involves a large number of nested scripts traversing a filesystem,
-%repeatedly looking up metadata.  In our example, the time to perform this configuration
-%with a cold cache is about 14 minutes, which is almost as large as the actual analysis
-%run, which takes 20 minutes.\end{TM}
 
 \item {\bf High Selectivity.}  
 Although the total size of the resources accessed by HEP
@@ -116,13 +27,6 @@ programs is very large, the size of the data and software actually used are much
 Often, an entire repository or data source is named within the script, but the program
 only needs a handful of items from that source.  For example, the data is stored on an
 HDFS filesystem with 11.6TB of data, but only 18GB are actually consumed by the program. 
-%The reason for this great reduction is at first each BEAN event contains a large amount of information, and the TauAnalysis throws away a lot of the irrelevant event information, keeping only the relevant bits.
-%The CMSSW repository is 88.1GB in total
-%but only 448.3MB of source is checked out, and the actually used software only
-%measured 6.3MB.  In a few cases, a source of software is named but never actually accessed.
-%(For example, our original script includes the Open Science Grid software stack in the PATH, but does not actually use it.)
-%We suspect that end users are accustomed to missing dependencies and thus get in the habit of adding commonly used software,
-%whether it is needed or not. 
 Thus there is a size tradeoff of capturing dependencies mentioned in the program and dependencies actually used in the program.
 A reproducible framework must include robust rules about not including superfluous dependencies, but including unused dependencies that may potentially get used during program execution.  
 
@@ -144,78 +48,4 @@ material to permit modifications to succeed.
 Further, a better understanding of how end users will consume preserved software will help to shape how
 software should be preserved.
 \end{itemize}
-
-\if 0
-
-\begin{table}
-    \centering
-    \begin{tabular}{|l|}
-        \hline
-        {\bf Version 1: Email}\\ \hline
-        1. Create a CMS release,\\
-            \hspace{9pt} e.g. {\tt cmsrel CMSSW\_5\_3\_11\_patch3} \\
-        2. Install the BEAN packages as the instructions: \\
-            \hspace{9pt} {\tt \url{https://github.com/cms-ttH/BEAN/blob/...}}\\
-        3. Install grid-control: \\ 
-            \hspace{9pt} {\tt svn co \url{https://ekptrac.physik.uni-ka/...}} \\
-        4. INstall the TauAnalysis package: \\
-           \hspace{9pt} {\tt git clone \url{https://github.com/matz-e/...}} \\
-           \hspace{9pt} {\tt scram b -j32} \\
-        5. Fix grid\_control.cfg and run it. \\
-        6. Perform the actual tau roast program. \\ 
-        \hline
-        {\bf Version 2: Script}\\ \hline
-        {\tt setenv CMSSW\_BASE CMSSW\_5\_3\_11\_patch3} \\
-        {\tt cmsrel \$HOME/\$CMSSW\_BASE} \\
-        {\tt cvs co -r V03-09-23 PhysicsTools/PatUtils} \\
-        {\tt git clone \url{https://github.com/cms-ttH/BEAN.git}} \\
-        {\tt wget -r \url{http://nd.edu/~abrinke1/...}} \\
-        {\tt scram b -j32} \\
-        {\tt wget \url{http://pyyaml.org/download/pyyaml/PyYAML...}}\\
-        \#the experiment data is from HDFS \\
-        {\tt cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10}\\
-        {\tt cmsenv}\\
-        {\tt python setup.py install --user} \\
-        {\tt scripts/roaster data/generic\_ttl.yaml} \\ 
-        \hline
-        {\bf version 3: Formulated Script} \\ \hline
-        {\tt setenv CMSSW\_BASE CMSSW\_5\_3\_11\_patch3} \\
-        {\tt setenv {\bf GIT} \url{https://github.com}} \\
-        {\tt setenv {\bf PYYAML} \url{http://pyyaml.org}} \\
-        {\tt setenv {\bf ND} \url{http://nd.edu}} \\
-        {\tt cmsrel \$HOME/\$CMSSW\_BASE} \\
-        {\tt cvs co -r V03-09-23 PhysicsTools/PatUtils} \\
-        {\tt git clone \${\bf GIT}/cms-ttH/BEAN.git} \\
-        {\tt wget -r \${\bf ND}\url{/~abrinke1/ElectronEffectiveArea.h}} \\
-        {\tt scram b -j32} \\
-        {\tt wget \${\bf PYYAML}/download/pyyaml/PyYAML...}\\
-        \#the experiment data is from HDFS \\
-        {\tt cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10}\\
-        {\tt cmsenv}\\
-        {\tt python setup.py install --user} \\
-        {\tt scripts/roaster data/generic\_ttl.yaml} \\ 
-        \hline
-       {\bf Version 4: Fine-Grained Toolkit - Package}\\ \hline
-        {\tt setenv CMSSW\_BASE CMSSW\_5\_3\_11\_patch3} \\
-        {\tt setenv {\bf GIT} \url{https://github.com}} \\
-        {\tt setenv {\bf PYYAML} \url{http://pyyaml.org}} \\
-        {\tt setenv {\bf ND} \url{http://nd.edu}} \\
-        {\tt cmsrel \$HOME/\$CMSSW\_BASE} \\
-        {\tt cvs co -r V03-09-23 PhysicsTools/PatUtils} \\
-        {\tt git clone \${\bf GIT}/cms-ttH/BEAN.git} \\
-        {\tt wget -r \${\bf ND}\url{/~abrinke1/ElectronEffectiveArea.h}} \\
-        {\tt scram b -j32} \\
-        {\tt wget \${\bf PYYAML}/download/pyyaml/PyYAML...}\\
-        \#the experiment data is from HDFS \\
-        {\tt cd \$HOME/\$CMSSW\_BASE/src/PyYAML-3.10}\\
-        {\tt cmsenv}\\
-        {\tt python setup.py install --user} \\
-        {\tt scripts/roaster data/generic\_ttl.yaml} \\ 
-        \hline
-    \end{tabular}
-    \caption{Scripts of each Solution}
-    \label{table:scripts}
-\end{table}
-
-\fi
 

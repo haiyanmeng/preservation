@@ -12,14 +12,8 @@
 \usepackage{comment}
 \usepackage{wrapfig}
 \excludecomment{TM}
-%\setlength{\textwidth}{6.25in}
 
 \title{An Invariant Framework for Conducting Reproducible Computational Science}
-
-% \titlerunning{} has to be set to either the main title or its shorter
-% version for the running heads. When processed by
-% EasyChair, this command is mandatory: a document without \titlerunning
-% will be rejected by EasyChair
 
 \titlerunning{An invariant framework for conducting reproducible computational science}
 
@@ -73,22 +67,13 @@ We report on the completeness, performance,
 and efficiency of the framework, and suggest possible standardization approaches.
 \end{abstract}
 
-% A category with the (minimum) three required fields
-%\category{H.4}{Information Systems Applications}{Miscellaneous}
-%A category including the fourth, optional field follows...
-%\category{D.2.8}{Software Engineering}{Metrics}[complexity measures, performance measures]
-
-%\terms{Theory}
-
 \input {intro}
 \input {tauroast}
 \input {observation}
 \input {evolution}
 \input {measure}
 \input {evaluation}
-%\input {problems}
 \input {related_work}
-%\input {postscript}
 \section{Conclusions and Future work}
 In this paper, we propose an invariant framework for conducting reproducible computational science - using light-weight virtualization approaches to preserve applications in the format of self-contained packages and using standardized software delivery mechanisms to deliver and distribute preserved packages.
 We use two complex high energy physics applications to illustrate how the framework can help the original authors preserve and distribute the applications, and others reproduce the applications.
@@ -112,57 +97,3 @@ The Open Science Grid at the University of Chicago provided critical technical a
 \bibliography{cclpapers,this,sole}
 
 \end{document}
-
-\if 0
-Section 2: Overview of Application
-    CMS/LHC introduction.
-    Data sources and reduction of size.
-    Code sources and reduction of size.
-    Prose observations about the script.
-        Uses multiple repos that change over time, with varying level of stability.
-        Low selectivity from the larger repos
-        Significant initialization time to collect everything.
-        Incidental infrastructure tools versus essential objects.
-        Some dependencies were surprising.
-    Figure: Diagram of app with both code and data sources.
-    Table: Show all code and data sources and size within one table.
-
-Section 3: Preservation Strategies
-    Figure: Show app in four stages:
-        Single email.
-        Script with embedded references to dependencies.
-        Script with map file that refers to external dependencies.
-        Script with map file that refers to preserved dependencies.
-
-    Transform to more suitable format that expresses dependencies.
-
-    Incorporate into archive, saving deps and map file.
-
-    But, how to get the dependencies?
-
-    Three strategies:
-        Original - Unmodified application run in original environment.
-        Coarse-Grained - Capture deps at large granularity -- whole filesystems and repositories.
-        Fine-Grained - Capture deps at a fine granularity -- individual files actually used.
-
-    Coarse-Grained Method (Copy Repositories)
-        First, determine dependencies
-        Express app as script + map file
-        Packaging tool downloads deps, rewrites map file.
-        To run packaged application, obtain map, download
-
-    Fine-Trained Toolkit (Parrot)
-        Tool to detect dependencies (Parrot)
-        Express app as script + map file
-        Packaging tool downloads deps, rewrites map file.
-        To run package application, run again with Parrot.
-
-Section 4: Evaluation
-
-    Table: Time and size of preserving using each of the two techniques.
-
-    Explain why the techniques show different performance.
-
-    Is one technique more effective than the other?  Why?
-\fi
-
