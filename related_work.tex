@@ -1,19 +1,19 @@
 \section{Related Work}
 
-The capture and preserve environments were treated as one entity in~\cite{matthews2009towards,hong2010software}. 
+The capture and preservation environments were treated as one entity in~\cite{matthews2009towards,hong2010software}. 
 However, frequently changing experiment software makes the maintenance of the captured experimental environment very complex. 
 CernVM~\cite{buncic2010cernvm} treated them as two different categories. 
 The capturing of computing environment is implemented within CernVM, and the preservation of software environment is based on a CernVM filesystem(CVMFS) specifically designed for efficient software distribution.
-In fact CVMFS~\cite{buncic2010cernvm} published pre-built and configured experiment software releases to avoid the time-consuming software building procedure, i.e, it did not 
-preserve software in source code format as emphasized in~\cite{zabolitzky2002preserving,castagne2013consider}. 
+In fact CVMFS~\cite{buncic2010cernvm} published pre-built and configured experiment software releases to avoid the time-consuming software building procedure, i.e., it did not 
+preserve software in source code format as emphasized in~\cite{castagne2013consider}. 
 However, as we show a simple VMI of binaries can also be too big in size for distribution, and the preservation itself needs to include a documentation stage and a distribution stage. 
 We have described capture tools that include software code when available to be included in the package. 
 
 Attempts from different perspectives to facilitate the reproduction of scientific experiments utilizing a preserved software library have been made. 
 The software distribution mechanism over network was discussed in~\cite{compostella2010cdf, blomer2011cernvm}.
-J. R. Rice et al.~\cite{rice1996scientific} describe a distribution hub through the integration of user interface, scientific software libraries, knowledge base into problem-solving environment.
-S. R. Kohn et al.~\cite{kohn2001divorcing} tried to enable the creation and distribution of language-independent software library by addressing language interoperability.
-a scalable, distributed and dynamic workflow system for digitization processes was proposed in~\cite{schoneberg2013scalable}.
+A distribution hub through the integration of user interface, scientific software libraries, knowledge base into problem-solving environment was described in~\cite{rice1996scientific}.
+The creation and distribution of language-independent software library by addressing language interoperability was proposed in~\cite{kohn2001divorcing}.
+A scalable, distributed and dynamic workflow system for digitization processes was proposed in~\cite{schoneberg2013scalable}.
 A distributed archival network was designed in~\cite{subotic2013distributed} to facilitate process-oriented automatic long-term digital preservation.
-M. Agosti et al.~\cite{agosti2012envisage} aimed to help non-domain users to utilize the digital archive system developed for domain experts.
+The work in~\cite{agosti2012envisage} aimed to help non-domain users to utilize the digital archive system.
 

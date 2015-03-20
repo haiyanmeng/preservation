@@ -1,22 +1,22 @@
-\section{Challenges and Observations in Reproducing HEP Applications}
+\section{Challenges in Reproducing HEP Applications}
 
 The \emph{TauRoast} and \emph{Athena} application specification was provided to us in the form of an
 email which described, in prose, how to obtain the source,
 build the program, and run it correctly on one specific
 machine at our home institution, with no particular guarantee that
-it will run anywhere else in the world. Such level of documentation and exchange of information about a software is typically routine in the scientific world. 
+it will run anywhere else in the world. This minimal level of documentation about software is routine in the scientific world. 
 We provide the challenges we faced in capturing the application details in a reproducible form and then preserving it for subsequent reuse:
 
 \begin{itemize}
 
-\item {\bf Identifying all dependencies.}  Due to the distributed nature of HEP applications, the applications typically depend on a large number of external and local dependencies.
+\item {\bf Identifying all dependencies.}  Due to the distributed nature of HEP applications, these applications depend on a large number of external and local dependencies.
 External dependencies are often explicitly stated, such as when the application makes connections to Github resources, and CVS servers for downloading source. 
 However, when the application has distributed execution then implicit network connections are present requiring us to identify dependencies on all machines where execution takes place. 
 Implicit local dependencies arise due to mounted filesystems. In \emph{TauRoast}, the application data and code is distributed on five networked filesystems, and in \emph{Athena} on two networked filesystems. 
 Since these filesystems appear local to the application machine, it is important to check and capture mounted filesystems and their respective mount points. 
 
 \item {\bf Configuration Complexity.} To correctly reproduce an application implies that run-time configurations and consistency checks on the available software are effectively captured and preserved. 
-For CMS,  {\tt scram} software management tool, is used to locate
+For CMS,  the {\tt scram} software management tool is used to locate
 the appropriate version of software,  set environment variables such as the PATH, run any
 tool-specific configuration, and do the same for all software on which it depends. A reproducible framework must capture the work of such software management tools so that they can conduct similar
 checks on a new machine. 
@@ -34,7 +34,7 @@ A reproducible framework must include robust rules about not including superfluo
 between collecting the initial email, analyzing the program, and writing this
 paper, the computing environment continuously changed.  The CMSSW software
 distribution released a new version, the target execution environment was upgraded
-to a new operating system, and the application deprecated the use of CVS for obtaining
+to a new operating system, and the application switched from CVS to Git for obtaining
 the software. In Athena, the computing environment can potentially change daily, since upgrades to the software framework occur on a nightly basis.  
 While the users of this software seem be accustomed to constant change,
 any preservation technique will have to be very cautious about relying upon an

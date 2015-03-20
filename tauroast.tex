@@ -1,15 +1,16 @@
 \section{High Energy Physics Applications}
 
 We study applications taken from two experiments of the CERN Large Hadron Collider, namely the ATLAS experiment and the CMS experiment. 
-One of the applications of the ATLAS experiment is the \emph{Athena} application, which is a general purpose processing framework including algorithms
-for event reconstruction and data reduction \cite{calafiura2005athena}. The CMS experiment is conducted through an application termed  \emph{TauRoast}, which searches for specific 
-cases where the Higgs boson decays to two tau leptons~\cite{chatrchyan2013search}. In LHC, the ATLAS and CMS experiments are distinct, 
+In LHC, the ATLAS and CMS experiments are distinct, 
 developed independently by two entirely separate physics communities. Consequently, their applications  
 have very different software distribution and data management frameworks, making it interesting to examine if common reproducibility frameworks and 
 tools work across the two communities. 
+One of the applications of the ATLAS experiment is the \emph{Athena} application, which is a general purpose processing framework including algorithms
+for event reconstruction and data reduction \cite{calafiura2005athena}. The CMS experiment is conducted through an application termed  \emph{TauRoast}, which searches for specific 
+cases where the Higgs boson decays to two tau leptons~\cite{chatrchyan2013search}. 
 
-Code and data in \emph{TauRoast} is available through five different networked filesystems, namely an HDFS cluster for data files, 
-some configuration files were stored on a CVMFS~\cite{blomer2011cernvm} filesystem, and a variety of software tools were on an NFS, PanFS and AFS systems.
+Code and data in \emph{TauRoast} is available through five different networked filesystems which are mounted locally, an HDFS cluster for data, 
+some configuration files were stored on CVMFS~\cite{blomer2011cernvm}, and a variety of software tools were on an NFS, PanFS and AFS systems.
 In addition, code may exist in version control systems such as Git, CVS, and CMS Software Distribution (CMSSW). %~\cite{cms2006cms}. 
 \begin{wrapfigure}{r}{0.4\textwidth}
 \small

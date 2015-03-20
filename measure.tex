@@ -4,7 +4,7 @@ We have constructed a first approximation of the invariant framework
 by using and modifying a variety of existing technologies.  Of course,
 a viable long-term strategy for reproducibility must not depend on a single
 technology.
-To this end, we have identified several technologies and techniques
+To this end, we have identified multiple technologies 
 that can implement each stage of the framework.
 
 {\bf Capturing Dependencies.}  The Unix {\tt ptrace} mechanism
@@ -14,18 +14,18 @@ depends.  We have extended two existing tracing tools in order to capture
 dependency information at the granularity of files and directories. 
 Dependency may refer to source code, if available, or a binary.
 
-Parrot~\cite{thain2005parrot} is a virtual filesystem access tool which
+Parrot is a virtual filesystem access tool which
 is used to attach applications to a variety of remote I/O systems such as HTTP, FTP, and CVMFS. It works by trapping system calls through the {\tt ptrace} interface,
 replacing selected operations with remote accesses.  As a side-effect, Parrot is
 also able to modify the filesystem namespace in arbitrary ways according to user
 needs.  Parrot is particularly used in the high energy physics community
-to provide remote access to application software.
+to provide remote access to application software via CVMFS.
 To capture dependencies, we made small modifications to Parrot to record
 the logical name of every file accessed by an application into an external
 dependency list.  After execution is complete, a second tool is used to copy
 all of the named dependencies into a package.
 
-PTU~\cite{PTU,pham2014framework} is designed to create a package of an application by recording all of the binaries, libraries, scripts, data files, and environment variables used by a program.   PTU uses the CDE~\cite{guo2011cde} technology to observe system calls, but takes a snapshot of every file at the point of access.  In addition to files, PTU records \emph{metadata} about the execution environment, such as kernel versions, application versions, and dynamic library versions by using standard Unix commands.  PTU also records \emph{provenance} in the form of a graph that describes how each file is created or consumed by processes within the application.  Because PTU is focused solely on the problem of preservation, it can achieve lower overhead than Parrot when remote data access is not a requirement, as we show below.
+PTU~\cite{pham2014framework} is designed to create a package of an application by recording all of the binaries, libraries, scripts, data files, and environment variables used by a program.   PTU uses the CDE technology to observe system calls, but takes a snapshot of every file at the point of access.  In addition to files, PTU records \emph{metadata} about the execution environment, such as kernel versions, application versions, and dynamic library versions by using standard Unix commands.  PTU also records \emph{provenance} in the form of a graph that describes how each file is created or consumed by processes within the application.  Because PTU is focused solely on the problem of preservation, it can achieve lower overhead than Parrot when remote data access is not a requirement, as we show below.
 
 {\bf Preservation of Dependencies.}  Both Parrot and PTU can observe the precise
 set of files accessed by an application.  If this precise list of files is preserved
@@ -36,7 +36,7 @@ be more comprehensive than the strict dependency list.
 
 There are many possible heuristics for creating the preserved package
 from the dependency list.  We have implemented three:
-In a {\bf shallow copy}, we simply copy only
+In a {\bf shallow copy}, we copy only
 the exact dependencies.  Where a directory was listed, a directory is created and populated with empty files as placeholders to facilitate a directory listing.  In a {\bf medium copy},every file in every directory mentioned by the application is preserved one level deep.  In a {\bf deep copy}, every file in every directory mentioned by the application is copied recursively.  Obviously, the more aggressive the preservation, the larger the package, but the greater possibility that it can be adapted to other uses.  Other approaches to package generation might including generating the union
 of multiple dependency sets, or allowing the expert user to manually add
 and remove dependencies.
@@ -48,7 +48,7 @@ However, neither technology yet integrates the programming environment envisione
 Once generated, application packages must be collected, curated, and made
 available through publically shared repositories.  There currently exist a
 wide variety of services and efforts to share binary objects in this way,
-and so we assume such a service will be available in the future.
+and so we assume such multiple services will be available in the future.
 
 Of more immediate interest is the ability to deploy a preserved
 package at a desired execution site.  Again, long-term preservation
