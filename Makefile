@@ -9,5 +9,4 @@ $(NAME).pdf: $(NAME).tex ${IMAGES} ${BIBLIOGRAPHIES}
 	pdflatex $(NAME)
 
 clean:
-	#rm -f $(NAME).aux $(NAME).bbl $(NAME).blg $(NAME).dvi $(NAME).ps $(NAME).pdf 
 	rm -f $(NAME).pdf
