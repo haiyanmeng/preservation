@@ -1,0 +1,6 @@
+We describe challenges in reproducing complex high energy physics (HEP) applications.
+We propose an invariant framework for conducting reproducible computational science.
+Light-weight virtualization approaches can help capture the dependencies of an application into a self-contained package and reproduce the application through the package.
+Standard software delivery mechanisms can help distribute the preserved packages.
+We report the performance overhead of running, packaging, and reproducing two HEP applications through the framework.
+
