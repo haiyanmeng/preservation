@@ -1,4 +1,4 @@
-NAME = paper
+NAME = main
 IMAGES = data-code-size.eps preservation_framework.eps
 BIBLIOGRAPHIES = cclpapers.bib this.bib 
 
