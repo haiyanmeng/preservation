@@ -3,13 +3,14 @@
 We study applications taken from two experiments of the CERN Large Hadron Collider, namely the ATLAS experiment and the CMS experiment. 
 In LHC, the ATLAS and CMS experiments are distinct, 
 developed independently by two entirely separate physics communities. Consequently, their applications  
-have very different software distribution and data management frameworks, making it interesting to examine if common reproducibility frameworks and 
-tools work across the two communities. 
+have very different software distribution and data management frameworks, raising the question of whether common reproducibility frameworks and tools work across the two communities.  
+%making it interesting to examine if common reproducibility frameworks and 
+%tools work across the two communities. 
 One of the applications of the ATLAS experiment is the \emph{Athena} application, which is a general purpose processing framework including algorithms
 for event reconstruction and data reduction \cite{calafiura2005athena}. The CMS experiment is conducted through an application termed  \emph{TauRoast}, which searches for specific 
 cases where the Higgs boson decays to two tau leptons~\cite{chatrchyan2013search}. 
 
-Code and data in \emph{TauRoast} is available through five different networked filesystems which are mounted locally, an HDFS cluster for data, 
+Code and data in \emph{TauRoast} are available through five different networked filesystems which are mounted locally, an HDFS cluster for data, 
 some configuration files were stored on CVMFS~\cite{blomer2011cernvm}, and a variety of software tools were on an NFS, PanFS and AFS systems.
 In addition, code may exist in version control systems such as Git, CVS, and CMS Software Distribution (CMSSW). %~\cite{cms2006cms}. 
 \begin{wrapfigure}{r}{0.4\textwidth}
@@ -20,11 +21,10 @@ In addition, code may exist in version control systems such as Git, CVS, and CMS
 \label{fig:data-code-size}
 \end{wrapfigure}
 Data that is input to \emph{TauRoast} is obtained by reducing it through a pipeline, as shown in Figure \ref{fig:data-code-size}. Consequently, the real input data may 
-vary depending upon the science question being researched. Similarly the software may name many possible components but the used components are
+vary depending upon the topic of research. Similarly the software may name many possible components but the used components are
 smaller than the named ones. 
 
-In \emph{Athena} data is obtained through an external Dropbox-like system called the FaxBox, but does not go through any reduction steps. Code is obtained through 
-CVMFS, which provides the analysis routines. However, depending upon the input data code and the configuration that will be invoked changes. 
-Thus in \emph{Athena} the used code and configuration are dynamic depending upon input data, where as in \emph{TauRoast} the code and data are static, 
-but the amount of data and code to include changes depending on the involved science. 
+Data in \emph{Athena} is obtained through an external Dropbox-like system called the FaxBox, but does not pass through any reduction steps. Code is obtained through 
+CVMFS, which provides the analysis routines. 
+The invoked configuration will change, however, depending upon the input data code.  Thus in Athena  the used code and configuration are dynamic depending upon input data, whereas in TauRoast the code and data are static, but the amount of data and code to include changes depending on the science involved.
 
