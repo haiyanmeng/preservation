@@ -1,27 +1,21 @@
 \section{The Invariant Framework}
 
-Given the many challenges of reproducing HEP applications, we now describe an invariant framework, which if present within large collaborations, can enable application developers to share their 
+Given the many challenges of reproducing HEP applications, we now describe an invariant framework. If present within large collaborations, this framework can enable application developers to share their 
 application with other researchers, and for other researchers to reproduce the shared application. 
 To satisfy invariance, the framework must include mechanisms for:
 
 \begin{itemize}
 
-\item {\bf Capturing Dependencies and Configurations:} Capturing tools must record dependencies that are used by the program, including hardware, OS, kernels, static and dynamic dependencies, local and networked dependencies, source codes and data files. Stateful interactions with commercial software, such as proprietary databases and which cannot be captured due to licensing agreements must be persisted so that they can replayed later without the presence of the commercial software.  In effect, a captured application should behave exactly the same way as the application developer intended it to be. 
+\item {\bf Capturing Dependencies and Configurations:} 
+Capturing tools must record dependencies that are used by the program, including hardware, OS, kernels, static and dynamic dependencies, local and networked dependencies, source codes and data files. Stateful interactions with commercial software, such as proprietary databases and which cannot be captured due to licensing agreements must persist such that replaying later may be accomplished without the presence of the commercial software. In effect, a captured application should behave in exactly the way the application developer intended.
 % In audit phase, PTU captures the execution of the application into a package. The resulting package contains the source code, its dependencies (system files, and files on network such as from CernVM-FS) and the data consumed and written by the application.
 
-\item{\bf Preservation of Captured Entities:} By preservation we imply appropriate mechanisms for (a) documentation of the application development, and (b) automation of any task that becomes inevitably 
-necessary for repeating the application in exactly the same way as the developer executed it. 
+\item{\bf Preservation of Captured Entities:} By preservation we define appropriate mechanisms for (a) documentation of the application development, and (b) automation of any task that becomes necessary to the repetition of the application in exactly the the way the application developer intended.
+
+Documentation and specification during application development can be onerous. The preservation framework must make programming tools available that focus less on documentation, and more on scripts, integration, and execution of the dependencies such that they are resolved as part of documentation. Automation can extend to various tasks necessary for ensuring repeatability such as building software, provisioning of hardware, validation of software against security fixes, new features, and even monitoring the reproducibility state of a preserved application, i.e., its source code, dependencies, environment, and platform. Automated builds and provisioning and continuous integration service can significantly lower the barriers to running applications in a new environment.
+
+Despite preservation mechanisms, the application software may not run as intended. For a reproducer’s understanding, it may also be useful to include a \emph{logical preservation unit} (PLU) that consists of a minimal execution of the software using a small, test data sample and with specified outputs. The provenance of this PLU must be captured so that the reproducer can compare the current run with future reproduction-validation runs.
  
-Documentation and specification during application development can be an onerous one. The preservation framework must make programming tools available that 
-focus less on documentation, but script, integrate and execute the dependencies so that they are resolved as part of documentation. 
-Automation can extend to various tasks that are necessary for ensuring repeatability such as building software, provisioning of hardware, 
-validation of software against security fixes, new features, and even monitoring the reproducibility state of a preserved application, i.e., its source code, dependencies, environment, and platform.
-Automated builds and provisioning and continuous integration service can significantly lower the barrier to run the application in a new environment. 
-
-In spite of the preservation mechanisms, the application software may not run as intended. For a reproducer's understanding, it may also be useful to include 
-a \emph{logical preservation unit} (PLU) that consists of a minimal execution of the software using a small, test data sample, and with specified outputs.
-The provenance of this PLU must be captured so that the reproducer can make comparison with future reproduction-validation runs. 
-
 \item {\bf Distribution of Preserved Packages:} A captured and preserved application must be persistently stored and distributed through a repository. We imagine these repositories to be themselves preserved, and linked with a digital library. Metadata and flexible annotation should be part of this repository for curation over time. 
 
 \end{itemize}
