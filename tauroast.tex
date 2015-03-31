@@ -10,9 +10,10 @@ One of the applications of the ATLAS experiment is the \emph{Athena} application
 for event reconstruction and data reduction \cite{calafiura2005athena}. The CMS experiment is conducted through an application termed  \emph{TauRoast}, which searches for specific 
 cases where the Higgs boson decays to two tau leptons~\cite{chatrchyan2013search}. 
 
-Code and data in \emph{TauRoast} are available through five different networked filesystems which are mounted locally, an HDFS cluster for data, 
+Code and data in \emph{TauRoast} are available through five different networked filesystems which are mounted locally, an HDFS cluster for the CMS dataset, 
 some configuration files were stored on CVMFS~\cite{blomer2011cernvm}, and a variety of software tools were on an NFS, PanFS and AFS systems.
 In addition, code may exist in version control systems such as Git, CVS, and CMS Software Distribution (CMSSW). %~\cite{cms2006cms}. 
+
 \begin{wrapfigure}{r}{0.4\textwidth}
 \small
 \centering
@@ -20,6 +21,7 @@ In addition, code may exist in version control systems such as Git, CVS, and CMS
 \caption{Inputs to Tau Roast}
 \label{fig:data-code-size}
 \end{wrapfigure}
+
 Data that is input to \emph{TauRoast} is obtained by reducing it through a pipeline, as shown in Figure \ref{fig:data-code-size}. Consequently, the real input data may 
 vary depending upon the topic of research. Similarly the software may name many possible components but the used components are
 smaller than the named ones. 
