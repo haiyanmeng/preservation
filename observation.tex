@@ -6,7 +6,7 @@ Below we describe the challenges faced when capturing application details in rep
 
 \begin{itemize}
 
-\item {\bf Identifying all dependencies.}  Due to the distributed nature of HEP applications, these applications depend on a large number of external and local dependencies.
+\item {\bf Identifying all dependencies.}  Due to the distributed, collaborative nature of HEP software development, these applications depend on a large number of external and local software components.
 External dependencies are often explicitly stated, such as when the application makes connections to Github resources or CVS servers for downloading source files. 
 When the application has initiated execution then implicit network connections may be present that require identification of dependencies on all machines where execution takes place. 
 Implicit local dependencies can arise as a result of mounted filesystems. In \emph{TauRoast}, the application data and code is distributed on five networked filesystems, and in \emph{Athena} on two networked filesystems. 
