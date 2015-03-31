@@ -1,10 +1,9 @@
 \section{Evaluation}
 
-We evaluated the correctness and performance of running, packaging, and re-running the Athena and TauRoast application using Parrot and PTU.
-To do this, the application was first executed directly, its execution time and output were recorded. Then the application was executed under Parrot and PTU, and a self-contained package was created for each case. Finally, the application was re-executed using the package. The time overhead of each execution and re-execution was collected and compared with the recorded reference.
+We evaluated the correctness and performance of running, packaging, and re-running the Athena and TauRoast applications using the Parrot and PTU tools.
+To do this, each application was first executed directly and its execution time and output were recorded. Then the application was executed under Parrot and PTU, and a self-contained package was created for each case. Finally, the application was re-executed using the package. The time overhead of each execution and re-execution was collected and compared with the recorded reference.
 
-The TauRoast application checks and evaluates a dataset with the size of 18 GB stored in HDFS, and can be finished in about 20 minutes when running directly on a server with 64 cores and 126 GB memory. The output of the application includes an event analysis log and a statistics information, and its size is 289 KB. The Athena application processes a given input data file to produce four derived data files. It uses the nightly release of the Athena framework and 
-submits an analysis job to obtain derived data.  
+The TauRoast application checks and evaluates a dataset with the size of 18 GB stored in an HDFS file system, and can be finished in about 20 minutes when running directly on a server with 64 cores and 126 GB memory. The output of the application includes an event analysis log and a statistical information, and its size is approximately 289 KB. The Athena application processes a given input data file to produce four "derived" data files whereby event selection corresponding to interest physics channels are made. It uses the nightly release of the Athena framework and submits an analysis ("event skimming") job to obtain derived data, a common use case in high energy physics data analysis.
 
 \begin{table}
 \small
@@ -26,12 +25,12 @@ Table~\ref{table:parrot_ptu} compares the time overhead of preserving Athena and
 Parrot splits the packaging creation procedure into two sequential steps: first, execute the application within Parrot and generate the accessed file namelist; second, traverse the namelist and copy all the accessed files into a self-contained package.
 PTU accomplishes the execution procedure and the package creation procedure concurrently through multi-threading, bringing 17.5\% additional time overhead.
 
-The re-execution time is half or less than half of the original execution time in both cases of the \emph{TauRoast} application. During the original execution, the input dataset is either locally available or comes from HDFS, which is accessed through FUSE. During the package creation procedure, all the input dataset has been copied from HDFS into the package on the local filesystem. So, the re-execution procedure can get its input from the local filesystem instead of obtaining the input dataset from HDFS.
+The re-execution time is half or less than half of the original execution time in both cases of the \emph{TauRoast} application. During the original execution, the input dataset is either locally available or comes from HDFS, which is accessed through FUSE kernel modules. During the package creation procedure, all the input dataset has been copied from HDFS into the package on the local filesystem. Thus the re-execution procedure can obtain its input from the local filesystem instead of reading the input dataset from HDFS.
 
-Both packages created by Parrot and PTU are a subset of the root filesystem, which only includes all the accessed files. The original relationship, such as symbolic links, between files and directories is maintained. The files from pseudo filesystems such as proc and dev, are ignored. The re-execution procedure uses these pseudo filesystems from the host machine through redirection techniques.
+Both packages created by Parrot and PTU are a subset of the root filesystem, which only includes all the accessed files. The original relationship, such as symbolic links between files and directories is maintained. The files from pseudo filesystems such as proc and dev, are ignored. The re-execution procedure uses these pseudo filesystems from the host machine through redirection techniques.
 For the \emph{TauRoast} application, the sizes of the packages created by Parrot and PTU are nearly the same, 18GB. 
 Except for the accessed files, both Parrot and PTU preserve the execution environment of the application. 
-the PTU package also includes a leveldb-format provenance information of the application with the size of 3 MB.
+The PTU package also includes a leveldb-format provenance information of the application with the size of 3 MB.
 
 \begin{table}
 \small
@@ -58,8 +57,7 @@ the PTU package also includes a leveldb-format provenance information of the app
 	   
 Table~\ref{table:size-original-real} illustrates the total size and actually used size of each source for TauRoast. 
 The total size is too large to be put into a separate image. However, the actually used size is greatly reduced to be 18 GB.
-Within the package, the input dataset nearly occupies the whole package. All the other libraries and software dependencies only occupies about 200 MB.
+Within the package, the input dataset nearly occupies the whole package. All the other libraries and software dependencies only occupies about 200~MB.
 As the input dataset grows, it can be put outside the package to reduce the shipping time of the package.
 
-In Athena, the input file is 224MB and output files are 16MB. PTU builds a 855MB package, while Parrot builds an 825MB package. The overhead is of provenance which is 7MB and 
-some differences is dependency information. 
+For the Athena application example, the input file was 224~MB and output files were 16~MB each. PTU builds a 855~MB package, while Parrot builds an 825~MB package. The overhead is of provenance which is 7~MB and some differences is dependency information. 
