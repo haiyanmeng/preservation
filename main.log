@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.3.7)  30 MAR 2015 09:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.3.7)  31 MAR 2015 13:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -537,12 +537,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 51--51
 LaTeX Font Info:    Try loading font information for U+lasy on input line 51.
 (/usr/share/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-) (./intro.tex [1
+)
+Missing character: There is no â in font cmti10!
+Missing character: There is no € in font cmti10!
+Missing character: There is no ” in font cmti10!
+ (./intro.tex [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]) (./tauroast.tex
-Underfull \vbox (badness 1270) has occurred while \output is active []
-
- [2]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]) (./tauroast.tex
 Package epstopdf Info: Source file: <data-code-size.eps>
 (epstopdf)                    date: 2015-01-14 02:08:59
 (epstopdf)                    size: 107436 bytes
@@ -551,26 +552,38 @@ Package epstopdf Info: Source file: <data-code-size.eps>
 (epstopdf)                    size: 38910 bytes
 (epstopdf)             Command: <repstopdf --outfile=data-code-size-eps-convert
 ed-to.pdf data-code-size.eps>
-(epstopdf)             \includegraphics on input line 18.
+(epstopdf)             \includegraphics on input line 19.
 Package epstopdf Info: Output file is already uptodate.
 
-<data-code-size-eps-converted-to.pdf, id=75, 460.72125pt x 280.04625pt>
+<data-code-size-eps-converted-to.pdf, id=76, 460.72125pt x 280.04625pt>
 File: data-code-size-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data-code-size-eps-converted-to.pdf>
 Package pdftex.def Info: data-code-size-eps-converted-to.pdf used on input line
- 18.
+ 19.
 (pdftex.def)             Requested size: 165.02345pt x 100.30806pt.
-) (./observation.tex
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 12.
 
-(/usr/share/texmf-dist/tex/latex/base/omscmr.fd
+Overfull \hbox (5.9069pt too wide) in paragraph at lines 13--22
+\OT1/cmr/m/n/10 are mounted lo-cally, an HDFS clus-ter for data, some con-fig-u
+-ra-tion files were stored on CVMFS [[]],
+ []
+
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ¨ in font cmr10!
+) (./observation.tex
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 9.
+ (/usr/share/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 12.
- [3 <./data-code-size-eps-converted-to.pdf>]) (./evolution.tex [4]) (./measure.
-tex [5] [6]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 9.
+ [3 <./data-code-size-eps-converted-to.pdf>]) (./evolution.tex [4]
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no ™ in font cmr10!
+) (./measure.tex
+[5] [6]
 Package epstopdf Info: Source file: <preservation_framework.eps>
 (epstopdf)                    date: 2015-01-15 11:14:22
 (epstopdf)                    size: 160338 bytes
@@ -580,42 +593,45 @@ f>
 (epstopdf)                    size: 57183 bytes
 (epstopdf)             Command: <repstopdf --outfile=preservation_framework-eps
 -converted-to.pdf preservation_framework.eps>
-(epstopdf)             \includegraphics on input line 76.
+(epstopdf)             \includegraphics on input line 73.
 Package epstopdf Info: Output file is already uptodate.
 
-<preservation_framework-eps-converted-to.pdf, id=103, 1076.02pt x 298.11375pt>
+<preservation_framework-eps-converted-to.pdf, id=104, 1076.02pt x 298.11375pt>
 File: preservation_framework-eps-converted-to.pdf Graphic file (type pdf)
 
 <use preservation_framework-eps-converted-to.pdf>
 Package pdftex.def Info: preservation_framework-eps-converted-to.pdf used on in
-put line 76.
+put line 73.
 (pdftex.def)             Requested size: 412.56496pt x 114.30334pt.
-) (./evaluation.tex
-Overfull \hbox (18.6227pt too wide) in paragraph at lines 12--21
+) (./evaluation.tex [7 <./preservation_framework-eps-converted-to.pdf>]
+Overfull \hbox (18.6227pt too wide) in paragraph at lines 11--20
  [][] 
  []
 
-[7 <./preservation_framework-eps-converted-to.pdf>]) (./related_work.tex
-[8]) (./main.bbl [9]) 
+[8]) (./related_work.tex)
+Underfull \vbox (badness 3029) has occurred while \output is active []
+
+ [9]
+(./main.bbl [10]) 
 AED: lastpage setting LastPage
-[10]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 97.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 97.
+[11]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 99.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 99.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 97.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 97.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 99.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 99.
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: A6A6E0AB7F26A37CC4F999FD80B32422;479.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 97.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 99.
  ) 
 Here is how much of TeX's memory you used:
- 8963 strings out of 493108
- 131917 string characters out of 6140726
+ 8964 strings out of 493108
+ 131924 string characters out of 6140726
  244024 words of memory out of 5000000
  12218 multiletter control sequences out of 15000+600000
  11929 words of font info for 48 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
- 46i,11n,45p,857b,491s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 46i,12n,45p,1417b,491s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/public
@@ -628,10 +644,10 @@ msy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></us
 r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmtt9.pfb>
-Output written on main.pdf (10 pages, 330534 bytes).
+Output written on main.pdf (11 pages, 332951 bytes).
 PDF statistics:
- 213 PDF objects out of 1000 (max. 8388607)
- 183 compressed objects within 2 object streams
- 47 named destinations out of 1000 (max. 500000)
+ 220 PDF objects out of 1000 (max. 8388607)
+ 189 compressed objects within 2 object streams
+ 48 named destinations out of 1000 (max. 500000)
  75 words of extra memory for PDF output out of 10000 (max. 10000000)
 
